@@ -1,0 +1,194 @@
+{
+  "main": {
+    "id": "b3757331289ca3ae",
+    "type": "split",
+    "children": [
+      {
+        "id": "139393a7ebb211eb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3a932da4cb66089e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Bill Long.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Bill Long"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a1d0e4d327a25908",
+    "type": "split",
+    "children": [
+      {
+        "id": "bc4557069971bddd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "de1ddf403b16d151",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "a22c4460b47c7516",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "b2c0322d77ecff95",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "14bc7a18da665e4f",
+    "type": "split",
+    "children": [
+      {
+        "id": "9177dc933fa46c65",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8926b1abc74a514b",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Metric.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Metric"
+            }
+          },
+          {
+            "id": "ed76a3c58053a7c6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Metric.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Metric"
+            }
+          },
+          {
+            "id": "d651ee7dc2ff3b56",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "963a1ec2c9299589",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Metric.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Metric"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "de1ddf403b16d151",
+  "lastOpenFiles": [
+    "TM_Specification_V1.0.0.md",
+    "TM_Specification_V1.0.0",
+    "TODO.md",
+    "Metric.md",
+    "Kick-off.md",
+    "Job Scheduling in High Performance ComputingSystems with Disaggregated Memory Resources.md",
+    "Github.md",
+    "Etienne.md",
+    "Bill Long.md",
+    "Litterature/Job_Scheduling_in_High_Performance_Computing_Systems_with_Disaggregated_Memory_Resources_67b94c5fd6b20a048bf6a681_main.pdf",
+    "Litterature/Job_Scheduling_in_High_Performance_Computing_Systems_with_Disaggregated_Memory_Resources_67b94c54d6b20a048bf6a680_main.pdf",
+    "Litterature/Online_bipartite_matching_made_simple_67b94bf1d6b20a048bf6a67f_main.pdf",
+    "Litterature/HighPerformance_Computing_67b94bc4d6b20a048bf6a67e_main.pdf",
+    "Litterature/default.realm",
+    "Litterature/default.realm.management",
+    "Litterature/default.realm.lock",
+    "Litterature/sigactnews08.pdf",
+    "Bill Long.md.60806af.partial",
+    "Welcome.md",
+    "Meetings/illustrations/rack_latency.svg"
+  ]
+}

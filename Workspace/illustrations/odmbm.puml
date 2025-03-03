@@ -1,0 +1,47 @@
+@startmindmap
+*[#FFFFFF] Online Decentralized Maximum Bipartite Matching
+** Algorithmic Methods
+***[#FF8C66] Greedy Algorithms
+****[#FFB299] Simple Greedy Matching
+****[#FFB299] First-Fit Strategy
+***[#33A1FF] Competitive Online Algorithms
+****[#66B8FF] Karp-Vazirani-Vazirani (KVV)
+****[#66B8FF] Primal-Dual LP Methods
+***[#33FF57] Learning-Based Approaches
+****[#66FF85] Multi-Armed Bandits (MAB)
+****[#66FF85] Multi-Agent Reinforcement Learning (MARL)
+** Communication Methods
+***[#FFB733] Fully Decentralized (No Communication)
+****[#FFCC66] Independent Agents
+****[#FFCC66] Conflict Resolution via Retrials
+***[#A533FF] Partial Communication
+****[#B866FF] Gossip Protocols
+****[#B866FF] Message Passing
+***[#FFD700] Fully Coordinated
+****[#FFE066] Blockchain Smart Contracts
+****[#FFE066] Distributed Hash Tables (DHTs)
+-- Optimization Methods
+---[#66B3FF] Linear and Integer Programming
+----[#99CCFF] Distributed LP Solvers
+----[#99CCFF] Dual Decomposition
+---[#33FF99] Market-Based Mechanisms
+----[#66FFB3] Auction-Based Matching
+----[#66FFB3] Pricing Strategies
+-- Network Methods
+---[#B366FF] Dynamic Graph Exploration
+----[#CC99FF] Random Walk-Based Matching
+----[#CC99FF] Node Discovery Strategies
+---[#FF9933] Multi-Hop Matching
+----[#FFB366] P2P Forwarding Protocols
+----[#FFB366] Local Decision Rules
+---[#FFFF33] Graph Neural Networks (GNNs)
+----[#FFFF66] Graph Attention Networks (GATs)
+----[#FFFF66] Embedding-Based Matching
+-- Security & Privacy
+---[#66FF66] Privacy-Preserving Matching
+----[#99FF99] Federated Matching
+----[#99FF99] Secure Multi-Party Computation (SMPC)
+---[#33FFFF] Blockchain-Based Matching
+----[#66FFFF] Ethereum Smart Contracts
+----[#66FFFF] Verifiable Decentralized Matching
+@endmindmap
