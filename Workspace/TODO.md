@@ -1,5 +1,5 @@
 
-- Read paper page 304 (conference)
+- Read paper page 304-323 (conference)
 - FM paper
 - Augmented path method
 - Bipartite matching with priority and global view or partial view

@@ -123,12 +123,3 @@ This project follows a structured research approach:
 ## Conclusion
 
 This research seeks to advance the field of disaggregated computing job scheduling by designing and evaluating online distributed maximum bipartite matching algorithms. The study will provide quantitative insights into fairness, utilization, and efficiency trade-offs, ultimately guiding future HPC scheduler designs.
-
----
-
-### Next Steps
-
-- Finalize the list of algorithms to be implemented.
-- Choose an HPC simulation framework for experiments.
-- Define a baseline scheduler to compare against.
-- Start implementing the evaluation environment.
