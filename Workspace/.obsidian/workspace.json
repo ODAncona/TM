@@ -207,8 +207,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -302,11 +301,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "719bcf41aa583c8d",
+  "active": "de1ddf403b16d151",
   "lastOpenFiles": [
+    "TM_Specification_V2.0.0.md",
     "Work Scope.md",
     "TODO.md",
-    "TM_Specification_V2.0.0.md",
     "TM_Specification_V1.0.0.md",
     "Metrics.md",
     "Concepts Ideas.md",
