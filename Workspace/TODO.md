@@ -1,17 +1,9 @@
 
-- Read paper page 304-323 (conference)
-- FM paper
-- Augmented path method
-- Bipartite matching with priority and global view or partial view
-- Separable allocators
-- Setup organization
-- Make slides
-- Learn the simulator and the datasets
-
-Local git repository
-
-
-- GANT
-- Separable allocators
-- COMPLETE PLANNING (2 semaines)
-- Practicability
+- [x] Define Metrics
+- [x] Define Pareto optimization
+- [x] Define What system for which usage
+- [x] Define How to improve accelerators
+- [ ] Write Specification 2.0.0
+- [ ] Presentation
+- [ ] Perform Perlmutter Trace Analysis
+- [ ] Evaluate Approaches 1,2,3

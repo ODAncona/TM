@@ -1,5 +1,5 @@
 
-# Master's Work Specification: Online Distributed Maximum Bipartite Matching for Disaggregated Computing Schedulers
+# Online Distributed Maximum Bipartite Matching for Disaggregated Computing Schedulers
 
 ## 1. Problem Definition
 
