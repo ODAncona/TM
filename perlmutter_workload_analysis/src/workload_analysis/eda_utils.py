@@ -43,7 +43,6 @@ def describe_dataset(df, target_col=None):
         display(df.group_by(target_col).agg(pl.count().alias('count')))
 
 
-
 def standardize_features(df, exclude_cols=None):
     """
     Standardize numeric features in a DataFrame.
