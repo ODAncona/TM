@@ -12,6 +12,9 @@
 -e file:.
 asttokens==3.0.0
     # via stack-data
+attrs==25.2.0
+    # via jsonschema
+    # via referencing
 comm==0.2.2
     # via ipykernel
     # via ipywidgets
@@ -27,6 +30,8 @@ decorator==5.2.1
     # via ipython
 executing==2.2.0
     # via stack-data
+fastjsonschema==2.21.1
+    # via nbformat
 fonttools==4.56.0
     # via matplotlib
 ipykernel==6.29.5
@@ -42,11 +47,16 @@ jedi==0.19.2
     # via ipython
 joblib==1.4.2
     # via scikit-learn
+jsonschema==4.23.0
+    # via nbformat
+jsonschema-specifications==2024.10.1
+    # via jsonschema
 jupyter-client==8.6.3
     # via ipykernel
 jupyter-core==5.7.2
     # via ipykernel
     # via jupyter-client
+    # via nbformat
 jupyterlab-widgets==3.0.13
     # via ipywidgets
 kiwisolver==1.4.8
@@ -56,6 +66,10 @@ matplotlib==3.10.1
 matplotlib-inline==0.1.7
     # via ipykernel
     # via ipython
+narwhals==1.30.0
+    # via plotly
+nbformat==5.10.4
+    # via workload-analysis
 nest-asyncio==1.6.0
     # via ipykernel
 numpy==2.2.3
@@ -69,6 +83,7 @@ numpy==2.2.3
 packaging==24.2
     # via ipykernel
     # via matplotlib
+    # via plotly
 pandas==2.2.3
     # via seaborn
     # via workload-analysis
@@ -82,6 +97,8 @@ pillow==11.1.0
     # via matplotlib
 platformdirs==4.3.6
     # via jupyter-core
+plotly==6.0.0
+    # via workload-analysis
 ply==3.11
     # via thriftpy2
 polars==1.24.0
@@ -110,6 +127,12 @@ pytz==2025.1
 pyzmq==26.3.0
     # via ipykernel
     # via jupyter-client
+referencing==0.36.2
+    # via jsonschema
+    # via jsonschema-specifications
+rpds-py==0.23.1
+    # via jsonschema
+    # via referencing
 scikit-learn==1.6.1
     # via workload-analysis
 scipy==1.15.2
@@ -138,6 +161,7 @@ traitlets==5.14.3
     # via jupyter-client
     # via jupyter-core
     # via matplotlib-inline
+    # via nbformat
 tzdata==2025.1
     # via pandas
 wcwidth==0.2.13
