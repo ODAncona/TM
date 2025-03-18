@@ -1,0 +1,236 @@
+@inproceedings{An_Empirical_Study_of_Containerized_MPI_and_GUI_Application_on_HPC_in_the_Cloud_2022,
+ abstract = {High Performance Computing (HPC) applications commonly use Message Passing Interface (MPI) to scale complex workloads on distributed memory architectures, while Graphical User Interface (GUI) is the primary basis for pre-processing and post-processing. Containerization enables portability and reproducibility for applications. Docker is a widely used containerization platform but cannot be easily adopted in secure HPC environments due to the need for root privileges to run Docker containers and the ensuing security issues, as well as the lack of native support for Message Passing Interface (MPI) and HPC workload managers. In addition to offering portability and reproducibility to scientific computing, Singularity and Sarus are container runtimes that enable containers to run on HPC with user credentials by removing security concerns and allowing reuse of Docker containers without any changes. This work presents approaches to creating and running MPI and GUI applications in an isolated container environment on HPC in the cloud. We provide performance evaluation of application containers transformed from Docker to Singularity and Sarus in the context of native on HPC in the cloud. },
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the use of containerization for MPI and GUI applications in HPC environments, particularly discussing the transition from Docker to Singularity and Sarus for improved security and usability in cloud settings. For specific benchmarks, additional resources or studies would be needed. },
+ doi = {10.1109/cisct55310.2022.10046607},
+ publication_type = {inproceedings},
+ title = {An Empirical Study of Containerized MPI and GUI Application on HPC in the Cloud},
+ year = {2022}
+}
+
+@article{Antony_Chazapis_2024,
+ abstract = {The escalating complexity of applications and services encourages a shift towards higher-level data processing pipelines that integrate both Cloud-native and HPC steps into the same workflow. Cloud providers and HPC centers typically provide both execution platforms on separate resources. In this paper we explore a more practical design that enables running unmodified Cloud-native workloads directly on the main HPC cluster, avoiding resource partitioning and retaining the HPC center's existing job management and accounting policies. },
+ annote = {Insights: The paper does not specifically mention HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the integration of Kubernetes within HPC environments through HPK, emphasizing the deployment of unmodified Cloud-native workloads on HPC clusters. For benchmarks, users may need to explore additional resources or documentation related to specific schedulers and their compatibility with various HPC benchmarks. },
+ authors = {Antony Chazapis and Evangelos Maliaroudakis and Fotis Nikolaidis and Manolis Marazakis and Angelos Bilas},
+ doi = {10.48550/arxiv.2409.16919},
+ publication_type = {article},
+ title = {Running Cloud-native Workloads on HPC with High-Performance Kubernetes},
+ url = {http://arxiv.org/pdf/2409.16919},
+ year = {2024}
+}
+
+@article{BoLin_Wu_2024,
+ abstract = {Slurm is a resource management and job scheduling system widely used in the field of parallel computing. Kubernetes is an open source container orchestration platform widely used in cloud native and AI fields. With the development of technologies such as parallel computing, AI, and large-scale data processing, the demand for computing resources in business scenarios has become more complex and diverse. In order to better adapt to business needs and give full play to the advantages of both in different fields, this paper proposes a fusion scheduling solution based on Slurm and Kubernetes. The solution is mainly aimed at two scenarios: partitioned deployment and hybrid deployment. The fusion scheduling between the two is realized by developing the heterogeneous resource manager Unify. Dynamic node management function is provided for partitioned deployment, and unified resource view and unified scheduling function are provided for hybrid deployment. Application results show that the solution can effectively solve the problem of dynamic node division under partitioned deployment and the resource scheduling conflict problem of Slurm and Kubernetes under hybrid deployment. Through this solution, both can be applied to more complex demand scenarios and improve the overall resource utilization of the cluster. },
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers. It focuses on a fusion scheduling solution between Slurm and Kubernetes, emphasizing dynamic node management and unified resource scheduling. For benchmarks, you may need to consult additional resources that specifically list compatible HPC benchmarks for these systems, as the paper primarily discusses scheduling solutions rather than specific benchmarks. },
+ authors = {Bo-Lin Wu and Mingming Hu and Shanshan Qin and Jinliang Jiang},
+ doi = {10.1117/12.3051639},
+ pages = {72-72},
+ publication_type = {article},
+ title = {Research on fusion scheduling based on Slurm and Kubernetes},
+ year = {2024}
+}
+
+@article{Carmen_Carrión_2022,
+ abstract = {Continuous integration enables the development of microservices-based applications using container virtualization technology. Container orchestration systems such as Kubernetes, which has become the de facto standard, simplify the deployment of container-based applications. However, developing efficient and well-defined orchestration systems is a challenge. This article focuses specifically on the scheduler, a key orchestrator task that assigns physical resources to containers. Scheduling approaches are designed based on different Quality of Service (QoS) parameters to provide limited response time, efficient energy consumption, better resource utilization, and other things. This article aims to establish insight knowledge into Kubernetes scheduling, find the main gaps, and thus guide future research in the area. Therefore, we conduct a study of empirical research on Kubernetes scheduling techniques and present a new taxonomy for Kubernetes scheduling. The challenges, future direction, and research opportunities are also discussed.},
+ annote = {Insights: The paper's title matches your query, but it doesn't address your specific question. },
+ authors = {Carmen Carrión},
+ doi = {10.1145/3539606},
+ journal = {ACM Computing Surveys},
+ number = {7},
+ pages = {1-37},
+ publication_type = {article},
+ title = {Kubernetes Scheduling: Taxonomy, Ongoing Issues and Challenges},
+ volume = {55},
+ year = {2022}
+}
+
+@article{D_Medeiros_2023,
+ abstract = {The conventional model of resource allocation in HPC systems is static. Thus, a job cannot leverage newly available resources in the system or release underutilized resources during the execution. In this paper, we present Kub, a methodology that enables elastic execution of HPC workloads on Kubernetes so that the resources allocated to a job can be dynamically scaled during the execution. One main optimization of our method is to maximize the reuse of the originally allocated resources so that the disruption to the running job can be minimized. The scaling procedure is coordinated among nodes through remote procedure calls on Kubernetes for deploying workloads in the cloud. We evaluate our approach using one synthetic benchmark and two production-level MPI-based HPC applications - GRO-MACS and CM1. Our results demonstrate that the benefits of adapting the allocated resources depend on the workload characteristics. In the tested cases, a properly chosen scaling point for increasing resources during execution achieved up to 2x speedup. Also, the overhead of checkpointing and data reshuffling significantly influences the selection of optimal scaling points and requires application-specific knowledge.},
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the methodology of enabling elastic execution of HPC workloads on Kubernetes through dynamic resource scaling, evaluated using specific applications like GRO-MACS and CM1. For benchmarks compatible with various schedulers, further research or resources outside this paper would be necessary. },
+ authors = {D. Medeiros and Jacob O. Wahlgren and Gabin Schieffer and Ivy Peng},
+ doi = {10.1109/sbac-pad59825.2023.00031},
+ pages = {219-229},
+ publication_type = {article},
+ title = {Kub: Enabling Elastic HPC Workloads on Containerized Environments},
+ url = {https://export.arxiv.org/pdf/2410.10655v1.pdf},
+ year = {2023}
+}
+
+@inproceedings{Daniel_J_Milroy_2022,
+ abstract = {As High Performance Computing (HPC) workflows increase in complexity, their designers seek to enable automation and flexibility offered by cloud technologies. Container orchestration through Kubernetes enables highly desirable capabilities but does not satisfy the performance demands of HPC. Kubernetes tools that automate the lifecycle of Message Passing Interface (MPI)-based applications do not scale, and the Kubernetes scheduler does not provide crucial scheduling capabilities. In this work, we detail our efforts to port CORAL-2 benchmark codes to Kubernetes on IBM Cloud and AWS EKS. We describe contributions to the MPI Operator to achieve 3,000-rank scale, a two-orders-of-magnitude improvement to state of the art. We discuss enhancements to Fluence, our scheduler plugin for Kubernetes based on the next-generation, cloud-ready Flux framework. Finally, we compare the placement decisions of Fluence with those of the Kubernetes scheduler and demonstrate that Fluence allows simulated scientific workflows to achieve up to 3× higher performance.},
+ annote = {Insights: The paper does not specifically mention HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on porting CORAL-2 benchmark codes to Kubernetes and enhancing the MPI Operator and Fluence scheduler for improved performance in cloud-native HPC environments. The emphasis is on achieving scalability and performance improvements rather than detailing specific benchmarks compatible with various schedulers. },
+ authors = {Daniel J. Milroy and Claudia Misale and Giorgis Georgakoudis and Tonia Elengikal and Abhik Sarkar and Maurizio Drocco and Tapasya Patki and Jae-Seung Yeom and Carlos Eduardo Arango Gutierrez and Dong H. Ahn and Yoonho Park},
+ conference_series = {International Workshop on Containers and New Orchestration Paradigms for Isolated Environments in HPC},
+ doi = {10.1109/CANOPIE-HPC56864.2022.00011},
+ pages = {57-70},
+ publication_type = {inproceedings},
+ title = {One Step Closer to Converged Computing: Achieving Scalability with Cloud-Native HPC},
+ year = {2022}
+}
+
+@inproceedings{Joshua_Hursey_2022,
+ abstract = {High Performance Computing (HPC) applications must be containerized to run in a Kubernetes (K8s) environment. The traditional model for running HPC applications in a K8s environment requires the Application Container (APP) to include the runtime environment and the launch support mechanisms, in addition to the application. This requirement can increase the APP size and introduce security vulnerabilities. The separated model presented in this paper detaches the runtime from the APP. This allows the system administrators to define, maintain, and secure the Runtime Environment Container (REC). A PMIx library connects the APP and REC. The PMIx library serves as a runtime communication conduit for HPC parallel libraries (like MPI) to perform necessary functions like inter-process wire-up. The APP is nested within the REC using unprivileged, rootless Podman. The separated model is demonstrated by running a set of HPC applications in an off-the-shelf K8s system.},
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on a separated model for running rootless, unprivileged PMIx-enabled HPC applications in Kubernetes, detailing the detachment of the runtime from the application and the use of the PMIx library for communication. For specific benchmarks, additional resources or literature would be needed. },
+ authors = {Joshua Hursey},
+ conference_series = {International Workshop on Containers and New Orchestration Paradigms for Isolated Environments in HPC},
+ doi = {10.1109/CANOPIE-HPC56864.2022.00009},
+ pages = {36-44},
+ publication_type = {inproceedings},
+ title = {A separated model for running rootless, unprivileged PMIx-enabled HPC applications in Kubernetes},
+ year = {2022}
+}
+
+@inproceedings{Md_Shahbaz_Akhtar_2022,
+ abstract = {High Performance Computing (HPC) applications must be containerized to run in a Kubernetes (K8s) environment. The traditional model for running HPC applications in a K8s environment requires the Application Container (APP) to include the runtime environment and the launch support mechanisms, in addition to the application. This requirement can increase the APP size and introduce security vulnerabilities. The separated model presented in this paper detaches the runtime from the APP. This allows the system administrators to define, maintain, and secure the Runtime Environment Container (REC). A PMIx library connects the APP and REC. The PMIx library serves as a runtime communication conduit for HPC parallel libraries (like MPI) to perform necessary functions like inter-process wire-up. The APP is nested within the REC using unprivileged, rootless Podman. The separated model is demonstrated by running a set of HPC applications in an off-the-shelf K8s system. },
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers. It focuses on a separated model for running rootless, unprivileged PMIx-enabled HPC applications in Kubernetes, detailing the detachment of the runtime from the application and the use of the PMIx library for communication. For specific benchmarks, additional resources or literature would be required to identify those compatible with the mentioned schedulers. },
+ authors = {Md. Shahbaz Akhtar},
+ doi = {10.1109/canopie-hpc56864.2022.00009},
+ publication_type = {inproceedings},
+ title = {A separated model for running rootless, unprivileged PMIx-enabled HPC applications in Kubernetes},
+ year = {2022}
+}
+
+@incollection{Nicolas_Greneche_2022,
+ abstract = {This paper introduces a generic method to scale HPC clusters on top of the Kubernetes cloud orchestrator. Users define their targeted infrastructure with the usual Kubernetes syntax for recipes, and our approach automatically translates the description to a full-fledged containerized HPC cluster. Moreover, resource extensions or shrinks are handled, allowing a dynamic resize of the containerized HPC cluster without disturbing its running. The Kubernetes orchestrator acts as a provisioner. We applied the generic method to three orthogonal architectural designs Open Source HPC schedulers: SLURM, OAR, and OpenPBS. Through a series of experiments, the paper demonstrates the potential of our approach regarding the scalability issues of HPC clusters and the simultaneous deployment of several job schedulers in the same physical infrastructure. It should be noticed that our plan does not require any modification either in the containers orchestrator or in the HPC schedulers. Our proposal is a step forward to reconciling the two ecosystems of HPC and cloud. It also calls for new research directions and concrete implementations for the dynamic consolidation of servers or sober placement policies at the orchestrator level. The works contribute a new approach to running HPC clusters in a cloud environment and test the technique on robustness by adding and removing nodes on the fly. },
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on a methodology for scaling containerized HPC infrastructures using Kubernetes and containerizing job schedulers like SLURM, OAR, and OpenPBS. The authors emphasize the integration of HPC workloads into Kubernetes without requiring modifications to the schedulers or orchestrator, but do not provide specific benchmarks or coding requirements for various schedulers. },
+ authors = {Nicolas Greneche and Tarek Menouer and Christophe Cérin and Olivier Richard},
+ conference_series = {European Conference on Parallel Processing},
+ doi = {10.1007/978-3-031-12597-3_13},
+ journal = {Lecture Notes in Computer Science},
+ pages = {203-217},
+ publication_type = {incollection},
+ title = {A Methodology to Scale Containerized HPC Infrastructures in the Cloud},
+ url = {https://hal.science/hal-03946821/document},
+ year = {2022}
+}
+
+@article{Peini_Liu_2022,
+ abstract = {Containerization technology offers lightweight OS-level virtualization, and enables portability, reproducibility, and flexibility by packing applications with low performance overhead and low effort to maintain and scale them. Moreover, container orchestrators (e.g., Kubernetes) are widely used in the Cloud to manage large clusters running many containerized applications. However, scheduling policies that consider the performance nuances of containerized High Performance Computing (HPC) workloads have not been well-explored yet. This paper conducts fine-grained scheduling policies for containerized HPC workloads in Kubernetes clusters, focusing especially on partitioning each job into a suitable multi-container deployment according to the application profile. We implement our scheduling schemes on different layers of management (application and infrastructure), so that each component has its own focus and algorithms but still collaborates with others. Our results show that our fine-grained scheduling policies outperform baseline and baseline with CPU/memory affinity enabled policies, reducing the overall response time by 35% and 19%, respectively, and also improving the makespan by 34% and 11%, respectively. They also provide better usability and flexibility to specify HPC workloads than other comparable HPC Cloud frameworks, while providing better scheduling efficiency thanks to their multi-layered approach.},
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on fine-grained scheduling policies for containerized HPC workloads in Kubernetes clusters, emphasizing multi-container deployment and scheduling efficiency. For specific benchmarks compatible with these systems, further research or resources outside this paper would be necessary. },
+ authors = {Peini Liu and Jordi Guitart},
+ doi = {10.1109/HPCC-DSS-SmartCity-DependSys57074.2022.00068},
+ pages = {275-284},
+ publication_type = {article},
+ title = {Fine-Grained Scheduling for Containerized HPC Workloads in Kubernetes Clusters},
+ year = {2022}
+}
+
+@article{Running_Kubernetes_Workloads_on_HPC,
+ abstract = {Cloud and HPC increasingly converge in hardware platform capabilities and specifications, nevertheless still largely differ in the software stack and how it manages available resources. The HPC world typically favors Slurm for job scheduling, whereas Cloud deployments rely on Kubernetes to orchestrate container instances across nodes. Running hybrid workloads is possible by using bridging mechanisms that submit jobs from one environment to the other. However, such solutions require costly data movements, while operating within the constraints set by each setup’s network and access policies. In this work, we explore a design that enables running unmodified Kubernetes workloads directly on HPC. With High-Performance Kubernetes (HPK), users deploy their own private Kubernetes “mini Clouds”, which internally convert container lifecycle management commands to use the system-level Slurm installation for scheduling and Singularity/Apptainer as the container runtime. We consider this approach to be practical for deployment in HPC centers, as it requires minimal pre-configuration and retains existing resource management and accounting policies. HPK provides users with an effective way to utilize resources by a combination of well-known tools, APIs, and more interactive and user-friendly interfaces as is common practice in the Cloud domain, as well as seamlessly combine Cloud-native tools with HPC jobs in converged, containerized workflows. },
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the design of High-Performance Kubernetes (HPK) for running unmodified Kubernetes workloads directly on HPC, utilizing Slurm for scheduling and Singularity/Apptainer as the container runtime, rather than detailing specific benchmarks or coding requirements for various schedulers. },
+ authors = {Antony Chazapis and F. Nikolaidis and Manolis Marazakis and Angelos Bilas},
+ doi = {10.1007/978-3-031-40843-4_14},
+ pages = {181-192},
+ publication_type = {article},
+ title = {Running Kubernetes Workloads on HPC}
+}
+
+@article{S_Vijayakumar_2024,
+ abstract = {Modern datacenters run diverse workloads that increasingly comprise data-parallel computational jobs. There has been a steady rise in their demand leading to high-volume traffic. To meet these demands, datacenter providers operate their clusters at levels of high utilization. We show that under such conditions, existing schedulers impose large wait times on tail tasks, leading to long job completion time. We propose a new decentralized scheduler, Murmuration, that reduces the total wait time of tasks. It employs multiple communicating schedulers to schedule tasks of jobs such that their start times are as close together as possible, ensuring small tail task completion time and better average job completion time. Our evaluation of Murmuration using publicly available workloads on a real-world cluster shows 15% — 25% faster job completion time than that of the default Kubernetes scheduler for different arrival characteristics. We show that Murmuration scales to incoming workloads by scheduling more than a million tasks in a matter of minutes. We further enhance the design of Murmuration by incorporate queue re-ordering techniques to order the scheduling and execution of jobs and tasks. Simulations evaluated on two industry workloads show that with queue re-ordering, Murmuration outperforms other schedulers with a 100 × better median job completion time than that of current schedulers.},
+ annote = {Insights: The paper's title matches your query, but it doesn't address your specific question. },
+ authors = {S. Vijayakumar and Anil Madhavapeddy and Evangelia Kalyvianaki},
+ doi = {10.1145/3698038.3698522},
+ pages = {302-321},
+ publication_type = {article},
+ title = {Scheduling for Reduced Tail Task Latencies in Highly Utilized Datacenters},
+ year = {2024}
+}
+
+@incollection{Sergio_LópezHuguet_2020,
+ abstract = {This paper describes an approach to integrate the jobs management of High Performance Computing (HPC) infrastructures in cloud architectures by managing HPC workloads seamlessly from the cloud job scheduler. The paper presents hpc-connector, an open source tool that is designed for managing the full life cycle of jobs in the HPC infrastructure from the cloud job scheduler interacting with the workload manager of the HPC system. The key point is that, thanks to running hpc-connector in the cloud infrastructure, it is possible to reflect in the cloud infrastructure, the execution of a job running in the HPC infrastructure managed by hpc-connector. If the user cancels the cloud-job, as hpc-connector catches Operating System (OS) signals (for example, SIGINT), it will cancel the job in the HPC infrastructure too. Furthermore, it can retrieve logs if requested. Therefore, by using hpc-connector, the cloud job scheduler can manage the jobs in the HPC infrastructure without requiring any special privilege, as it does not need changes on the Job scheduler. Finally, we perform an experiment training a neural network for automated segmentation of Neuroblastoma tumours in the Prometheus supercomputer using hpc-connector as a batch job from a Kubernetes infrastructure.},
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the integration of HPC workloads through the hpc-connector tool, which manages job lifecycles in HPC infrastructures from cloud job schedulers. For specific benchmarks, further research beyond this paper would be necessary to identify suitable options compatible with those systems. },
+ authors = {Sergio López-Huguet and J. Damià Segrelles and Marek Kasztelnik and Marian Bubak and Ignacio Blanquer},
+ conference_series = {IEEE International Conference on High Performance Computing, Data, and Analytics},
+ doi = {10.1007/978-3-030-59851-8_20},
+ pages = {310-320},
+ publication_type = {incollection},
+ title = {Seamlessly Managing HPC Workloads Through Kubernetes.},
+ year = {2020}
+}
+
+@article{Shilin_Wen_2023,
+ abstract = {In recent years, Kubernetes (K8s) has become a dominant resource management and scheduling system in the cloud. In practical scenarios, short-running cloud workloads are usually scheduled through different scheduling algorithms provided by Kubernetes. For example, artificial intelligence (AI) workloads are scheduled through different Volcano scheduling algorithms, such as GANG_MRP, GANG_LRP, and GANG_BRA. One key challenge is that the selection of scheduling algorithms has considerable impacts on job performance results. However, it takes a prohibitively long time to select the optimal algorithm because applying one algorithm in one single job may take a few minutes to complete. This poses the urgent requirement of a simulator that can quickly evaluate the performance impacts of different algorithms, while also considering scheduling-related factors, such as cluster resources, job structures and scheduler configurations. In this paper, we design and implement a Kubernetes simulator called K8sSim, which incorporates typical Kubernetes and Volcano scheduling algorithms for both generic and AI workloads, and provides an accurate simulation of their scheduling process in real clusters. We use real cluster traces from Alibaba to evaluate the effectiveness of K8sSim, and the evaluation results show that (i) compared to the real cluster, K8sSim can accurately evaluate the performance of different scheduling algorithms with similar CloseRate (a novel metric we define to intuitively show the simulation accuracy), and (ii) it can also quickly obtain the scheduling results of different scheduling algorithms by accelerating the scheduling time by an average of 38.56×.},
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the development of K8sSim, a simulation tool for evaluating Kubernetes scheduling algorithms, particularly for short-running workloads and their performance impacts. For detailed information on HPC benchmarks compatible with these systems, further research outside this paper would be necessary. },
+ authors = {Shilin Wen and Rui Han and Ke Qiu and Xiaoxin Ma and Zeqing Li and Hongjie Deng and Chi Harold Liu},
+ doi = {10.3390/mi14030651},
+ journal = {Micromachines},
+ number = {3},
+ pages = {651-651},
+ publication_type = {article},
+ title = {K8sSim: A Simulation Tool for Kubernetes Schedulers and Its Applications in Scheduling Algorithm Optimization},
+ url = {https://www.mdpi.com/2072-666X/14/3/651/pdf?version=1678767805},
+ volume = {14},
+ year = {2023}
+}
+
+@article{Vanessa_Sochat_2023,
+ abstract = {Converged computing brings together the best of both worlds for high performance computing (HPC) and cloud-native communities. In fact, the economic impact of cloud-computing, and need for portability, flexibility, and manageability make it not important, but inevitable. Navigating this uncharted territory requires not just innovation in the technology space, but also effort toward collaboration and sharing of ideas. With these goals in mind, this work first tackles the central component of running batch workflows, whether in cloud or HPC: the workload manager. For cloud, Kubernetes has become the de facto tool for this kind of batch orchestration. For HPC, the next-generation HPC workload manager Flux Framework is analogous -- combining fully hierarchical resource management and graph-based scheduling to support intelligent scheduling and job management. Convergence of these managers would mean the implementation of Flux inside of Kubernetes, allowing for hierarchical resource management and scheduling that scales impressively without burdening the Kubernetes scheduler itself. This paper introduces the Flux Operator -- an on-demand HPC workload manager that is easily deployed in Kubernetes. The work here highlights design decisions, mapping of components between environments, experimental features, and shares the results of experiments that compare performance with an equivalent operator in the space, the MPI Operator. Finally, discussion closes with a review of challenges remaining, and hopes for the future for improved technological innovation and collaboration.},
+ annote = {Insights: The paper does not specifically mention HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the Flux Operator's capabilities and experimental features for running HPC workflows in a cloud-native environment, emphasizing the integration of Flux within Kubernetes and the challenges of workflow consistency and reproducibility. For specific benchmarks, further research outside this paper may be necessary. },
+ authors = {Vanessa Sochat and Aldo Culquicondor and Antonio Ojea and Daniel Milroy},
+ doi = {10.48550/arxiv.2309.17420},
+ journal = {arXiv.org},
+ publication_type = {article},
+ title = {The Flux Operator},
+ url = {https://export.arxiv.org/pdf/2309.17420v1.pdf},
+ volume = {abs/2309.17420},
+ year = {2023}
+}
+
+@misc{Vanessa_Sochat_2024,
+ abstract = {High performance computing (HPC) and cloud have traditionally been separate, and presented in an adversarial light. The conflict arises from disparate beginnings that led to two drastically different cultures, incentive structures, and communities that are now in direct competition with one another for resources, talent, and speed of innovation. With the emergence of converged computing, a new paradigm of computing has entered the space that advocates for bringing together the best of both worlds from a technological and cultural standpoint. This movement has emerged due to economic and practical needs. Emerging heterogeneous, complex scientific workloads that require an orchestration of services, simulation, and reaction to state can no longer be served by traditional HPC paradigms. However, while cloud offers automation, portability, and orchestration, as it stands now it cannot deliver the network performance, fine-grained resource mapping, or scalability that these same simulations require. These novel requirements call for change not just in workflow software or design, but also in the underlying infrastructure to support them. This is one of the goals of converged computing. While the future of traditional HPC and commercial cloud cannot be entirely known, a reasonable approach to take is one that focuses on new models of convergence, and a collaborative mindset. In this paper, we introduce a new paradigm for compute -- a traditional HPC workload manager, Flux Framework, running seamlessly with a user-space Kubernetes "Usernetes" to bring a service-oriented, modular, and portable architecture directly to on-premises HPC clusters. We present experiments that assess HPC application performance and networking between the environments, and provide a reproducible setup for the larger community to do exactly that. },
+ annote = {Insights: The paper does not specifically list HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. However, it discusses experiments with LAMMPS and OSU benchmarks, which were run in both bare-metal and Usernetes environments. These benchmarks can serve as a foundation for assessing performance in hybrid setups, but further exploration is needed to identify additional benchmarks compatible with various workload managers and Kubernetes schedulers. },
+ authors = {Vanessa Sochat and David A. Fox and Daniel J. Milroy},
+ doi = {10.48550/arxiv.2406.06995},
+ publication_type = {misc},
+ title = {HPC Alongside User-space Kubernetes},
+ url = {https://arxiv.org/pdf/2406.06995},
+ year = {2024}
+}
+
+@article{Vedran_Dakić_2024,
+ abstract = {In the past twenty years, the IT industry has moved away from using physical servers for workload management to workloads consolidated via virtualization and, in the next iteration, further consolidated into containers. Later, container workloads based on Docker and Podman were orchestrated via Kubernetes or OpenShift. On the other hand, high-performance computing (HPC) environments have been lagging in this process, as much work is still needed to figure out how to apply containerization platforms for HPC. Containers have many advantages, as they tend to have less overhead while providing flexibility, modularity, and maintenance benefits. This makes them well-suited for tasks requiring a lot of computing power that are latency- or bandwidth-sensitive. But they are complex to manage, and many daily operations are based on command-line procedures that take years to master. This paper proposes a different architecture based on seamless hardware integration and a user-friendly UI (User Interface). It also offers dynamic workload placement based on real-time performance analysis and prediction and Machine Learning-based scheduling. This solves a prevalent issue in Kubernetes: the suboptimal placement of workloads without needing individual workload schedulers, as they are challenging to write and require much time to debug and test properly. It also enables us to focus on one of the key HPC issues—energy efficiency. Furthermore, the application we developed that implements this architecture helps with the Kubernetes installation process, which is fully automated, no matter which hardware platform we use—x86, ARM, and soon, RISC-V. The results we achieved using this architecture and application are very promising in two areas—the speed of workload scheduling and workload placement on a correct node. This also enables us to focus on one of the key HPC issues—energy efficiency. },
+ annote = {Insights: The paper does not specifically mention HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the architecture for dynamic workload placement and Machine Learning-based scheduling in HPC environments using Kubernetes, emphasizing automation and user-friendly interfaces rather than detailing specific benchmarks or coding requirements. For precise benchmarks, further research beyond this paper may be necessary. },
+ authors = {Vedran Dakić and Mario Kovač and Jurica Slovinac},
+ doi = {10.3390/electronics13132651},
+ journal = {Electronics},
+ number = {13},
+ pages = {2651-2651},
+ publication_type = {article},
+ title = {Evolving High-Performance Computing Data Centers with Kubernetes, Performance Analysis, and Dynamic Workload Placement Based on Machine Learning Scheduling},
+ volume = {13},
+ year = {2024}
+}
+
+@misc{Vedran_Dakić_2024,
+ abstract = {In the past twenty years, the IT industry has moved away from using physical servers for workload management to workloads consolidated via virtualization and, in the next iteration, further consolidated into containers. In the next step, container workloads based on Docker and Podman as underlying container technologies were orchestrated/automated via Kubernetes or OpenShift. On the other hand, high-performance computing (HPC) environments have been lagging in that process, as there’s still much work to figure out how to apply containerization platforms for HPC in real-life scenarios. Kubernetes and OpenShift have many advantages – generally speaking, container technologies use quite a bit less overhead from the computing perspective while providing many benefits in flexibility, modularity, and maintenance. Therefore, they are ideal for tasks requiring a lot of computing power. There are also some tradeoffs regarding the complexity of these two platforms - they’re just not that user-friendly when used by people without years of experience managing them. In this paper, we propose a different architecture based on seamless hardware integration and user-friendly, dynamic workload placement based on real-time performance analysis and prediction coupled with Machine Learning-based scheduling. },
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on the advantages of containerization in HPC environments and proposes a new architecture for dynamic workload placement using Machine Learning-based scheduling. For detailed benchmarks, further research beyond this paper would be necessary. },
+ authors = {Vedran Dakić and Mario Kovač and Jurica Slovinac},
+ doi = {10.20944/preprints202406.0074.v1},
+ publication_type = {misc},
+ title = {Evolving HPC Data Centers with Kubernetes, Performance Analysis, and Dynamic Workload Placement Based on ML Scheduling},
+ year = {2024}
+}
+
+@incollection{Zahrah_Adnan_AlShammarri_2022,
+ abstract = {High performance computing (HPC) and cloud technologies are increasingly coupled to accelerate the convergence of traditional HPC with new simulation, data analysis, machine-learning, and artificial intelligence approaches. While the HPC+cloud paradigm, or converged computing, is ushering in new scientific discoveries with unprecedented levels of workflow automation, several key mismatches between HPC and cloud technologies still preclude this paradigm from realizing its full potential. In this paper, we present a joint effort between IBM Research, Lawrence Livermore National Laboratory (LLNL), and Red Hat to address the mismatches and to bring full HPC scheduling awareness into Kubernetes, the de facto container orchestrator for cloud-native applications, which is being increasingly adopted as a key converged-computing enabler. We found Kubernetes lacking of interfaces to enable the full spectrum of converged-computing use cases in the following three areas: (A) an interface to enable HPC batch-job scheduling (e.g., locality-aware node selection), (B) an interface to enable HPC workloads or task-level scheduling, and (C) a resource co-management interface to allow HPC resource managers and Kubernetes to co-manage a resource set. We detail our methodology and present our results, whereby the advanced graph-based scheduler Fluxion – part of the open-source Flux scheduling framework – is integrated as a Kubernetes scheduler plug-in, KubeFlux. Our initial performance study shows that KubeFlux exhibits similar performance (up to measurement precision) to the default scheduler, despite KubeFlux’s considerably more sophisticated scheduling capabilities. },
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on integrating advanced scheduling capabilities into Kubernetes through KubeFlux and highlights the need for improved interfaces for HPC batch-job scheduling, task-level scheduling, and resource co-management. For detailed benchmarks, further research beyond this paper would be necessary. },
+ authors = {Zahrah Adnan Al-Shammarri},
+ doi = {10.1007/978-3-030-96498-6_18},
+ pages = {310-326},
+ publication_type = {incollection},
+ title = {Towards Standard Kubernetes Scheduling Interfaces for Converged Computing},
+ year = {2022}
+}
+
+@article{Zeineb_Rejiba_2022,
+ abstract = {Since its release in 2014, Kubernetes has become a popular choice for orchestrating containerized workloads at scale. To determine the most appropriate node to host a given workload, Kubernetes makes use of a scheduler that takes into account a set of hard and soft constraints defined by workload owners and cluster administrators. Despite being highly configurable, the default Kubernetes scheduler cannot fully meet the requirements of emerging applications, such as machine/deep learning workloads and edge computing applications. This has led to different proposals of custom Kubernetes schedulers that focus on addressing the requirements of the aforementioned applications. Since the related literature is growing in this area, we aimed, in this survey, to provide a classification of the related literature based on multiple criteria, including scheduling objectives as well as the types of considered workloads and environments. Additionally, we provide an overview of the main approaches that have been adopted to achieve each objective. Finally, we highlight a set of gaps that could be leveraged by academia or the industry to drive further research and development activities in the area of custom scheduling in Kubernetes.},
+ annote = {Insights: The paper does not specifically address HPC benchmarks that can run on SLURM, Flux, Kubernetes with Volcano, or other Kubernetes schedulers with minimal coding requirements. It focuses on custom scheduling in Kubernetes, particularly for workloads like machine/deep learning and edge computing, and provides a classification of literature related to custom schedulers. For specific benchmarks, further research outside this paper would be necessary to identify suitable options compatible with those systems. },
+ authors = {Zeineb Rejiba and Javad Chamanara},
+ doi = {10.1145/3544788},
+ journal = {ACM Computing Surveys},
+ number = {7},
+ pages = {1-37},
+ publication_type = {article},
+ title = {Custom Scheduling in Kubernetes: A Survey on Common Problems and Solution Approaches},
+ volume = {55},
+ year = {2022}
+}

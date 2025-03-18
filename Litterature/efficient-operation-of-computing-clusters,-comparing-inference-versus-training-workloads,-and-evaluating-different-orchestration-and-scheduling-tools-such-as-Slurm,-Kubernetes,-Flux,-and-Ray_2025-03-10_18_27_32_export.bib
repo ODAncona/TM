@@ -1,0 +1,244 @@
+@article{BoLin_Wu_2024,
+ abstract = {Slurm is a resource management and job scheduling system widely used in the field of parallel computing. Kubernetes is an open source container orchestration platform widely used in cloud native and AI fields. With the development of technologies such as parallel computing, AI, and large-scale data processing, the demand for computing resources in business scenarios has become more complex and diverse. In order to better adapt to business needs and give full play to the advantages of both in different fields, this paper proposes a fusion scheduling solution based on Slurm and Kubernetes. The solution is mainly aimed at two scenarios: partitioned deployment and hybrid deployment. The fusion scheduling between the two is realized by developing the heterogeneous resource manager Unify. Dynamic node management function is provided for partitioned deployment, and unified resource view and unified scheduling function are provided for hybrid deployment. Application results show that the solution can effectively solve the problem of dynamic node division under partitioned deployment and the resource scheduling conflict problem of Slurm and Kubernetes under hybrid deployment. Through this solution, both can be applied to more complex demand scenarios and improve the overall resource utilization of the cluster. },
+ annote = {Insights: The paper focuses on fusion scheduling between Slurm and Kubernetes, addressing the efficient operation of computing clusters in partitioned and hybrid deployment scenarios. It highlights the development of the heterogeneous resource manager Unify, which enhances resource utilization and resolves scheduling conflicts. While it does not directly compare inference versus training workloads or evaluate other orchestration tools like Flux and Ray, it emphasizes the advantages of combining Slurm and Kubernetes for complex business demands in parallel computing and AI. },
+ authors = {Bo-Lin Wu and Mingming Hu and Shanshan Qin and Jinliang Jiang},
+ doi = {10.1117/12.3051639},
+ pages = {72-72},
+ publication_type = {article},
+ title = {Research on fusion scheduling based on Slurm and Kubernetes},
+ year = {2024}
+}
+
+@inproceedings{ChanYi_Lin_2019,
+ abstract = {With the fast growing trend in deep learning driven AI services over the past decade, deep learning, especially the resource-intensive and time-consuming training jobs, have become one of the main workload in today’s production clusters. However, due to the complex workload characteristics of deep learning, and the dynamic natural of shared resource environment, managing the resource allocation and execution lifecycle of distributed training jobs in cluster can be challenging. This work aims to address these issues by developing and implementing a scheduling and scaling controller to dynamically manage distributed training jobs on a Kubernetes (K8S) cluster, which is a broadly used platform for managing containerized workloads and services. The objectives of our proposed approach is to enhance K8S with three capabilities: (1) Task dependency aware gang scheduling to avoid idle resources. (2) Locality aware task placement to minimize communication overhead. (3) Load aware job scaling to improve cost efficiency. Our approach is evaluated by real testbed and simulator using a set of TensorFlow jobs. Comparing to the default K8S scheduler, our approach successfully improved resource utilization by 20%∼ 30% and reduced job elapsed time by over 65%.},
+ annote = {Insights: The paper focuses on managing distributed training jobs in Kubernetes clusters, specifically addressing the challenges of resource allocation and execution lifecycle for deep learning workloads. It does not compare inference versus training workloads or evaluate orchestration tools like Slurm, Flux, and Ray. Instead, it enhances Kubernetes with capabilities such as task dependency aware gang scheduling, locality aware task placement, and load aware job scaling, achieving improved resource utilization and reduced job elapsed time compared to the default Kubernetes scheduler. },
+ authors = {Chan-Yi Lin and Ting-An Yeh and Jerry Chou},
+ conference_series = {International Conference on Cloud Computing and Services Science},
+ doi = {10.5220/0007707605690577},
+ pages = {569-577},
+ publication_type = {inproceedings},
+ title = {DRAGON: A Dynamic Scheduling and Scaling Controller for Managing Distributed Deep Learning Jobs in Kubernetes Cluster.},
+ year = {2019}
+}
+
+@article{Chunyu_Xue_2024,
+ abstract = {Joint consideration of scheduling and adaptive parallelism offers great opportunities for improving the training efficiency of large models on heterogeneous GPU clusters. However, integrating adaptive parallelism into a cluster scheduler expands the cluster scheduling space. The new space is the product of the original scheduling space and the parallelism exploration space of adaptive parallelism (also a product of pipeline, data, and tensor parallelism). The exponentially enlarged scheduling space and ever-changing optimal parallelism plan from adaptive parallelism together result in the contradiction between low-overhead and accurate performance data acquisition for efficient cluster scheduling. This paper presents Crius, a training system for efficiently scheduling multiple large models with adaptive parallelism in a heterogeneous cluster. Crius proposes a novel scheduling granularity called Cell. It represents a job with deterministic resources and pipeline stages. The exploration space of Cell is shrunk to the product of only data and tensor parallelism, thus exposing the potential for accurate and low-overhead performance estimation. Crius then accurately estimates Cells and efficiently schedules training jobs. When a Cell is selected as a scheduling choice, its represented job runs with the optimal parallelism plan explored. Experimental results show that Crius reduces job completion time by up to 48.9% and schedules large models with up to 1.49x cluster throughput improvement.},
+ annote = {Insights: The paper focuses on scheduling and adaptive parallelism for training large models in heterogeneous GPU clusters, specifically through the Crius system. It does not compare inference versus training workloads or evaluate orchestration and scheduling tools like Slurm, Kubernetes, Flux, and Ray. Instead, it emphasizes the integration of adaptive parallelism into cluster scheduling to improve training efficiency, achieving significant reductions in job completion time and enhancements in cluster throughput. },
+ authors = {Chunyu Xue and Weihao Cui and Han Zhao and Quan Chen and Shulai Zhang and Peng Yang and Jing Yang and Shaobo Li and Minyi Guo},
+ doi = {10.48550/arxiv.2403.16125},
+ journal = {arXiv.org},
+ publication_type = {article},
+ title = {A Codesign of Scheduling and Parallelization for Large Model Training in Heterogeneous Clusters},
+ volume = {abs/2403.16125},
+ year = {2024}
+}
+
+@misc{Feng_Li_2024,
+ abstract = {With rapidly increasing distributed deep learning workloads in large-scale data centers, efficient distributed deep learning framework strategies for resource allocation and workload scheduling have become the key to high-performance deep learning. The large-scale environment with large volumes of datasets, models, and computational and communication resources raises various unique challenges for resource allocation and workload scheduling in distributed deep learning, such as scheduling complexity, resource and workload heterogeneity, and fault tolerance. To uncover these challenges and corresponding solutions, this survey reviews the literature, mainly from 2019 to 2024, on efficient resource allocation and workload scheduling strategies for large-scale distributed DL. We explore these strategies by focusing on various resource types, scheduling granularity levels, and performance goals during distributed training and inference processes. We highlight critical challenges for each topic and discuss key insights of existing technologies. To illustrate practical large-scale resource allocation and workload scheduling in real distributed deep learning scenarios, we use a case study of training large language models. This survey aims to encourage computer science, artificial intelligence, and communications researchers to understand recent advances and explore future research directions for efficient framework strategies for large-scale distributed deep learning. },
+ annote = {Insights: The paper highlights that distributed training workloads are typically iterative, long-term, and resource-intensive, while inference workloads are one-round, short-term, and lightweight. Efficient operation of computing clusters requires tailored scheduling strategies for each workload type. Although the paper does not specifically evaluate orchestration tools like Slurm, Kubernetes, Flux, and Ray, it emphasizes the importance of resource-aware and workload-aware scheduling to optimize performance in heterogeneous environments, addressing challenges such as network bandwidth allocation and dynamic resource adjustments. },
+ authors = {Feng Li and Zhen Zhang and Huadong Lu and Chengming Li and Victor C. M. Leung and Yun Guo and Xiping Hu},
+ doi = {10.48550/arxiv.2406.08115},
+ publication_type = {misc},
+ title = {Resource Allocation and Workload Scheduling for Large-Scale Distributed
+  Deep Learning: A Survey},
+ url = {https://arxiv.org/pdf/2406.08115},
+ year = {2024}
+}
+
+@misc{FineGrained_Scheduling_for_Containerized_HPC_Workloads_in_Kubernetes__Clusters_2022,
+ abstract = {Containerization technology offers lightweight OS-level virtualization, and enables portability, reproducibility, and flexibility by packing applications with low performance overhead and low effort to maintain and scale them. Moreover, container orchestrators (e.g., Kubernetes) are widely used in the Cloud to manage large clusters running many containerized applications. However, scheduling policies that consider the performance nuances of containerized High Performance Computing (HPC) workloads have not been well-explored yet. This paper conducts fine-grained scheduling policies for containerized HPC workloads in Kubernetes clusters, focusing especially on partitioning each job into a suitable multi-container deployment according to the application profile. We implement our scheduling schemes on different layers of management (application and infrastructure), so that each component has its own focus and algorithms but still collaborates with others. Our results show that our fine-grained scheduling policies outperform baseline and baseline with CPU/memory affinity enabled policies, reducing the overall response time by 35% and 19%, respectively, and also improving the makespan by 34% and 11%, respectively. They also provide better usability and flexibility to specify HPC workloads than other comparable HPC Cloud frameworks, while providing better scheduling efficiency thanks to their multi-layered approach. },
+ annote = {Insights: The paper focuses on fine-grained scheduling for containerized HPC workloads in Kubernetes, specifically enhancing performance through optimized management frameworks. While it does not directly compare inference versus training workloads or evaluate orchestration tools like Slurm, Flux, and Ray, it highlights the limitations of Kubernetes for HPC applications and introduces scheduling policies that improve efficiency. The study emphasizes the need for tailored scheduling strategies to better manage HPC workloads in cloud environments, particularly through the Scanflow-Kubernetes platform and Volcano scheduler. },
+ doi = {10.48550/arxiv.2211.11487},
+ publication_type = {misc},
+ title = {Fine-Grained Scheduling for Containerized HPC Workloads in Kubernetes
+  Clusters},
+ url = {http://arxiv.org/pdf/2211.11487},
+ year = {2022}
+}
+
+@article{Gabriele_Castellano_2023,
+ abstract = {—Many real-time applications (e.g., Augmented/Vir- tual Reality, cognitive assistance) rely on Deep Neural Networks (DNNs) to process inference tasks. Edge computing is considered a key infrastructure to deploy such applications, as moving computation close to the data sources enables us to meet stringent latency and throughput requirements. However, the constrained nature of edge networks poses several additional challenges to the management of inference workloads: edge clusters can not provide unlimited processing power to DNN models, and often a trade-off between network and processing time should be considered when it comes to end-to-end delay requirements. In this paper, we focus on the problem of scheduling inference queries on DNN models in edge networks at short timescales (i.e., few milliseconds). By means of simulations, we analyze several policies in the realistic network settings and workloads of a large ISP, highlighting the need for a dynamic scheduling policy that can adapt to network conditions and workloads. We therefore design ASET, a Reinforcement Learning based scheduling algorithm able to adapt its decisions according to the system conditions. Our results show that ASET effectively provides the best performance compared to static policies when scheduling over a distributed pool of edge resources.},
+ annote = {Insights: The paper focuses on scheduling inference workloads on distributed edge clusters, specifically for Deep Neural Networks (DNNs) in edge computing environments. It emphasizes the need for dynamic scheduling policies, like ASET, which adapts to network conditions and workloads, rather than comparing inference to training workloads or evaluating orchestration tools like Slurm, Kubernetes, Flux, and Ray. The primary concern is optimizing inference query scheduling to meet stringent latency and throughput requirements in real-time applications. },
+ authors = {Gabriele Castellano and Juan José Nieto and Jordi Luque and Ferran Diego and Carlos Segura and Diego Perino and Flavio Esposito and Fulvio Risso and Aravindh Raman},
+ doi = {10.48550/arXiv.2301.13618},
+ journal = {arXiv.org},
+ publication_type = {article},
+ title = {Scheduling Inference Workloads on Distributed Edge Clusters with Reinforcement Learning},
+ volume = {abs/2301.13618},
+ year = {2023}
+}
+
+@article{Han_Zhao_2023,
+ abstract = {While deep neural network (DNN) models are mainly trained using GPUs, many companies and research institutions build shared GPU clusters. These clusters host DNN training jobs, DNN inference jobs, and CPU jobs (jobs in traditional areas). DNN training jobs require GPU for main computation and CPU for auxiliary computation. Some DNN inference jobs could rely solely on CPU, while others must utilize both CPU and GPU. Our investigation demonstrates that the number of cores allocated to a training job significantly impacts its performance, and that DNN inference jobs can make use of the limited CPU cores on the GPU nodes. To accomplish this, we characterize representative deep learning models in terms of their CPU core requirements for their training jobs and inference jobs, and investigate their sensitivity to other CPU-side resource contention. Based on the characterization, we propose SODA, a scheduling system comprised of an adaptive CPU allocator, a multi-array job scheduler, a hardware-aware inference job placer, and a real-time contention eliminator. The experimental results indicate that SODA increases GPU utilization by an average of 19.9%, while maintaining the quality of service target for all DNN inference jobs and the queuing performance of CPU jobs.},
+ annote = {Insights: The paper focuses on improving cluster utilization specifically for deep neural network (DNN) training and inference jobs, rather than comparing orchestration tools like Slurm, Kubernetes, Flux, and Ray. It introduces SODA, a scheduling system that enhances GPU utilization by 19.9% while managing CPU resources effectively for both DNN training and inference workloads. The study emphasizes the importance of CPU core allocation and resource contention in optimizing performance, but does not evaluate the mentioned orchestration tools. },
+ authors = {Han Zhao and Weihao Cui and Quan Chen and Jingwen Leng and Deze Zeng and Minyi Guo},
+ doi = {10.1109/tc.2023.3303988},
+ journal = {IEEE Transactions on Computers},
+ pages = {3458-3472},
+ publication_type = {article},
+ title = {Improving Cluster Utilization Through Adaptive Resource Management for Deep Neural Network and CPU Jobs Colocation},
+ volume = {72},
+ year = {2023}
+}
+
+@article{Hao_Mo_2023,
+ abstract = {To accelerate the inference of machine-learning (ML) model serving, clusters of machines require the use of expensive hardware accelerators (e.g., GPUs) to reduce execution time. Advanced inference serving systems are needed to satisfy latency service-level objectives (SLOs) in a cost-effective manner. Novel autoscaling mechanisms that greedily minimize the number of service instances while ensuring SLO compliance are helpful. However, we find that it is not adequate to guarantee cost effectiveness across heterogeneous GPU hardware, and this does not maximize resource utilization. In this paper, we propose HetSev to address these challenges by incorporating heterogeneity-aware autoscaling and resource-efficient scheduling to achieve cost effectiveness. We develop an autoscaling mechanism which accounts for SLO compliance and GPU heterogeneity, thus provisioning the appropriate type and number of instances to guarantee cost effectiveness. We leverage multi-tenant inference to improve GPU resource utilization, while alleviating inter-tenant interference by avoiding the co-location of identical ML instances on the same GPU during placement decisions. HetSev is integrated into Kubernetes and deployed onto a heterogeneous GPU cluster. We evaluated the performance of HetSev using several representative ML models. Compared with default Kubernetes, HetSev reduces resource cost by up to 2.15× while meeting SLO requirements.},
+ annote = {Insights: The paper focuses on the efficient operation of computing clusters specifically for machine-learning model serving, emphasizing inference workloads rather than training. It extends Kubernetes with a heterogeneity-aware autoscaling mechanism and resource-efficient scheduling to optimize GPU resource utilization. While it does not evaluate orchestration tools like Slurm, Flux, or Ray, it highlights the limitations of traditional cluster schedulers in handling multi-tenant inference, which negatively impacts resource efficiency and serving throughput compared to the proposed HetSev system. },
+ authors = {Hao Mo and Ligu Zhu and Lei Shi and Songfu Tan and Suping Wang},
+ doi = {10.3390/electronics12010240},
+ journal = {Electronics},
+ number = {1},
+ pages = {240-240},
+ publication_type = {article},
+ title = {HetSev: Exploiting Heterogeneity-Aware Autoscaling and Resource-Efficient Scheduling for Cost-Effective Machine-Learning Model Serving},
+ url = {https://www.mdpi.com/2079-9292/12/1/240/pdf?version=1672735461},
+ volume = {12},
+ year = {2023}
+}
+
+@inproceedings{Ilias_Syrigos_2023,
+ abstract = {The widespread use of microservices and the use of cloud-native methodologies for the deployment of services have increased the service providers' flexibility and management efficiency. As the available resources for scheduling such work-loads have extended the boundaries of traditional datacenters to the fog, edge, and beyond -edge, the scheduling of challenging workloads must also account for energy efficiency, as these devices are typically battery-powered and resource-constrained, while maintaining acceptable performance. Specifically for ML inference workloads, provisioning and access latency plays a cru-cial role in their successful operation. Towards combating these issues, we design, develop, and evaluate our platform for Energy Efficient Latency-Aware Scheduling (EELAS) of workloads. First, we formulate the scheduling problem as an ILP problem, and then we develop a less complex heuristic method that allows the efficient allocation of resources within the continuum. Our EELAS prototype integrates with Kubernetes and is capable of reducing the overall energy consumption of cloud-to-things resources while accounting for latency of ML workloads. Our evaluation in real-world settings reveals significant energy gains for scheduling ML inference tasks, also reachable with the minimum possible latency from far-edge devices.},
+ annote = {Insights: The paper focuses on Energy Efficient Latency-Aware Scheduling (EELAS) specifically for ML inference workloads, rather than comparing inference versus training workloads or evaluating orchestration tools like Slurm, Kubernetes, Flux, and Ray. It highlights the integration of EELAS with Kubernetes to optimize resource allocation for cloud-native ML tasks, emphasizing energy efficiency and latency reduction. However, it does not provide a comparative analysis of different orchestration and scheduling tools or their effectiveness in managing computing clusters. },
+ authors = {Ilias Syrigos and Dimitris Kefalas and Nikos Makris and Thanasis Korakis},
+ conference_series = {International Conference on Communication Systems and Networks},
+ doi = {10.1109/COMSNETS56262.2023.10041344},
+ pages = {819-824},
+ publication_type = {inproceedings},
+ title = {EELAS: Energy Efficient and Latency Aware Scheduling of Cloud-Native ML Workloads},
+ year = {2023}
+}
+
+@article{Jiamin_Li_2022,
+ abstract = {Companies build separate training and inference GPU clusters for deep learning, and use separate schedulers to manage them. This leads to problems for both training and inference: inference clusters have low GPU utilization when the traffic load is low; training jobs often experience long queueing time due to lack of resources. We introduce Aryl, a new cluster scheduler to address these problems. Aryl introduces capacity loaning to loan idle inference GPU servers for training jobs. It further exploits elastic scaling that scales a training job's GPU allocation to better utilize loaned resources. Capacity loaning and elastic scaling create new challenges to cluster management. When the loaned servers need to be returned, we need to minimize the number of job preemptions; when more GPUs become available, we need to allocate them to elastic jobs and minimize the job completion time (JCT). Aryl addresses these combinatorial problems using principled heuristics. It introduces the notion of server preemption cost which it greedily reduces during server reclaiming. It further relies on the JCT reduction value defined for each additional worker for an elastic job to solve the scheduling problem as a multiple-choice knapsack problem. Prototype implementation on a 64-GPU testbed and large-scale simulation with 15-day traces of over 50,000 production jobs show that Aryl brings 1.53x and 1.50x reductions in average queuing time and JCT, and improves cluster usage by up to 26.9% over the cluster scheduler without capacity loaning or elastic scaling.},
+ annote = {Insights: The paper focuses on GPU cluster scheduling specifically for deep learning, highlighting the inefficiencies of separate training and inference clusters. It introduces Aryl, which optimizes resource allocation and job scheduling by utilizing capacity loaning and elastic scaling. While it does not evaluate orchestration tools like Slurm, Kubernetes, Flux, or Ray, it demonstrates significant improvements in average queuing time and job completion time compared to traditional methods, emphasizing the need for efficient management of heterogeneous workloads in GPU clusters. },
+ authors = {Jiamin Li and Hong Yu Xu and Yibo Zhu and Zherui Liu and Chuanxiong Guo and Cong Wang},
+ journal = {arXiv.org},
+ publication_type = {article},
+ title = {Aryl: An Elastic Cluster Scheduler for Deep Learning},
+ url = {https://arxiv.org/pdf/2202.07896v1.pdf},
+ volume = {abs/2202.07896},
+ year = {2022}
+}
+
+@inproceedings{Jiamin_Li_2023,
+ abstract = {Organizations often build separate training and inference clusters for deep learning, and use separate schedulers to manage them. This leads to problems for both: inference clusters have low utilization when the traffic load is low; training jobs often experience long queuing due to a lack of resources. We introduce Lyra, a new cluster scheduler to address these problems. Lyra introduces capacity loaning to loan idle inference servers for training jobs. It further exploits elastic scaling that scales a training job's resource allocation to better utilize loaned servers. Capacity loaning and elastic scaling create new challenges to cluster management. When the loaned servers need to be returned, we need to minimize job preemptions; when more GPUs become available, we need to allocate them to elastic jobs and minimize the job completion time (JCT). Lyra addresses these combinatorial problems with principled heuristics. It introduces the notion of server preemption cost, which it greedily reduces during server reclaiming. It further relies on the JCT reduction value defined for each additional worker of an elastic job to solve the scheduling problem as a multiple-choice knapsack problem. Prototype implementation on a 64-GPU testbed and large-scale simulation with 15-day traces of over 50,000 production jobs show that Lyra brings 1.53x and 1.48x reductions in average queuing time and JCT, and improves cluster usage by up to 25%.},
+ annote = {Insights: The paper focuses on Lyra, a cluster scheduler designed to optimize the operation of deep learning clusters by addressing the inefficiencies in managing separate training and inference workloads. It highlights the challenges of low utilization in inference clusters and long queuing times for training jobs. While it does not directly compare orchestration tools like Slurm, Kubernetes, Flux, and Ray, it emphasizes the need for effective scheduling strategies to improve resource allocation and job completion times in deep learning environments. },
+ authors = {Jiamin Li and Hong Yu Xu and Yibo Zhu and Zherui Liu and Chuanxiong Guo and Cong Wang},
+ conference_series = {European Conference on Computer Systems},
+ doi = {10.1145/3552326.3587445},
+ publication_type = {inproceedings},
+ title = {Lyra: Elastic Scheduling for Deep Learning Clusters},
+ year = {2023}
+}
+
+@inproceedings{Jiaming_Huang_2020,
+ abstract = {Job scheduling in cluster is often considered as a difficult online decision-making problem, and its solution depends largely on the understanding of the workload and environment. People usually first propose a simple heuristic scheduling algorithm, and then perform repeated and tedious manual tests and adjustments based on the characteristics of the workload to gradually improve the algorithm. In this work, focusing on multi-cluster environments, load balancing and efficient scheduling, we present RLSK, a deep reinforcement learning based job scheduler for scheduling independent batch jobs among multiple federated cloud computing clusters adaptively. By directly specifying high-level scheduling targets, RLSK interacts with the system environment and automatically learns scheduling strategies from experience without any prior knowledge assumed over the underlying multi-cluster environment and human instructions, which avoids people’s tedious testing and tuning work. We implement our scheduler based on Kubernetes, and conduct simulations to evaluate the performance of our design. The results show that, RLSK can outperform traditional scheduling algorithms.},
+ annote = {Insights: The paper focuses on job scheduling in multi-cluster environments using RLSK, a deep reinforcement learning-based scheduler implemented on Kubernetes. It emphasizes efficient scheduling of independent batch jobs without prior knowledge of the workload. While it does not specifically compare inference versus training workloads or evaluate orchestration tools like Slurm, Flux, and Ray, it demonstrates that RLSK outperforms traditional scheduling algorithms, highlighting its effectiveness in optimizing resource allocation and load balancing in federated cloud computing clusters. },
+ authors = {Jiaming Huang and Chuming Xiao and Weigang Wu},
+ conference_series = {IEEE International Conference on Cloud Engineering},
+ doi = {10.1109/IC2E48712.2020.00019},
+ pages = {116-123},
+ publication_type = {inproceedings},
+ title = {RLSK: A Job Scheduler for Federated Kubernetes Clusters based on Reinforcement Learning},
+ year = {2020}
+}
+
+@article{Maxime_Gonthier_2024,
+ abstract = {Clusters employ workload schedulers such as the Slurm Workload Manager to allocate computing jobs onto nodes. These schedulers usually aim at a good tradeoff between increasing resource utilization and user satisfaction (decreasing job waiting time). However, these schedulers are typically unaware of jobs sharing large input files, which may happen in data intensive scenarios. The same input files may end up being loaded several times, leading to a waste of resources. We study how to design a data-aware job scheduler that is able to keep large input files on the computing nodes, without impacting other memory needs, and can benefit from previously-loaded files to decrease data transfers in order to reduce the waiting times of jobs. We present three schedulers capable of distributing the load between the computing nodes as well as re-using input files already loaded in the memory of some node as much as possible. We perform simulations with single node jobs using traces of real HPC-cluster usage, to compare them to classical job schedulers. The results show that keeping data in local memory between successive jobs and using data-locality information to schedule jobs improves performance compared to a widely-used scheduler (FCFS, with and without backfilling): a reduction in job waiting time (a 7.5% improvement in stretch), and a decrease in the amount of data transfers (7%).},
+ annote = {Insights: The paper focuses on improving job scheduling in computing clusters, specifically using the Slurm Workload Manager. It emphasizes a data-aware approach to scheduling that reduces job waiting times and data transfers by keeping large input files in memory. While it does not directly compare inference versus training workloads or evaluate orchestration tools like Kubernetes, Flux, and Ray, it highlights the efficiency gains from its proposed schedulers over traditional methods, demonstrating a 7.5% improvement in job stretch and a 7% decrease in data transfers. },
+ authors = {Maxime Gonthier and Elisabeth Larsson and Jean Roman and Carl Nettelblad and Samuel Thibault},
+ doi = {10.1109/ipdpsw63119.2024.00058},
+ publication_type = {article},
+ title = {Data-Driven Locality-Aware Batch Scheduling},
+ url = {https://inria.hal.science/hal-04500281/document},
+ year = {2024}
+}
+
+@inproceedings{MinChi_Chiang_2021,
+ abstract = {: The recent success of deep learning applications is driven by the computing power of GPUs. However, as the workﬂow of deep learning becomes increasingly complicated and resource-intensive, how to manage the expensive GPU resources for Machine Learning (ML) workload becomes a critical problem. Existing resource managers mostly only focus on a single speciﬁc type of workload, like batch processing or web services, and lacks runtime optimization and application performance awareness. Therefore, this paper proposes a set of runtime dynamic management techniques (including auto-scaling, job preemption, workload-aware scheduling, and elastic GPU sharing) to handle a mixture of ML workloads consisting of modeling, training, and inference jobs. Our proposed system is implemented as a set of extended operators on Kubernetes and has the strength of complete transparency and compatibility to the application code as well as the deep learning frameworks. Our experiments conducted on AWS GPU clusters prove our approach can out-perform the native Kubernetes by 60% system throughput improvement, 70% training time reduction without causing any SLA violations on inference services.},
+ annote = {Insights:  },
+ authors = {Min-Chi Chiang and Jerry Chou},
+ conference_series = {International Conference on Cloud Computing and Services Science},
+ doi = {10.5220/0010483401220132},
+ pages = {122-132},
+ publication_type = {inproceedings},
+ title = {DynamoML: Dynamic Resource Management Operators for Machine Learning Workloads.},
+ year = {2021}
+}
+
+@article{Rui_Han_2019,
+ abstract = {Cluster schedulers provide flexible resource sharing mechanism for best-effort cloud jobs, which occupy a majority in modern datacenters. Properly tuning a scheduler's configurations is the key to these jobs’ performance because it decides how to allocate resources among them. Today's cloud scheduling systems usually rely on cluster operators to set the configuration and thus overlook the potential performance improvement through optimally configuring the scheduler according to the heterogeneous and dynamic cloud workloads. In this paper, we introduce AdaptiveConfig, a run-time configurator for cluster schedulers that automatically adapts to the changing workload and resource status in two steps. First, a comparison approach estimates jobs’ performances under different configurations and diverse scheduling scenarios. The key idea here is to transform a scheduler's resource allocation mechanism and their variable influence factors (configurations, scheduling constraints, available resources, and workload status) into business rules and facts in a rule engine, thereby reasoning about these correlated factors in job performance comparison. Second, a workload-adaptive optimizer transforms the cluster-level searching of huge configuration space into an equivalent dynamic programming problem that can be efficiently solved at scale. We implement AdaptiveConfig on the popular YARN Capacity and Fair schedulers and demonstrate its effectiveness using real-world Facebook and Google workloads, i.e., successfully finding best configurations for most of scheduling scenarios and considerably reducing latencies by a factor of two with low optimization time.},
+ annote = {Insights: The paper focuses on AdaptiveConfig, a run-time configuration tuning framework for cluster schedulers, specifically for best-effort cloud jobs. It does not directly compare inference versus training workloads or evaluate orchestration and scheduling tools like Slurm, Kubernetes, Flux, and Ray. Instead, it emphasizes optimizing scheduler configurations to improve job performance and reduce latencies in cloud environments, particularly using YARN Capacity and Fair schedulers with real-world workloads from Facebook and Google. },
+ authors = {Rui Han and Chi Harold Liu and Zan Zong and Lydia Y. Chen and Wending Liu and Siyi Wang and Jianfeng Zhan},
+ doi = {10.1109/TPDS.2019.2923197},
+ journal = {IEEE Transactions on Parallel and Distributed Systems},
+ number = {12},
+ pages = {2879-2895},
+ publication_type = {article},
+ title = {Workload-Adaptive Configuration Tuning for Hierarchical Cloud Schedulers},
+ volume = {30},
+ year = {2019}
+}
+
+@article{Running_Kubernetes_Workloads_on_HPC,
+ abstract = {Cloud and HPC increasingly converge in hardware platform capabilities and specifications, nevertheless still largely differ in the software stack and how it manages available resources. The HPC world typically favors Slurm for job scheduling, whereas Cloud deployments rely on Kubernetes to orchestrate container instances across nodes. Running hybrid workloads is possible by using bridging mechanisms that submit jobs from one environment to the other. However, such solutions require costly data movements, while operating within the constraints set by each setup’s network and access policies. In this work, we explore a design that enables running unmodified Kubernetes workloads directly on HPC. With High-Performance Kubernetes (HPK), users deploy their own private Kubernetes “mini Clouds”, which internally convert container lifecycle management commands to use the system-level Slurm installation for scheduling and Singularity/Apptainer as the container runtime. We consider this approach to be practical for deployment in HPC centers, as it requires minimal pre-configuration and retains existing resource management and accounting policies. HPK provides users with an effective way to utilize resources by a combination of well-known tools, APIs, and more interactive and user-friendly interfaces as is common practice in the Cloud domain, as well as seamlessly combine Cloud-native tools with HPC jobs in converged, containerized workflows. },
+ annote = {Insights: The paper focuses on running Kubernetes workloads on HPC, specifically using High-Performance Kubernetes (HPK) to bridge the gap between Kubernetes and Slurm for efficient resource management. While it does not directly compare inference versus training workloads or evaluate orchestration tools like Flux and Ray, it emphasizes the practical deployment of Kubernetes in HPC environments, allowing users to leverage existing scheduling and resource management policies with minimal pre-configuration, thus enhancing operational efficiency in computing clusters. },
+ authors = {Antony Chazapis and F. Nikolaidis and Manolis Marazakis and Angelos Bilas},
+ doi = {10.1007/978-3-031-40843-4_14},
+ pages = {181-192},
+ publication_type = {article},
+ title = {Running Kubernetes Workloads on HPC}
+}
+
+@article{Shilin_Wen_2023,
+ abstract = {In recent years, Kubernetes (K8s) has become a dominant resource management and scheduling system in the cloud. In practical scenarios, short-running cloud workloads are usually scheduled through different scheduling algorithms provided by Kubernetes. For example, artificial intelligence (AI) workloads are scheduled through different Volcano scheduling algorithms, such as GANG_MRP, GANG_LRP, and GANG_BRA. One key challenge is that the selection of scheduling algorithms has considerable impacts on job performance results. However, it takes a prohibitively long time to select the optimal algorithm because applying one algorithm in one single job may take a few minutes to complete. This poses the urgent requirement of a simulator that can quickly evaluate the performance impacts of different algorithms, while also considering scheduling-related factors, such as cluster resources, job structures and scheduler configurations. In this paper, we design and implement a Kubernetes simulator called K8sSim, which incorporates typical Kubernetes and Volcano scheduling algorithms for both generic and AI workloads, and provides an accurate simulation of their scheduling process in real clusters. We use real cluster traces from Alibaba to evaluate the effectiveness of K8sSim, and the evaluation results show that (i) compared to the real cluster, K8sSim can accurately evaluate the performance of different scheduling algorithms with similar CloseRate (a novel metric we define to intuitively show the simulation accuracy), and (ii) it can also quickly obtain the scheduling results of different scheduling algorithms by accelerating the scheduling time by an average of 38.56×.},
+ annote = {Insights: The paper focuses on Kubernetes scheduling for short-running workloads, specifically evaluating scheduling algorithms like BRA, LRP, and MRP using real Alibaba cluster traces. While it does not directly compare inference versus training workloads or other orchestration tools like Slurm, Flux, and Ray, it emphasizes the importance of efficient scheduling in Kubernetes to optimize job performance and reduce scheduling time, achieving an average acceleration of 38.56× compared to real clusters. },
+ authors = {Shilin Wen and Rui Han and Ke Qiu and Xiaoxin Ma and Zeqing Li and Hongjie Deng and Chi Harold Liu},
+ doi = {10.3390/mi14030651},
+ journal = {Micromachines},
+ number = {3},
+ pages = {651-651},
+ publication_type = {article},
+ title = {K8sSim: A Simulation Tool for Kubernetes Schedulers and Its Applications in Scheduling Algorithm Optimization},
+ url = {https://www.mdpi.com/2072-666X/14/3/651/pdf?version=1678767805},
+ volume = {14},
+ year = {2023}
+}
+
+@article{Zehua_Yang_2022,
+ abstract = {With the proliferation of deep learning, there exists a strong need to efficiently operate GPU clusters for deep learning production in giant AI companies, as well as for research and development (R&D) in small-sized research institutes and universities. Existing works have performed thorough trace analysis on large-scale production-level clusters in giant companies, which discloses the characteristics of deep learning production jobs and motivates the design of scheduling frameworks. However, R&D clusters significantly differ from production-level clusters in both job properties and user behaviors, calling for a different scheduling mechanism. In this paper, we present a detailed workload characterization of an R&D cluster, CloudBrain-I, in a research institute, Peng Cheng Laboratory. After analyzing the fine-grained resource utilization, we discover a severe problem for R&D clusters, resource underutilization, which is especially important in R&D clusters while not characterised by existing works. We further investigate two specific underutilization phenomena and conclude several implications and lessons on R&D cluster scheduling. The traces will be open-sourced to motivate further studies in the community.},
+ annote = {Insights: The paper focuses on the efficient operation of R&D clusters, specifically highlighting the issue of resource underutilization in such environments. While it does not directly compare inference versus training workloads or evaluate orchestration and scheduling tools like Slurm, Kubernetes, Flux, and Ray, it emphasizes the need for tailored scheduling mechanisms for R&D clusters, which differ from production-level clusters. The findings aim to inform better scheduling practices, although specific tool evaluations are not covered in the research. },
+ authors = {Zehua Yang and Zhi-Jie Ye and Tianhao Fu and Jing Luo and Xiong Wei and Yingwei Luo and Xiaolin Wang and Zhenlin Wang and Tianwei Zhang},
+ doi = {10.1109/ICCD56317.2022.00103},
+ journal = {International Conference on Community Development},
+ pages = {672-680},
+ publication_type = {article},
+ title = {Tear Up the Bubble Boom: Lessons Learned From a Deep Learning Research and Development Cluster},
+ year = {2022}
+}
+
+@article{Zhenqian_Chen_2023,
+ abstract = {Deep learning tasks (DLT) include training and inference tasks, where training DLTs have requirements on minimizing average job completion time (JCT) and inference tasks need sufficient GPUs to meet real-time performance. Unfortunately, existing work separately deploys multi-tenant training and inference GPU cluster, leading to the high JCT of training DLTs with limited GPUs when the inference cluster is under insufficient GPU utilization due to the periodic inference workload. DeepBoot solves the challenges by utilizing idle GPUs in the inference cluster for the training DLTs. Specifically, 1) DeepBoot designs adaptive task scaling (ATS) algorithm to allocate GPUs in the training and inference clusters for training DLTs and minimize the performance loss when reclaiming inference GPUs. 2) DeepBoot implements auto-fast elastic (AFE) training based on Pollux to reduce the restart overhead by inference GPU reclaiming. Our implementation on the testbed and large-scale simulation in Microsoft deep learning workload shows that DeepBoot can achieve 32% and 38% average JCT reduction respectively compared with the scheduler without utilizing idle GPUs in the inference cluster.},
+ annote = {Insights: The paper focuses on optimizing GPU cluster utilization for deep learning tasks by addressing the inefficiencies in handling training and inference workloads separately. It introduces DeepBoot, which employs an adaptive task scaling algorithm to allocate idle GPUs from inference tasks to training tasks, thereby reducing average job completion time. While it does not specifically evaluate orchestration tools like Slurm, Kubernetes, Flux, or Ray, it highlights the importance of dynamic scheduling in improving performance in GPU clusters. },
+ authors = {Zhenqian Chen and Xinkui Zhao and Chen Zhi and Jianwei Yin},
+ doi = {10.1109/TPDS.2023.3293835},
+ journal = {IEEE Transactions on Parallel and Distributed Systems},
+ pages = {2553-2567},
+ publication_type = {article},
+ title = {DeepBoot: Dynamic Scheduling System for Training and Inference Deep Learning Tasks in GPU Cluster},
+ volume = {34},
+ year = {2023}
+}
+
+@article{Zijie_Liu_2022,
+ abstract = {The past decade witnessed a remarkable increase in deep learning (DL) workloads which require GPU resources to accelerate the training process. However, the existing coarse‐grained scheduling mechanisms are agnostic to information other than the number of GPUs or GPU memory, which results in performance degradation of DL tasks. Moreover, the common assumption held by the existing balance‐aware DL task scheduling strategies, a DL task consumes resources once it starts, fails to reduce resource contention, and further limits execution efficiency. To address these problems, this article proposes a fine‐grained and balance‐aware scheduling model (FBSM) which considers the resource consumption characteristic of the DL task. Based on FBSM, we propose customized GPU sniffer (GPU‐S) and balance‐aware scheduler (BAS) modules to construct a scheduling system called KubFBS. The experimental results demonstrate KubFBS accelerates the execution of DL tasks while improving the load balancing capability of the cluster.},
+ annote = {Insights: The paper focuses on a scheduling system called KubFBS, which enhances the execution of deep learning tasks in Kubernetes by addressing inefficiencies in existing scheduling mechanisms. While it does not directly compare inference versus training workloads or evaluate orchestration tools like Slurm, Flux, and Ray, it emphasizes the importance of fine-grained scheduling and load balancing for deep learning tasks, which can be critical for efficient operation in computing clusters. },
+ authors = {Zijie Liu and Can Chen and Junjiang Li and Yi Cheng and Yingjie Kou and Dengyin Zhang},
+ doi = {10.1002/cpe.6836},
+ journal = {Concurrency and Computation: Practice and Experience},
+ number = {11},
+ publication_type = {article},
+ title = {KubFBS: A fine‐grained and balance‐aware scheduling system for deep learning tasks based on kubernetes},
+ volume = {34},
+ year = {2022}
+}
