@@ -3,7 +3,13 @@
 - [x] Define Pareto optimization
 - [x] Define What system for which usage
 - [x] Define How to improve accelerators
-- [ ] Write Specification 2.0.0
+- [x] Write Specification 2.0.0
 - [ ] Presentation
 - [ ] Perform Perlmutter Trace Analysis
-- [ ] Evaluate Approaches 1,2,3
+- [x] Evaluate Approaches 1,2,3
+- [ ] code2prompt-mcp
+- [ ] code2prompt-sdk
+- [ ] code2prompt-release
+- [ ] code2prompt-website
+- [ ] nym server
+- [ ] kabir server

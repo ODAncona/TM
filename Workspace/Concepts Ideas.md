@@ -7,7 +7,7 @@ bin packing
 Consolidation
 Hypserscale System
 gang scheduling
-
+Converged computing
 kubernetes node
 kubernetes kubelet
 
@@ -29,4 +29,4 @@ Sur un même ordinateur
 - Ray
 - Qemu
 - Gem5
-- 
+- https://hpcbench.readthedocs.io/en/latest/

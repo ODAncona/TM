@@ -24,7 +24,7 @@ The following metrics will be used to evaluate the schedulers:
    - Encompasses the entire duration required for a job to finish—queueing, execution, and teardown.  
    - Particularly important in multi-node HPC environments, where parallel processing can drastically reduce total completion time.
 
-4. **Elasticity**  
+1. **Elasticity**
    - Evaluates how well the scheduler can adapt to fluctuating workloads by scaling resources up or down.  
    - Efficient elasticity ensures workload demands are met while preventing resource bottlenecks or waste.
 
