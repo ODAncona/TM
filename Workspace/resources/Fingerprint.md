@@ -1,0 +1,5 @@
+[https://doi.org/10.1016/j.patrec.2012.10.007](https://doi.org/10.1016/j.patrec.2012.10.007 "https://doi.org/10.1016/j.patrec.2012.10.007")  
+[https://doi.org/10.1177/1094342012436618](https://doi.org/10.1177/1094342012436618 "https://doi.org/10.1177/1094342012436618")  
+[https://arxiv.org/abs/2005.03135](https://arxiv.org/abs/2005.03135 "https://arxiv.org/abs/2005.03135")  
+[https://doi.org/10.1016/j.future.2019.07.053](https://doi.org/10.1016/j.future.2019.07.053 "https://doi.org/10.1016/j.future.2019.07.053")  
+[https://escholarship.org/uc/item/1xb249zt](https://escholarship.org/uc/item/1xb249zt "https://escholarship.org/uc/item/1xb249zt")  (Chapter 4)

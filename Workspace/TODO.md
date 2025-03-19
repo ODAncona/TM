@@ -4,8 +4,9 @@
 - [x] Define What system for which usage
 - [x] Define How to improve accelerators
 - [x] Write Specification 2.0.0
-- [ ] Presentation
+- [x] Presentation
 - [ ] Perform Perlmutter Trace Analysis
+- [ ] Read NERSC papers
 - [x] Evaluate Approaches 1,2,3
 - [ ] code2prompt-mcp
 - [ ] code2prompt-sdk
