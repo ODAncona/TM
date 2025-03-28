@@ -1,0 +1,35 @@
+topology:
+  cluster_name: "medium-hpc-cluster"
+
+  head_nodes:
+    - name: "head-1"
+      cpu: 8
+      memory_mb: 32768
+      disk_gb: 80
+
+  compute_nodes:
+    - name: "compute-1"
+      cpu: 16
+      memory_mb: 65536
+      disk_gb: 200
+    - name: "compute-2"
+      cpu: 16
+      memory_mb: 65536
+      disk_gb: 200
+    - name: "compute-3"
+      cpu: 16
+      memory_mb: 65536
+      disk_gb: 200
+    - name: "compute-4"
+      cpu: 16
+      memory_mb: 65536
+      disk_gb: 200
+
+  network:
+    name: "medium-net"
+    cidr: "192.168.101.0/24"
+    gateway: "192.168.101.1"
+
+  storage:
+    type: "local"
+    ephemeral: false

@@ -1,0 +1,34 @@
+topology:
+  cluster_name: "small-hpc-cluster"
+
+  head_nodes:
+    - name: "head-1"
+      cpu: 4
+      memory_mb: 16384
+      disk_gb: 50
+      # optionally set other attributes (accelerators, special tags, ...)
+
+  compute_nodes:
+    - name: "compute-1"
+      cpu: 8
+      memory_mb: 32768
+      disk_gb: 100
+
+    - name: "compute-2"
+      cpu: 8
+      memory_mb: 32768
+      disk_gb: 100
+
+  network:
+    # Supports custom bridging or VLANs. For local libvirt you might keep default
+    name: "small-net"
+    cidr: "192.168.100.0/24"
+    gateway: "192.168.100.1"
+
+  # Possibly define advanced HPC network or storage details as needed
+  storage:
+    type: "local"
+    ephemeral: false
+
+  # Additional HPC scheduling and environment details can go here
+  # if needed by your orchestration layer.

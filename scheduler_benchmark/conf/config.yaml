@@ -1,0 +1,9 @@
+defaults:
+  - provider: libvirt
+  - topology: small
+  # optionally override Hydra logging or other modules here
+
+# Global configuration parameters not specific to provider or topology
+global:
+  project_name: scheduler-benchmark
+  environment: local
