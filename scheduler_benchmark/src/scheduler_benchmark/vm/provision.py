@@ -1,17 +1,19 @@
-from typing import Optional, Dict, List, Any
 from scheduler_benchmark.models import NodeConfig, HPCConfig, ClusterConfig
 from scheduler_benchmark.vm.libvirt_helper import LibvirtConnection
 from scheduler_benchmark.vm.cloud_init_helper import CloudInitHelper
 
 class VMProvisioner:
-    def __init__(self, hostname: str, username: Optional[str] = None, 
-                 identity_file: Optional[str] = None):
+    def __init__(self, 
+                 hostname: str, 
+                 username: str | None = None, 
+                 identity_file: str | None = None
+                 ):
         self.hostname = hostname
         self.username = username
         self.identity_file = identity_file
         self.cloud_init = CloudInitHelper()
         
-    def provision_node(self, node: NodeConfig, base_image: Optional[str] = None) -> str:
+    def provision_node(self, node: NodeConfig, base_image: str | None = None) -> str:
         """Provision a single node and return its IP address"""
         # Create cloud-init ISO
         cloud_init_iso = self.cloud_init.create_cloud_init_iso(node)
@@ -22,7 +24,7 @@ class VMProvisioner:
             return ip_address
             
     def provision_cluster(self, cluster: ClusterConfig, 
-                          base_image: Optional[str] = None) -> Dict[str, str]:
+                          base_image: str | None = None) -> dict[str, str]:
         """Provision an entire cluster from a cluster config"""
         ips = {}
         
@@ -43,7 +45,7 @@ class VMProvisioner:
         with LibvirtConnection(self.hostname, self.username, self.identity_file) as conn:
             return conn.delete_vm(node_name)
             
-    def delete_cluster(self, cluster: ClusterConfig) -> Dict[str, bool]:
+    def delete_cluster(self, cluster: ClusterConfig) -> dict[str, bool]:
         """Delete all nodes in a cluster"""
         results = {}
         

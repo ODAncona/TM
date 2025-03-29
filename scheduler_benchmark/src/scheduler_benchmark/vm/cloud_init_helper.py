@@ -2,11 +2,10 @@ import os
 import tempfile
 import subprocess
 import yaml
-from typing import Optional, List, Dict, Any
 from scheduler_benchmark.models import NodeConfig, UserConfig
 
 class CloudInitHelper:
-    def __init__(self, work_dir: Optional[str] = None):
+    def __init__(self, work_dir: str | None = None):
         self.work_dir = work_dir or tempfile.mkdtemp()
         
     def generate_user_data(self, node: NodeConfig) -> str:

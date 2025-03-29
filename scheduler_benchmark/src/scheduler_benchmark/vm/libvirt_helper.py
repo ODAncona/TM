@@ -1,12 +1,11 @@
 import libvirt
 import os
 import time
-from typing import List, Optional, Dict, Any, Tuple
 from scheduler_benchmark.models import NodeConfig, Resource, ResourceType
 
 class LibvirtConnection:
-    def __init__(self, hostname: str, username: Optional[str] = None, 
-                 identity_file: Optional[str] = None):
+    def __init__(self, hostname: str, username: str | None = None, 
+                 identity_file: str | None = None):
         self.hostname = hostname
         self.username = username or os.getenv("USER")
         self.identity_file = identity_file
@@ -35,7 +34,7 @@ class LibvirtConnection:
             self.conn.close()
             self.conn = None
             
-    def get_vm(self, name: str) -> Optional[libvirt.virDomain]:
+    def get_vm(self, name: str) -> libvirt.virDomain | None :
         """Get a VM by name"""
         try:
             return self.conn.lookupByName(name)
@@ -47,7 +46,7 @@ class LibvirtConnection:
         return self.get_vm(name) is not None
         
     def create_volume(self, name: str, size_gb: int, 
-                      base_image: Optional[str] = None,
+                      base_image: str | None = None,
                       pool_name: str = "default") -> str:
         """Create a new volume, optionally based on an image"""
         size_bytes = size_gb * 1024 * 1024 * 1024
@@ -82,7 +81,7 @@ class LibvirtConnection:
     
     def create_vm(self, node_config: NodeConfig, 
                   cloud_init_iso: str, 
-                  base_image: Optional[str] = None) -> Tuple[libvirt.virDomain, str]:
+                  base_image: str | None = None) -> tuple[libvirt.virDomain, str]:
         """Create a VM based on node configuration"""
         # Create volume
         volume_path = self.create_volume(
