@@ -3,7 +3,7 @@ import libvirt
 import os
 import time
 from typing import List, Optional, Dict, Any, Tuple
-from ..models import NodeConfig, Resource, ResourceType
+from scheduler_benchmark.models import NodeConfig, Resource, ResourceType
 
 class LibvirtConnection:
     def __init__(self, hostname: str, username: Optional[str] = None, 

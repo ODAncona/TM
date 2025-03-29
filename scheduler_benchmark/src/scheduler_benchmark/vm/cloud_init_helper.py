@@ -4,7 +4,7 @@ import tempfile
 import subprocess
 import yaml
 from typing import Optional, List, Dict, Any
-from ..models import NodeConfig, UserConfig
+from scheduler_benchmark.models import NodeConfig, UserConfig
 
 class CloudInitHelper:
     def __init__(self, work_dir: Optional[str] = None):

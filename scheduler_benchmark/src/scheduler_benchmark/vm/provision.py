@@ -1,8 +1,8 @@
 # src/scheduler_benchmark/vm/provision.py
 from typing import Optional, Dict, List, Any
-from ..models import NodeConfig, HPCConfig, ClusterConfig
-from .libvirt_helper import LibvirtConnection
-from .cloud_init_helper import CloudInitHelper
+from scheduler_benchmark.models import NodeConfig, HPCConfig, ClusterConfig
+from scheduler_benchmark.vm.libvirt_helper import LibvirtConnection
+from scheduler_benchmark.vm.cloud_init_helper import CloudInitHelper
 
 class VMProvisioner:
     def __init__(self, hostname: str, username: Optional[str] = None, 

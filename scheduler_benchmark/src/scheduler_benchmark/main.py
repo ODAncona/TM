@@ -5,11 +5,11 @@ from omegaconf import DictConfig, OmegaConf
 import os
 from typing import Dict, Any
 
-from .models import (
+from scheduler_benchmark.models import (
     HPCConfig, ClusterConfig, NodeConfig, Resource, 
     ResourceType, NetworkConfig, UserConfig, SchedulerConfig, SchedulerType
 )
-from .vm.provision import VMProvisioner
+from scheduler_benchmark.vm.provision import VMProvisioner
 
 logger = logging.getLogger(__name__)
 
