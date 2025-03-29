@@ -1,4 +1,3 @@
-# src/scheduler_benchmark/vm/libvirt_helper.py
 import libvirt
 import os
 import time
@@ -10,7 +9,7 @@ class LibvirtConnection:
                  identity_file: Optional[str] = None):
         self.hostname = hostname
         self.username = username or os.getenv("USER")
-        self.identity_file = identity_file or os.path.expanduser("~/.ssh/id_rsa")
+        self.identity_file = identity_file
         
         uri = f"qemu+ssh://{self.username}@{self.hostname}/system"
         if identity_file:
@@ -143,7 +142,6 @@ class LibvirtConnection:
         </domain>
         """
         
-        # Create and start VM
         domain = self.conn.defineXML(vm_xml)
         domain.create()
         

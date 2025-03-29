@@ -18,9 +18,9 @@ def config_to_model(cfg: DictConfig) -> HPCConfig:
     # This handles conversion from DictConfig to our Pydantic models
     # Convert to dict first to remove OmegaConf specifics
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
-    return HPCConfig.parse_obj(cfg_dict)
+    return HPCConfig.model_validate(cfg_dict)
 
-@hydra.main(config_path="../../conf", config_name="config")
+@hydra.main(version_base=None, config_path="../../conf", config_name="config")
 def main(cfg: DictConfig) -> None:
     """Main entry point with Hydra configuration"""
     # Convert hydra config to pydantic model
@@ -30,7 +30,7 @@ def main(cfg: DictConfig) -> None:
     except Exception as e:
         logger.error(f"Configuration error: {e}")
         return
-    
+        
     # Create VM provisioner for the remote host
     provisioner = VMProvisioner(
         hostname=cfg.libvirt.hostname,

@@ -1,4 +1,3 @@
-# src/scheduler_benchmark/vm/cloud_init_helper.py
 import os
 import tempfile
 import subprocess

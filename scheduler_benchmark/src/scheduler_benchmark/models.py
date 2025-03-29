@@ -1,4 +1,3 @@
-# src/scheduler_benchmark/models.py
 from enum import Enum
 from typing import List, Optional, Dict, Union
 from pydantic import BaseModel, Field, validator
