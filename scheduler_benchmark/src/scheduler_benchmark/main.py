@@ -1,93 +1,59 @@
-import hydra
-from omegaconf import DictConfig, OmegaConf
-import subprocess
-import os
 import colorlog
 import logging
+import hydra
+from omegaconf import DictConfig, OmegaConf
+import os
+from typing import Dict, Any
 
-# Import your typed dataclasses
-from .config_schemas import HPCConfig, TopologyConfig, SchedulerConfig, NodeConfig, ResourceConfig, NetworkConfig, StorageConfig, SchedulerSettings
+from .models import (
+    HPCConfig, ClusterConfig, NodeConfig, Resource, 
+    ResourceType, NetworkConfig, UserConfig, SchedulerConfig, SchedulerType
+)
+from .vm.provision import VMProvisioner
+
+logger = logging.getLogger(__name__)
+
+def config_to_model(cfg: DictConfig) -> HPCConfig:
+    """Convert Hydra config to Pydantic model"""
+    # This handles conversion from DictConfig to our Pydantic models
+    # Convert to dict first to remove OmegaConf specifics
+    cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    return HPCConfig.parse_obj(cfg_dict)
 
 @hydra.main(config_path="../../conf", config_name="config")
-def main(cfg : DictConfig) -> None:
-    """
-    The raw `cfg` is a DictConfig from Hydra. We can convert it to HPCConfig
-    if we want typed access in Python:
-    """
-    # Convert config to a TF-friendly dictionary or tfvars file
-    # e.g., create "terraform.tfvars.json"
-    # write_tfvars(cfg)
-    # Then run "terraform init", "terraform apply" locally
-    # subprocess.run(["terraform", "init", ...])
-    # subprocess.run(["terraform", "apply", "-auto-approve", ...])
-    # etc.
+def main(cfg: DictConfig) -> None:
+    """Main entry point with Hydra configuration"""
+    # Convert hydra config to pydantic model
+    try:
+        config = config_to_model(cfg)
+        logger.info(f"Loaded configuration for cluster: {config.cluster.name}")
+    except Exception as e:
+        logger.error(f"Configuration error: {e}")
+        return
     
-    # Another approach: do a manual conversion
-    # for example:
-    from omegaconf import OmegaConf
-
-    # Convert sub-sections into HPC dataclasses:
-    topology_dc = TopologyConfig(
-        cluster_name=cfg.topology.cluster_name,
-        head_nodes=[
-            NodeConfig(
-                name=node.name,
-                resources=ResourceConfig(
-                    cpu=node.resources.cpu,
-                    memory_mb=node.resources.memory_mb,
-                    disk_gb=node.resources.disk_gb
-                )
-            ) for node in cfg.topology.head_nodes
-        ],
-        compute_nodes=[
-            NodeConfig(
-                name=node.name,
-                resources=ResourceConfig(
-                    cpu=node.resources.cpu,
-                    memory_mb=node.resources.memory_mb,
-                    disk_gb=node.resources.disk_gb
-                )
-            ) for node in cfg.topology.compute_nodes
-        ],
-        network=NetworkConfig(
-            name=cfg.topology.network.name,
-            cidr=cfg.topology.network.cidr,
-            gateway=cfg.topology.network.gateway
-        ),
-        storage=StorageConfig(
-            type=cfg.topology.storage.type,
-            ephemeral=cfg.topology.storage.ephemeral
+    # Create VM provisioner for the remote host
+    provisioner = VMProvisioner(
+        hostname=cfg.libvirt.hostname,
+        username=cfg.libvirt.username,
+        identity_file=cfg.libvirt.identity_file
+    )
+    
+    # Provision cluster
+    try:
+        logger.info(f"Provisioning cluster {config.cluster.name}...")
+        ips = provisioner.provision_cluster(
+            config.cluster,
+            base_image=cfg.libvirt.base_image
         )
-    )
-
-    scheduler_dc = SchedulerConfig(
-        name=cfg.scheduler.name,
-        settings=SchedulerSettings(
-            partition=cfg.scheduler.settings.partition
-                       if "partition" in cfg.scheduler.settings
-                       else None,
-            version=cfg.scheduler.settings.version
-                      if "version" in cfg.scheduler.settings
-                      else None,
-        )
-    )
-
-    # Finally, compose an HPCConfig:
-    hpc_config = HPCConfig(
-        topology=topology_dc,
-        scheduler=scheduler_dc,
-    )
-
-    # Now you have a typed HPCConfig you can work with:
-    print("======= HPC Configuration =======")
-    print(hpc_config)
-
-    # Next steps: convert these data into Terraform inputs, run provisioning, etc.
-    # Example: Write out a terraform.tfvars.json or do calls directly:
-    # write_tfvars(hpc_config)
-    # subprocess.run(["terraform", "init"])
-    # subprocess.run(["terraform", "apply", "-auto-approve"])
-
+        
+        logger.info("Cluster provisioned successfully!")
+        logger.info("Node IP addresses:")
+        for name, ip in ips.items():
+            logger.info(f"  {name}: {ip}")
+            
+    except Exception as e:
+        logger.error(f"Error provisioning cluster: {e}")
+        
 if __name__ == "__main__":
     import colorlog
     import logging

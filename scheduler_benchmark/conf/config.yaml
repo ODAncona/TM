@@ -1,9 +1,55 @@
-defaults:
-  - provider: libvirt
-  - topology: small
-  # optionally override Hydra logging or other modules here
+# conf/config.yaml
+libvirt:
+  hostname: "rhodey.lbl.gov"
+  username: "odancona"
+  identity_file: "~/.ssh/rhodey"
+  base_image: "ubuntu-24.04-server-cloudimg-amd64.img"
 
-# Global configuration parameters not specific to provider or topology
-global:
-  project_name: scheduler-benchmark
-  environment: local
+cluster:
+  name: "benchmark-cluster"
+  head_nodes:
+    - name: "head-node-1"
+      resources:
+        - type: "cpu"
+          amount: 2
+          unit: "cores"
+        - type: "ram"
+          amount: 4096
+          unit: "mb"
+      network:
+        name: "scheduler_benchmark_net"
+        cidr: "192.168.122.0/24"
+        gateway: "192.168.122.1"
+      user:
+        name: "odancona"
+        sudo: true
+        ssh_public_key_path: "~/.ssh/rhodey.pub"
+      image: "ubuntu-24.04"
+      disk_size_gb: 16
+
+  compute_nodes:
+    - name: "compute-node-1"
+      resources:
+        - type: "cpu"
+          amount: 2
+          unit: "cores"
+        - type: "ram"
+          amount: 4096
+          unit: "mb"
+      network:
+        name: "scheduler_benchmark_net"
+        cidr: "192.168.122.0/24"
+        gateway: "192.168.122.1"
+      user:
+        name: "odancona"
+        sudo: true
+        ssh_public_key_path: "~/.ssh/rhodey.pub"
+      image: "ubuntu-24.04"
+      disk_size_gb: 16
+
+scheduler:
+  type: "slurm"
+  version: "23.02.3"
+  partitions: ["compute"]
+  config_options:
+    SelectType: "cons_tres"
