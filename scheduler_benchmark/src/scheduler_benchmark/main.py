@@ -39,21 +39,21 @@ def main(cfg: DictConfig) -> None:
 
     
     
-    # # Provision cluster
-    # try:
-    #     logger.info(f"Provisioning cluster {config.cluster.name}...")
-    #     ips = provisioner.provision_cluster(
-    #         config.cluster,
-    #         base_image=cfg.libvirt.base_image
-    #     )
+    # Provision cluster
+    try:
+        logger.info(f"Provisioning cluster {config.cluster.name}...")
+        ips = provisioner.provision_cluster(
+            config.cluster,
+            base_image=cfg.libvirt.base_image
+        )
         
-    #     logger.info("Cluster provisioned successfully!")
-    #     logger.info("Node IP addresses:")
-    #     for name, ip in ips.items():
-    #         logger.info(f"  {name}: {ip}")
+        logger.info("Cluster provisioned successfully!")
+        logger.info("Node IP addresses:")
+        for name, ip in ips.items():
+            logger.info(f"  {name}: {ip}")
             
-    # except Exception as e:
-    #     logger.error(f"Error provisioning cluster: {e}")
+    except Exception as e:
+        logger.error(f"Error provisioning cluster: {e}")
         
 if __name__ == "__main__":
     import colorlog

@@ -7,7 +7,7 @@ class LibvirtConnection:
     def __init__(self, hostname: str, username: str | None = None, 
                  identity_file: str | None = None):
         self.hostname = hostname
-        self.username = username or os.getenv("USER")
+        self.username = username
         self.identity_file = identity_file
         
         uri = f"qemu+ssh://{self.username}@{self.hostname}/system"
