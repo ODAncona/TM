@@ -31,3 +31,4 @@ Your SSH session shows that genisoimage is installed on rhodey (which is functio
 => Conclusion le provider n'est pas à jour sur libvirt et cela engendrera des erreurs. Je considère donc que ce n'est pas une bonne solution pour le moment.
 2025.03.29 - OK - Solution de contournement : J'ai découvert qu'il existe un binding sur l'api de `libvirt` en python directement, ce qui me permettra de directement créer une VM sans passer par Terraform. Je compte utiliser cloud-init pour la configuration de la VM.
 2025.03.29 - OK - Préparation de package python helper
+2025.03.29 - OK - Création d'un helper Python pour `libvirt`

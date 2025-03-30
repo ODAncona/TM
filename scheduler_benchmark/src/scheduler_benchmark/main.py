@@ -56,23 +56,4 @@ def main(cfg: DictConfig) -> None:
         logger.error(f"Error provisioning cluster: {e}")
         
 if __name__ == "__main__":
-    import colorlog
-    import logging
-    handler = colorlog.StreamHandler()
-    formatter = colorlog.ColoredFormatter(
-        "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s",
-        datefmt=None,
-        reset=True,
-        log_colors={
-            "DEBUG": "cyan",
-            "INFO": "green",
-            "WARNING": "yellow",
-        },
-        secondary_log_colors={},
-        style="%",
-    )
-    handler.setFormatter(formatter)
-    logger = colorlog.getLogger(__name__)
-    logger.addHandler(handler)
-    logger.setLevel(logging.DEBUG)
     main()
