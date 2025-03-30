@@ -1,6 +1,7 @@
 import libvirt
 import os
 import time
+import tempfile
 from scheduler_benchmark.models import NodeConfig, Resource, ResourceType
 
 class LibvirtConnection:
@@ -9,12 +10,7 @@ class LibvirtConnection:
         self.hostname = hostname
         self.username = username
         self.identity_file = identity_file
-        
-        uri = f"qemu+ssh://{self.username}@{self.hostname}/system"
-        if identity_file:
-            os.environ["LIBVIRT_DEFAULT_URI"] = uri
-            os.environ["LIBVIRT_SSH_KEY"] = self.identity_file
-        
+        self.ssh_config_file = None
         self.conn = None
         
     def __enter__(self):
@@ -24,15 +20,56 @@ class LibvirtConnection:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.disconnect()
         
+    def _create_ssh_config(self):
+        """Create a temporary SSH config file to force key-based authentication"""
+        if not self.identity_file:
+            return None
+            
+        expanded_identity = os.path.expanduser(self.identity_file)
+        
+        # Create temporary SSH config file
+        ssh_config_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
+        ssh_config_file.write(f"""Host {self.hostname}
+    IdentityFile {expanded_identity}
+    PasswordAuthentication no
+    PubkeyAuthentication yes
+    BatchMode yes
+    StrictHostKeyChecking no
+""")
+        ssh_config_file.close()
+        return ssh_config_file.name
+        
     def connect(self):
         if not self.conn:
-            self.conn = libvirt.open(f"qemu+ssh://{self.username}@{self.hostname}/system")
+            # Create SSH config
+            if self.identity_file:
+                self.ssh_config_file = self._create_ssh_config()
+                expanded_identity = os.path.expanduser(self.identity_file)
+                
+                # Configure libvirt SSH environment
+                uri = f"qemu+ssh://{self.username}@{self.hostname}/system?no_verify=1&keyfile={expanded_identity}&no_tty=1"
+                os.environ["LIBVIRT_DEFAULT_URI"] = uri
+                os.environ["LIBVIRT_SSH_KEY"] = expanded_identity
+                os.environ["LIBVIRT_SSH_CONFIG"] = self.ssh_config_file
+                
+                # Connect using the specified URI
+                self.conn = libvirt.open(uri)
+            else:
+                # Standard connection without SSH key
+                uri = f"qemu+ssh://{self.username}@{self.hostname}/system"
+                self.conn = libvirt.open(uri)
+                
         return self.conn
         
     def disconnect(self):
         if self.conn:
             self.conn.close()
             self.conn = None
+            
+        # Clean up temporary SSH config file
+        if self.ssh_config_file and os.path.exists(self.ssh_config_file):
+            os.unlink(self.ssh_config_file)
+            self.ssh_config_file = None
             
     def get_vm(self, name: str) -> libvirt.virDomain | None :
         """Get a VM by name"""
