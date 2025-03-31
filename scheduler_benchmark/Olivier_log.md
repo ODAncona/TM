@@ -32,3 +32,16 @@ Your SSH session shows that genisoimage is installed on rhodey (which is functio
 2025.03.29 - OK - Solution de contournement : J'ai découvert qu'il existe un binding sur l'api de `libvirt` en python directement, ce qui me permettra de directement créer une VM sans passer par Terraform. Je compte utiliser cloud-init pour la configuration de la VM.
 2025.03.29 - OK - Préparation de package python helper
 2025.03.29 - OK - Création d'un helper Python pour `libvirt`
+2025.03.29 - OK - Installation de `cdrtools` sur X1-Carbon
+2025.03.31 - OK - Test du fichier main.tf:
+
+```txt
+╷
+│ Error: error creating libvirt domain: internal error: qemu unexpectedly closed the monitor: 2025-03-31T18:37:31.766303Z qemu-system-x86_64: -blockdev {"driver":"file","filename":"/mnt/vmpool/vms/ubuntu-24.04-server-cloudimg-amd64.img","node-name":"libvirt-3-storage","auto-read-only":true,"discard":"unmap"}: Could not open '/mnt/vmpool/vms/ubuntu-24.04-server-cloudimg-amd64.img': Permission denied
+│ 
+│   with libvirt_domain.ubuntu_vm,
+│   on main.tf line 55, in resource "libvirt_domain" "ubuntu_vm":
+│   55: resource "libvirt_domain" "ubuntu_vm" {
+│ 
+╵
+```

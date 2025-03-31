@@ -1,0 +1,15 @@
+#cloud-config
+hostname: vm-ubuntu-24
+ssh_pwauth: true
+users:
+  - name: odancona
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_key}
+growpart:
+  mode: auto
+  devices: ['/']
+runcmd:
+  - resize2fs /dev/vda1
