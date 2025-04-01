@@ -31,11 +31,13 @@ The following configurations will be used for the benchmark:
 - Configure each environment to match specific hardware profiles (1,2,4,8 cpus, 1,2,4,8 gpus, 4,8,16,32 Gb Ram, etc...).
 
 Each topology configuration specifies:
+
 - Number and type of head nodes
 - Number and type of compute nodes
 - Network configuration
 - Storage configuration
 - Resource allocations (CPU, memory, disk)
+
 ### Scheduler Systems $B$
 
 The following scheduler and resource management systems will be evaluated:
@@ -43,6 +45,7 @@ The following scheduler and resource management systems will be evaluated:
 1. SLURM : $b_1$
 2. Kubernetes + Volcano : $b_2$
 3. Flux Framework : $b_3$
+
 ### Workload Types $C$
 
 The benchmark $F$ will be composed of the elements including, but not limited to :
@@ -55,21 +58,28 @@ The benchmark $F$ will be composed of the elements including, but not limited to
 The following metrics will be used for evaluation:
 
 1. Resource Utilization ($\alpha$)
-	 - Measures the extent to which available resources (e.g., CPU, memory, GPU, network bandwidth) are employed.
-	 - Higher utilization indicates more efficient use of resources, while underutilization suggests waste.
+
+- Measures the extent to which available resources (e.g., CPU, memory, GPU, network bandwidth) are employed.
+- Higher utilization indicates more efficient use of resources, while underutilization suggests waste.
+
 2. Fairness ($\beta$)
-	 - Assesses the equitable distribution of resources among users or workloads.
-	 - Finish-time fairness, for instance, compares completion time in a shared environment versus alone, ensuring no single workload monopolizes resources.
+
+- Assesses the equitable distribution of resources among users or workloads.
+- Finish-time fairness, for instance, compares completion time in a shared environment versus alone, ensuring no single workload monopolizes resources.
+
 3. Job Completion Time ($\gamma$)
-	 - Encompasses the entire duration required for a job to finish—queueing, execution, and teardown.
-	 - Particularly important in multi-node HPC environments, where parallel processing can drastically reduce total completion time.
+
+- Encompasses the entire duration required for a job to finish—queueing, execution, and teardown.
+- Particularly important in multi-node HPC environments, where parallel processing can drastically reduce total completion time.
+
 4. Elasticity ($\delta$)
-	 - Evaluates how well the scheduler can adapt to fluctuating workloads by scaling resources up or down.
-	 - Efficient elasticity ensures workload demands are met while preventing resource bottlenecks or waste.
+
+- Evaluates how well the scheduler can adapt to fluctuating workloads by scaling resources up or down.
+- Efficient elasticity ensures workload demands are met while preventing resource bottlenecks or waste.
 
 ## Research Question
 
-> How do SLURM, Kubernetes+Volcano, and Flux Framework schedulers compare in terms of resource utilization (α), fairness (β), job completion time (γ), and elasticity (δ) across varying HPC workloads and hardware configurations in the sense of Pareto?
+> How do SLURM, Kubernetes+Volcano, and Flux Framework schedulers compare in terms of resource utilization ($\alpha$), fairness ($\beta$), job completion time ($\gamma$), and elasticity ($\delta$) across varying HPC workloads and hardware configurations in the sense of Pareto?
 
 ## Hardware Resource
 
@@ -87,6 +97,7 @@ The benchmark $F$ will be executed on `rhodey`, a server in Lawrence Berkeley Na
 - 39.2 GFlops per core
 - 2.51 TFlops per socket
 - 4 NUMA domains per socket (NPS=4)
+
 ## Methodology
 
 1. **Environment Deployment**
@@ -153,13 +164,9 @@ The infrastructure provisioning component follows a layered architecture:
 Reliability: The provisioning process should be robust against transient failures.
 Observability: Provide detailed logging and status information during the provisioning process.
 
-
-
-
-
 ### Configuration System
 
-The infrastructure configuration uses Hydra to manage complex, hierarchical configurations. In order to be configurable, the configuration should define composable dataclasses. 
+The infrastructure configuration uses Hydra to manage complex, hierarchical configurations. In order to be configurable, the configuration should define composable dataclasses.
 
 One for the whole topology $A$, One for a compute node, One for a resource (RAM, CPU, Accelerator, Storage), one for a Network
 
@@ -177,6 +184,3 @@ Here's the provisioning workflow:
 4. Compute Node Deployment: Provision and configure compute nodes
 5. Verification: Validate that all resources are correctly provisioned
 6. Output Generation: Generate structured output for the configuration phase
-
-
-
