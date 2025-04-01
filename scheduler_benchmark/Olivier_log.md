@@ -33,11 +33,24 @@ Your SSH session shows that genisoimage is installed on rhodey (which is functio
 2025.03.29 - OK - Préparation de package python helper
 2025.03.29 - OK - Création d'un helper Python pour `libvirt`
 2025.03.29 - OK - Installation de `cdrtools` sur X1-Carbon
-2025.03.31 - OK - Test du fichier main.tf:
+2025.03.31 - NOK - Test du fichier main.tf:
 
 ```txt
 ╷
 │ Error: error creating libvirt domain: internal error: qemu unexpectedly closed the monitor: 2025-03-31T18:37:31.766303Z qemu-system-x86_64: -blockdev {"driver":"file","filename":"/mnt/vmpool/vms/ubuntu-24.04-server-cloudimg-amd64.img","node-name":"libvirt-3-storage","auto-read-only":true,"discard":"unmap"}: Could not open '/mnt/vmpool/vms/ubuntu-24.04-server-cloudimg-amd64.img': Permission denied
+│ 
+│   with libvirt_domain.ubuntu_vm,
+│   on main.tf line 55, in resource "libvirt_domain" "ubuntu_vm":
+│   55: resource "libvirt_domain" "ubuntu_vm" {
+│ 
+╵
+```
+
+2025.03.31 - NOK - Problème de permission sur le fichier image de la VM. Après discussion avec Farzad, il a trouvé qu'il fallait lancer la VM en mode session plutôt que system.
+
+```txt
+╷
+│ Error: can't retrieve volume /mnt/vmpool/vms/ubuntu_24_04_vm_volume: Storage volume not found: no storage vol with matching key /mnt/vmpool/vms/ubuntu_24_04_vm_volume
 │ 
 │   with libvirt_domain.ubuntu_vm,
 │   on main.tf line 55, in resource "libvirt_domain" "ubuntu_vm":

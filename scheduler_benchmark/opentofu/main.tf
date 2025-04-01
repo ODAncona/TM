@@ -8,7 +8,7 @@ terraform {
 
 # Configure libvirt provider to connect to remote host rhodey via SSH
 provider "libvirt" {
-  uri = "qemu+ssh://odancona@rhodey.lbl.gov/system"
+  uri = "qemu+ssh://odancona@rhodey.lbl.gov/session"
 }
 
 # Ubuntu 24.04 cloud image
@@ -16,6 +16,7 @@ resource "libvirt_volume" "ubuntu_24_04_cloud" {
   name   = "ubuntu-24.04-server-cloudimg-amd64.img"
   source = "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img"
   format = "qcow2"
+  id = "/home/odancona/.local/share/libvirt/images"
 }
 
 # Create a volume for the VM using the cloud image as base
