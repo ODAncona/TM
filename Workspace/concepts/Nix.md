@@ -22,3 +22,28 @@ The source highlights Nix's ability to configure the **entire system** in a conf
 
 ## `nixos-rebuild switch` and Generations
 The `nixos-rebuild switch` command is used to apply configuration changes, download necessary packages, and rebuild the system. Nix keeps the history of different system configurations as **generations**, allowing users to list these generations and easily **revert to a previous version** in case of error.
+
+
+## NixOS Virtualization Modules
+
+NixOS (the Linux distribution built on Nix) includes virtualization modules that allow you to declaratively define and manage VMs:
+
+nix
+
+Copy code
+
+`# Example from a NixOS configuration.nix virtualisation.libvirtd.enable = true; virtualisation.virtualbox.host.enable = true;  # Define a VM directly in your configuration virtualisation.vms.myVM = {   # VM configuration options };`
+
+## NixOps
+
+NixOps is a deployment tool built on top of Nix specifically designed for deploying NixOS machines and networks of machines:
+
+- Can provision VMs on various platforms (cloud providers, VirtualBox, etc.)
+- Defines infrastructure as code in a declarative way
+- Manages network topology, storage, and VM configurations
+
+nix
+
+Copy code
+
+`# Example NixOps configuration for a VM {   webserver = { config, pkgs, ... }: {     deployment.targetEnv = "virtualbox";     deployment.virtualbox.memorySize = 1024;     # Additional configuration...   }; }`
