@@ -7,6 +7,7 @@ libvirt:
   username: "odancona"
   identity_file: "~/.ssh/rhodey"
   base_image: "latest-nixos-minimal-x86_64-linux.iso"
+  pool_name: "scheduler_benchmark_pool"
 
 cluster:
   name: "benchmark-cluster"

@@ -7,17 +7,19 @@ class VMProvisioner:
     def __init__(self, 
                  hostname: str, 
                  username: str | None = None, 
-                 identity_file: str | None = None
+                 identity_file: str | None = None,
+                 pool_name: str = "default"
                  ):
         self.hostname = hostname
         self.username = username
         self.identity_file = identity_file
+        self.pool_name = pool_name
         self.nix_helper = NixHelper(hostname, username, identity_file)
         
     def provision_node(self, node: NodeConfig, base_image: str | None = None) -> str:
         """Provision a single node and return its IP address"""        
         # Create VM using libvirt
-        with LibvirtConnection(self.hostname, self.username, self.identity_file) as conn:
+        with LibvirtConnection(self.hostname, self.username, self.identity_file, self.pool_name) as conn:
             domain, ip_address = conn.create_vm(node, base_image)
             return ip_address
         

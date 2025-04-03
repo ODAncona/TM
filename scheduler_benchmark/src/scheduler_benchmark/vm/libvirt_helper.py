@@ -6,7 +6,7 @@ from scheduler_benchmark.models import NodeConfig, Resource, ResourceType
 
 class LibvirtConnection:
     def __init__(self, hostname: str, username: str | None = None, 
-                 identity_file: str | None = None, pool_name: str = "scheduler_benchmark_pool"):
+                 identity_file: str | None = None, pool_name: str = "default"):
         self.hostname = hostname
         self.username = username
         self.identity_file = identity_file
@@ -85,7 +85,7 @@ class LibvirtConnection:
         
     def create_volume(self, name: str, size_gb: int, 
                       base_image: str | None = None,
-                      pool_name: str | None = "scheduler_benchmark_pool") -> str:
+                      pool_name: str | None = "default") -> str:
         """Create a new volume, optionally based on an image"""
         size_bytes = size_gb * 1024 * 1024 * 1024
         
@@ -118,7 +118,7 @@ class LibvirtConnection:
         return volume.path()
     
     def delete_volume(self, name: str,
-                      pool_name: str | None = "scheduler_benchmark_pool") -> bool:
+                      pool_name: str | None = "default") -> bool:
         """Delete a volume"""
         try:
             pool = self.conn.storagePoolLookupByName(pool_name)

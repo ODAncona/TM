@@ -34,7 +34,8 @@ def main(cfg: DictConfig) -> None:
     provisioner = VMProvisioner(
         hostname=cfg.libvirt.hostname,
         username=cfg.libvirt.username,
-        identity_file=cfg.libvirt.identity_file
+        identity_file=cfg.libvirt.identity_file,
+        pool_name=cfg.libvirt.pool_name
     )
 
     try:
