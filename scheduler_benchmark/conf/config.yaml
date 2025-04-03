@@ -28,7 +28,6 @@ cluster:
         name: "odancona"
         sudo: true
         ssh_public_key_path: "~/.ssh/rhodey.pub"
-      image: "ubuntu-24.04"
       disk_size_gb: 16
 
   compute_nodes:
@@ -48,7 +47,6 @@ cluster:
         name: "odancona"
         sudo: true
         ssh_public_key_path: "~/.ssh/rhodey.pub"
-      image: "ubuntu-24.04"
       disk_size_gb: 16
 
 scheduler:

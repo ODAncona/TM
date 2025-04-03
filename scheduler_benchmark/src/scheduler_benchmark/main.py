@@ -41,8 +41,9 @@ def main(cfg: DictConfig) -> None:
     try:
         # Provision a single node
         node = config.cluster.head_nodes[0]  # Example: provision the first head node
-        ip = provisioner.provision_node(node, base_image=cfg.libvirt.base_image)
-        logger.info(f"Node {node.name} provisioned with IP: {ip}")
+        print(type(node))
+        #ip = provisioner.provision_node(node, base_image=cfg.libvirt.base_image)
+        #logger.info(f"Node {node.name} provisioned with IP: {ip}")
     except Exception as e:
         logger.error(f"Error provisioning node: {e}")
         return

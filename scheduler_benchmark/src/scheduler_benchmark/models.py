@@ -51,7 +51,6 @@ class NodeConfig(BaseModel):
     resources: List[Resource]
     network: NetworkConfig
     user: UserConfig
-    image: str
     disk_size_gb: int = 16
     
 class ClusterConfig(BaseModel):
