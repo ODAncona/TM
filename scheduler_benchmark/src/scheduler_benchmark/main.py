@@ -37,23 +37,30 @@ def main(cfg: DictConfig) -> None:
         identity_file=cfg.libvirt.identity_file
     )
 
-    
+    try:
+        # Provision a single node
+        node = config.cluster.head_nodes[0]  # Example: provision the first head node
+        ip = provisioner.provision_node(node, base_image=cfg.libvirt.base_image)
+        logger.info(f"Node {node.name} provisioned with IP: {ip}")
+    except Exception as e:
+        logger.error(f"Error provisioning node: {e}")
+        return
     
     # Provision cluster
-    try:
-        logger.info(f"Provisioning cluster {config.cluster.name}...")
-        ips = provisioner.provision_cluster(
-            config.cluster,
-            base_image=cfg.libvirt.base_image
-        )
+    # try:
+    #     logger.info(f"Provisioning cluster {config.cluster.name}...")
+    #     ips = provisioner.provision_cluster(
+    #         config.cluster,
+    #         base_image=cfg.libvirt.base_image
+    #     )
         
-        logger.info("Cluster provisioned successfully!")
-        logger.info("Node IP addresses:")
-        for name, ip in ips.items():
-            logger.info(f"  {name}: {ip}")
+    #     logger.info("Cluster provisioned successfully!")
+    #     logger.info("Node IP addresses:")
+    #     for name, ip in ips.items():
+    #         logger.info(f"  {name}: {ip}")
             
-    except Exception as e:
-        logger.error(f"Error provisioning cluster: {e}")
+    # except Exception as e:
+    #     logger.error(f"Error provisioning cluster: {e}")
         
 if __name__ == "__main__":
     main()

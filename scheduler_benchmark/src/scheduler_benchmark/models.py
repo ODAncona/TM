@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import List, Optional, Dict, Union
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 class ResourceType(str, Enum):
     CPU = "cpu"
@@ -22,7 +22,7 @@ class Resource(BaseModel):
     unit: Optional[str] = None
     accelerator_type: Optional[AcceleratorType] = None
     
-    @validator('accelerator_type')
+    @field_validator('accelerator_type')
     def validate_accelerator(cls, v, values):
         if values.get('type') in [ResourceType.GPU, ResourceType.FPGA] and v is None:
             raise ValueError(f"Accelerator type required for {values.get('type')}")
@@ -40,7 +40,7 @@ class UserConfig(BaseModel):
     ssh_public_key_path: Optional[str] = None
     ssh_public_key: Optional[str] = None
     
-    @validator('ssh_public_key')
+    @field_validator('ssh_public_key')
     def validate_ssh_key(cls, v, values):
         if v is None and values.get('ssh_public_key_path') is None:
             return None  # Allow neither to be specified

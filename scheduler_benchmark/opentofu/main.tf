@@ -11,12 +11,21 @@ provider "libvirt" {
   uri = "qemu+ssh://odancona@rhodey.lbl.gov/session"
 }
 
+resource "libvirt_pool" "scheduler_benchmark_pool" {
+  name = "scheduler_benchmark_pool"
+  type = "dir"
+  target {
+    path = "/home/odancona/.local/share/libvirt/images"
+  }
+}
+
 # Ubuntu 24.04 cloud image
 resource "libvirt_volume" "ubuntu_24_04_cloud" {
   name   = "ubuntu-24.04-server-cloudimg-amd64.img"
-  source = "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img"
+  source = "/home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-amd64.img"
   format = "qcow2"
-  id = "/home/odancona/.local/share/libvirt/images"
+  pool  = "scheduler_benchmark_pool"
+  depends_on = [libvirt_pool.scheduler_benchmark_pool]
 }
 
 # Create a volume for the VM using the cloud image as base
@@ -24,6 +33,8 @@ resource "libvirt_volume" "vm_volume" {
   name           = "ubuntu_24_04_vm_volume"
   base_volume_id = libvirt_volume.ubuntu_24_04_cloud.id
   size           = 16 * 1024 * 1024 * 1024  # 16GB
+  pool  = "scheduler_benchmark_pool"
+  depends_on = [libvirt_pool.scheduler_benchmark_pool]
 }
 
 # Cloud-init config

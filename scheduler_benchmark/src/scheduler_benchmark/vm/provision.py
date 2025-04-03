@@ -1,6 +1,7 @@
 from scheduler_benchmark.models import NodeConfig, HPCConfig, ClusterConfig
 from scheduler_benchmark.vm.libvirt_helper import LibvirtConnection
-from scheduler_benchmark.vm.cloud_init_helper import CloudInitHelper
+from scheduler_benchmark.vm.nix_helper import NixHelper
+
 
 class VMProvisioner:
     def __init__(self, 
@@ -11,17 +12,18 @@ class VMProvisioner:
         self.hostname = hostname
         self.username = username
         self.identity_file = identity_file
-        self.cloud_init = CloudInitHelper()
+        self.nix_helper = NixHelper(hostname, username, identity_file)
         
     def provision_node(self, node: NodeConfig, base_image: str | None = None) -> str:
-        """Provision a single node and return its IP address"""
-        # Create cloud-init ISO
-        cloud_init_iso = self.cloud_init.create_cloud_init_iso(node)
-        
+        """Provision a single node and return its IP address"""        
         # Create VM using libvirt
         with LibvirtConnection(self.hostname, self.username, self.identity_file) as conn:
-            domain, ip_address = conn.create_vm(node, cloud_init_iso, base_image)
+            domain, ip_address = conn.create_vm(node, base_image)
             return ip_address
+        
+        # Generate and deploy NixOS configuration
+        config_nix_path = self.nix_helper.generate_nixos_config(node)
+        self.nix_helper.configure_nixos(node, config_nix_path)
             
     def provision_cluster(self, cluster: ClusterConfig, 
                           base_image: str | None = None) -> dict[str, str]:

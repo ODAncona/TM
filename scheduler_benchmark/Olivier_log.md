@@ -58,3 +58,12 @@ Your SSH session shows that genisoimage is installed on rhodey (which is functio
 │ 
 ╵
 ```
+
+2025.04.02 - OK - Téléchargement de l'image de la VM sur Rhodey et modification de main.tf
+
+```
+wget -O /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-amd64.img https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img
+```
+
+2025.04.02 - NOK - Problème d'accès au fichier image de la VM. Impossible même après avoir créé une pool de retrouver l'image de la VM même si elle existe.
+2025.04.02 - OK - Création d'un fichier de création de configuration NIX.

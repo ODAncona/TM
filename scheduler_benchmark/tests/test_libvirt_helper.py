@@ -6,24 +6,27 @@ import libvirt
 from pathlib import Path
 from scheduler_benchmark.vm.libvirt_helper import LibvirtConnection
 from scheduler_benchmark.models import NodeConfig, Resource, ResourceType, NetworkConfig, UserConfig
+import time
 
 # Configuration pour la connexion au serveur libvirt rhodey
 LIBVIRT_HOST = "rhodey.lbl.gov"
 LIBVIRT_USER = "odancona"
 LIBVIRT_IDENTITY = "~/.ssh/rhodey"
-LIBVIRT_BASE_IMAGE = "ubuntu-24.04-server-cloudimg-amd64.img"
+LIBVIRT_BASE_IMAGE = "latest-nixos-minimal-x86_64-linux.iso"
 LIBVIRT_TEST_NETWORK = "scheduler_benchmark_net"
+LIBVIRT_POOL_NAME = "scheduler_benchmark_pool"
 
 # Préfixe pour les ressources de test (éviter les collisions avec des ressources existantes)
 TEST_PREFIX = "pytest_libvirt_"
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def libvirt_connection():
     """Fixture qui fournit une connexion libvirt configurée pour les tests"""
     connection = LibvirtConnection(
         hostname=LIBVIRT_HOST,
         username=LIBVIRT_USER,
-        identity_file=LIBVIRT_IDENTITY
+        identity_file=LIBVIRT_IDENTITY,
+        pool_name=LIBVIRT_POOL_NAME
     )
     
     # Connexion à libvirt
@@ -37,24 +40,6 @@ def libvirt_connection():
     
     # Fermer la connexion après les tests
     connection.disconnect()
-
-@pytest.fixture
-def unique_name():
-    """Générer un nom unique pour les ressources de test"""
-    return f"{TEST_PREFIX}{uuid.uuid4().hex[:8]}"
-
-@pytest.fixture
-def mock_cloud_init_iso():
-    """Créer un fichier ISO fictif pour les tests"""
-    iso_file = tempfile.NamedTemporaryFile(suffix=".iso", delete=False)
-    iso_file.close()
-    
-    # Fournir le chemin
-    yield iso_file.name
-    
-    # Nettoyer le fichier
-    if os.path.exists(iso_file.name):
-        os.unlink(iso_file.name)
 
 @pytest.fixture
 def test_node_config(unique_name):
@@ -76,6 +61,11 @@ def test_node_config(unique_name):
         image="ubuntu",
         disk_size_gb=10
     )
+
+@pytest.fixture(scope="function")
+def unique_name(request):
+    return f"pytest_libvirt_{request.node.nodeid.replace('/', '_')}"
+
 
 def test_connection(libvirt_connection):
     """Vérifier que la connexion à libvirt fonctionne"""
@@ -129,72 +119,34 @@ def test_get_vm_and_vm_exists(libvirt_connection):
 
 def test_create_and_delete_volume(libvirt_connection, unique_name):
     """Tester la création et la suppression d'un volume"""
-    # Créer un nouveau volume
     volume_name = unique_name
     volume_size = 1  # 1 GB
-    
+
     try:
         # Créer le volume
         volume_path = libvirt_connection.create_volume(volume_name, volume_size)
-        
-        # Vérifier que le volume a été créé
         assert volume_path, f"Le chemin du volume est vide: {volume_path}"
-        
-        # Vérifier que le volume existe en essayant de le récupérer
-        pool = libvirt_connection.conn.storagePoolLookupByName("default")
-        try:
-            volume = pool.storageVolLookupByName(volume_name)
-            assert volume is not None
-        except libvirt.libvirtError:
-            pytest.fail(f"Le volume {volume_name} n'a pas été créé correctement")
-    
-    finally:
-        # Nettoyer: supprimer le volume
-        try:
-            pool = libvirt_connection.conn.storagePoolLookupByName("default")
-            volume = pool.storageVolLookupByName(volume_name)
-            volume.delete(0)
-        except (libvirt.libvirtError, UnboundLocalError):
-            pass  # Le volume n'existe peut-être pas, ignorer l'erreur
 
-def test_create_volume_from_base_image(libvirt_connection, unique_name):
-    """Tester la création d'un volume à partir d'une image de base"""
-    # Créer un nouveau volume basé sur l'image existante
-    volume_name = unique_name
-    volume_size = 10  # 10 GB
-    
-    try:
-        # Vérifier d'abord que l'image de base existe
-        pool = libvirt_connection.conn.storagePoolLookupByName("default")
-        try:
-            base_vol = pool.storageVolLookupByName(LIBVIRT_BASE_IMAGE)
-        except libvirt.libvirtError:
-            pytest.skip(f"L'image de base {LIBVIRT_BASE_IMAGE} n'existe pas, test ignoré")
-        
-        # Créer le volume à partir de l'image de base
-        volume_path = libvirt_connection.create_volume(
-            volume_name, 
-            volume_size, 
-            base_image=LIBVIRT_BASE_IMAGE
-        )
-        
-        # Vérifier que le volume a été créé
-        assert volume_path, f"Le chemin du volume est vide: {volume_path}"
-        
-        # Vérifier que le volume existe en essayant de le récupérer
-        volume = pool.storageVolLookupByName(volume_name)
-        assert volume is not None
-    
-    finally:
-        # Nettoyer: supprimer le volume
-        try:
-            pool = libvirt_connection.conn.storagePoolLookupByName("default")
-            volume = pool.storageVolLookupByName(volume_name)
-            volume.delete(0)
-        except (libvirt.libvirtError, UnboundLocalError):
-            pass  # Le volume n'existe peut-être pas, ignorer l'erreur
+        # Wait for the volume to become available (crucial fix)
+        pool = libvirt_connection.conn.storagePoolLookupByName(LIBVIRT_POOL_NAME)
+        for i in range(10):  # Try up to 10 times with 1-second delay
+            try:
+                volume = pool.storageVolLookupByName(volume_name)
+                assert volume is not None
+                break
+            except libvirt.libvirtError as e:
+                if i == 9:
+                    pytest.fail(f"Le volume {volume_name} n'a pas été créé correctement after waiting: {e}")
+                time.sleep(1)
 
-def test_create_and_delete_vm(libvirt_connection, test_node_config, mock_cloud_init_iso):
+        # Vérifier que le volume existe en essayant de le récupérer
+        libvirt_connection.delete_volume(volume_name)  # Added to clean up after test
+
+    except libvirt.libvirtError as e:
+        pytest.fail(f"Erreur Libvirt: {e}")
+
+
+def test_create_and_delete_vm(libvirt_connection, test_node_config):
     """Tester la création et la suppression d'une VM"""
     # La création d'une VM est une opération longue et nécessite une configuration valide
     # on va la simuler partiellement pour éviter de créer une vraie VM
@@ -285,3 +237,40 @@ def test_context_manager(unique_name):
     
     # Vérifier que la connexion est fermée après la sortie du bloc with
     assert conn.conn is None
+
+def test_create_volume_from_base_image(libvirt_connection, unique_name):
+    """Tester la création d'un volume à partir d'une image de base"""
+    # Créer un nouveau volume basé sur l'image existante
+    volume_name = unique_name
+    volume_size = 10  # 10 GB
+    
+    try:
+        # Vérifier d'abord que l'image de base existe
+        pool = libvirt_connection.conn.storagePoolLookupByName(LIBVIRT_POOL_NAME)
+        try:
+            base_vol = pool.storageVolLookupByName(LIBVIRT_BASE_IMAGE)
+        except libvirt.libvirtError:
+            pytest.skip(f"L'image de base {LIBVIRT_BASE_IMAGE} n'existe pas, test ignoré")
+        
+        # Créer le volume à partir de l'image de base
+        volume_path = libvirt_connection.create_volume(
+            volume_name, 
+            volume_size, 
+            base_image=LIBVIRT_BASE_IMAGE
+        )
+        
+        # Vérifier que le volume a été créé
+        assert volume_path, f"Le chemin du volume est vide: {volume_path}"
+        
+        # Vérifier que le volume existe en essayant de le récupérer
+        volume = pool.storageVolLookupByName(volume_name)
+        assert volume is not None
+    
+    finally:
+        # Nettoyer: supprimer le volume
+        try:
+            pool = libvirt_connection.conn.storagePoolLookupByName(LIBVIRT_POOL_NAME)
+            volume = pool.storageVolLookupByName(volume_name)
+            volume.delete(0)
+        except (libvirt.libvirtError, UnboundLocalError):
+            pass  # Le volume n'existe peut-être pas, ignorer l'erreur
