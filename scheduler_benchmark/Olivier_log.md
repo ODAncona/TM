@@ -61,7 +61,7 @@ Your SSH session shows that genisoimage is installed on rhodey (which is functio
 
 2025.04.02 - OK - Téléchargement de l'image de la VM sur Rhodey et modification de main.tf
 
-```
+```bash
 wget -O /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-amd64.img https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img
 ```
 
@@ -69,3 +69,31 @@ wget -O /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-
 2025.04.02 - OK - Création d'un fichier de création de configuration NIX.
 2025.04.02 - OK - Création des tests de provisionnement avec libVirt Helper
 2025.04.03 - OK - Création des tests pour charger le modèle depuis le fichier de configuration.
+2025.04.03 - OK - Configuration de l'image de l'OS. Évaluation entre .iso et qcow2
+2025.04.03 - NOK - Nettoyage de volume manuel après échec
+
+```bash
+virsh vol-list scheduler_benchmark_pool
+virsh vol-delete my-volume scheduler_benchmark_pool
+```
+
+2025.04.03 - NOK - Contrôle de l'intégralité de l'image de la VM
+
+```bash
+odancona@rhodey:~/.local/share/libvirt/images$ qemu-img check /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-amd64.img
+No errors were found on the image.
+28080/57344 = 48.97% allocated, 98.12% fragmented, 97.60% compressed clusters
+Image end offset: 611581952
+```
+
+```bash
+odancona@rhodey:~/.local/share/libvirt/images$ virsh pool-info scheduler_benchmark_pool
+Name:           scheduler_benchmark_pool
+UUID:           a5b0c71e-c1fc-4e88-8c15-40911aa44b66
+State:          running
+Persistent:     yes
+Autostart:      yes
+Capacity:       732.44 GiB
+Allocation:     533.97 GiB
+Available:      198.48 GiB
+```

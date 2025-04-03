@@ -12,7 +12,9 @@ import time
 LIBVIRT_HOST = "rhodey.lbl.gov"
 LIBVIRT_USER = "odancona"
 LIBVIRT_IDENTITY = "~/.ssh/rhodey"
-LIBVIRT_BASE_IMAGE = "latest-nixos-minimal-x86_64-linux.iso"
+#LIBVIRT_BASE_IMAGE = "latest-nixos-minimal-x86_64-linux.iso"
+LIBVIRT_BASE_IMAGE = "ubuntu-24.04-server-cloudimg-amd64.img"
+
 LIBVIRT_TEST_NETWORK = "scheduler_benchmark_net"
 LIBVIRT_POOL_NAME = "scheduler_benchmark_pool"
 

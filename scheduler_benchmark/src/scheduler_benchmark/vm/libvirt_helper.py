@@ -135,7 +135,6 @@ class LibvirtConnection:
             f"{node_config.name}_disk", 
             node_config.disk_size_gb,
             base_image,
-            pool_name=self.pool_name
         )
         
         # Calculate resources
