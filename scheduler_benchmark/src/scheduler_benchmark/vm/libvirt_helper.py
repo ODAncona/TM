@@ -84,13 +84,12 @@ class LibvirtConnection:
         return self.get_vm(name) is not None
         
     def create_volume(self, name: str, size_gb: int, 
-                      base_image: str | None = None,
-                      pool_name: str | None = "default") -> str:
+                      base_image: str | None = None) -> str:
         """Create a new volume, optionally based on an image"""
         size_bytes = size_gb * 1024 * 1024 * 1024
         
         # Get storage pool
-        pool = self.conn.storagePoolLookupByName(pool_name)
+        pool = self.conn.storagePoolLookupByName(self.pool_name)
         
         if base_image:
             # Create volume from base image
@@ -117,25 +116,26 @@ class LibvirtConnection:
             
         return volume.path()
     
-    def delete_volume(self, name: str,
-                      pool_name: str | None = "default") -> bool:
+    def delete_volume(self, name: str) -> bool:
         """Delete a volume"""
         try:
-            pool = self.conn.storagePoolLookupByName(pool_name)
+            pool = self.conn.storagePoolLookupByName(self.pool_name)
             volume = pool.storageVolLookupByName(name)
             volume.delete(0)
             return True
         except libvirt.libvirtError:
             return False
 
-    def create_vm(self, node_config: NodeConfig, 
+    def create_vm(self,
+                  node_config: NodeConfig, 
                   base_image: str | None = None) -> tuple[libvirt.virDomain, str]:
         """Create a VM based on node configuration"""
         # Create volume
         volume_path = self.create_volume(
             f"{node_config.name}_disk", 
             node_config.disk_size_gb,
-            base_image
+            base_image,
+            pool_name=self.pool_name
         )
         
         # Calculate resources

@@ -124,7 +124,7 @@ def test_create_and_delete_volume(libvirt_connection, unique_name):
 
     try:
         # Créer le volume
-        volume_path = libvirt_connection.create_volume(volume_name, volume_size, pool_name=LIBVIRT_POOL_NAME)
+        volume_path = libvirt_connection.create_volume(volume_name, volume_size)
         assert volume_path, f"Le chemin du volume est vide: {volume_path}"
 
         # Wait for the volume to become available (crucial fix)
@@ -140,7 +140,7 @@ def test_create_and_delete_volume(libvirt_connection, unique_name):
                 time.sleep(1)
 
         # Vérifier que le volume existe en essayant de le récupérer
-        libvirt_connection.delete_volume(volume_name, pool_name=LIBVIRT_POOL_NAME)
+        libvirt_connection.delete_volume(volume_name)
 
     except libvirt.libvirtError as e:
         pytest.fail(f"Erreur Libvirt: {e}")
@@ -161,9 +161,7 @@ def test_create_and_delete_vm(libvirt_connection, test_node_config):
         volume_name = f"{test_node_config.name}_disk"
         volume_path = libvirt_connection.create_volume(
             volume_name, 
-            test_node_config.disk_size_gb,
-            pool_name=LIBVIRT_POOL_NAME
-        )
+            test_node_config.disk_size_gb        )
         
         # Pour tester delete_vm, nous allons créer une VM simple
         # mais sans la démarrer réellement pour éviter de consommer des ressources
@@ -256,9 +254,7 @@ def test_create_volume_from_base_image(libvirt_connection, unique_name):
         volume_path = libvirt_connection.create_volume(
             volume_name, 
             volume_size, 
-            base_image=LIBVIRT_BASE_IMAGE,
-            pool_name=LIBVIRT_POOL_NAME
-        )
+            base_image=LIBVIRT_BASE_IMAGE        )
         
         # Vérifier que le volume a été créé
         assert volume_path, f"Le chemin du volume est vide: {volume_path}"

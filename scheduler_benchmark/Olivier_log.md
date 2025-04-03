@@ -67,3 +67,5 @@ wget -O /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-
 
 2025.04.02 - NOK - Problème d'accès au fichier image de la VM. Impossible même après avoir créé une pool de retrouver l'image de la VM même si elle existe.
 2025.04.02 - OK - Création d'un fichier de création de configuration NIX.
+2025.04.02 - OK - Création des tests de provisionnement avec libVirt Helper
+2025.04.03 - OK - Création des tests pour charger le modèle depuis le fichier de configuration.
