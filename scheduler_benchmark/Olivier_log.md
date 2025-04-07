@@ -97,3 +97,84 @@ Capacity:       732.44 GiB
 Allocation:     533.97 GiB
 Available:      198.48 GiB
 ```
+
+2025.04.07 - NOK - Création de la VM manuellement avec ISO La VM ne s'installe pas.
+
+```bash
+virt-install \
+> --name nix-test --memory 4096 --vcpus 4 \
+> --cdrom /home/odancona/.local/share/libvirt/images/latest-nixos-minimal-x86_64-linux.iso 
+```
+
+Domain is still running. Installation may be in progress.
+Waiting for the installation to complete.
+
+2025.04.07 - NOK - Création manuelle de la VM avec l'image qcow2 via l'interface graphique web.
+
+La VM reste bloquée sur netcat ou telnet et impossible de faire la séquence "ctrl + ]"
+2025.04.07 - NOK - Test de provision de la VM avec le helper python
+
+Il ne trouve pas l'image car elle doit être ajoutée dans le pool de stockage.
+
+```sh
+virsh vol-create-as scheduler_benchmark_pool ubuntu-24.04-server-cloudimg-amd64.img 5G --format qcow2
+
+odancona@rhodey:~$ virsh pool-info scheduler_benchmark_pool
+Name:           scheduler_benchmark_pool
+UUID:           a5b0c71e-c1fc-4e88-8c15-40911aa44b66
+State:          running
+Persistent:     yes
+Autostart:      yes
+Capacity:       732.44 GiB
+Allocation:     534.00 GiB
+Available:      198.44 GiB
+
+odancona@rhodey:~$ virsh pool-list --all
+ Name                       State    Autostart
+------------------------------------------------
+ boot-scratch               active   yes
+ default                    active   yes
+ Downloads                  active   yes
+ scheduler_benchmark_pool   active   yes
+ vms-glusterfs              active   yes
+
+odancona@rhodey:~$ virsh vol-list scheduler_benchmark_pool
+ Name                                     Path
+-----------------------------------------------------------------------------------------------------------------------------
+ latest-nixos-minimal-x86_64-linux.iso    /home/odancona/.local/share/libvirt/images/latest-nixos-minimal-x86_64-linux.iso
+ ubuntu-24.04-server-cloudimg-amd64.img   /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-amd64.img
+```
+
+2025.04.07 - NOK - Test de provision de la VM avec le helper python, l'image n'est pas au bon format.
+
+```sh
+E           libvirt.libvirtError: internal error: process exited while connecting to monitor: 2025-04-07T22:30:30.816104Z qemu-system-x86_64: -blockdev {"node-name":"libvirt-1-format","read-only":false,"driver":"qcow2","file":"libvirt-1-storage","backing":null}: Image is not in qcow2 format
+
+.venv/lib/python3.13/site-packages/libvirt.py:1379: libvirtError
+```
+
+pourtant
+
+```sh
+odancona@rhodey:~$ qemu-img info /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-amd64.img
+image: /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-amd64.img
+file format: qcow2
+virtual size: 3.5 GiB (3758096384 bytes)
+disk size: 583 MiB
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+```
+
+Le format manquait ! J'ai ajouté
+
+```sh
+<target>
+    <format type="qcow2"/>
+</target>
+```
