@@ -23,8 +23,8 @@ cluster:
           unit: "mb"
       network:
         name: "scheduler_benchmark_net"
-        cidr: "192.168.122.0/24"
-        gateway: "192.168.122.1"
+        cidr: "192.168.222.0/24"
+        gateway: "192.168.222.1"
       user:
         name: "odancona"
         sudo: true

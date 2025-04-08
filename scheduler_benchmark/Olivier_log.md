@@ -178,3 +178,31 @@ Le format manquait ! J'ai ajouté
     <format type="qcow2"/>
 </target>
 ```
+
+2025.04.08 - OK - Farzad demande pourquoi j'utilie pas `virt-sysprep` et c'est parce que mon wrapper crée les VMs de bout en bout et virt-sysprep est un outil de nettoyage de VM.
+2025.04.08 - NOK - Test de provision de la VM avec le helper python, FAILED tests/test_provision.py::test_provision_and_delete_node - assert None is not None probablement à cause d'une mauvaise configuration réseau
+
+```sh
+odancona@rhodey:~$ virsh net-dumpxml scheduler_benchmark_net
+<network>
+  <name>scheduler_benchmark_net</name>
+  <uuid>fa5fba2e-fd8e-4fe4-9577-6886503ff618</uuid>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='virbr2' stp='on' delay='0'/>
+  <mac address='52:54:00:e0:76:1b'/>
+  <domain name='scheduler_benchmark_net' localOnly='yes'/>
+  <dns>
+    <host ip='192.168.222.1'>
+      <hostname>gateway</hostname>
+    </host>
+  </dns>
+  <ip address='192.168.222.1' netmask='255.255.255.0' localPtr='yes'>
+  </ip>
+</network>
+```
+
+Voici de quoi récupérer la configuration

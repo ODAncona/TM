@@ -5,12 +5,20 @@ from omegaconf import DictConfig, OmegaConf
 import os
 
 from scheduler_benchmark.models import (
-    HPCConfig, ClusterConfig, NodeConfig, Resource, 
-    ResourceType, NetworkConfig, UserConfig, SchedulerConfig, SchedulerType
+    HPCConfig,
+    ClusterConfig,
+    NodeConfig,
+    Resource,
+    ResourceType,
+    NetworkConfig,
+    UserConfig,
+    SchedulerConfig,
+    SchedulerType,
 )
 from scheduler_benchmark.vm.provision import VMProvisioner
 
 logger = logging.getLogger(__name__)
+
 
 def config_to_model(cfg: DictConfig) -> HPCConfig:
     """Convert Hydra config to Pydantic model"""
@@ -18,6 +26,7 @@ def config_to_model(cfg: DictConfig) -> HPCConfig:
     # Convert to dict first to remove OmegaConf specifics
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
     return HPCConfig.model_validate(cfg_dict)
+
 
 @hydra.main(version_base=None, config_path="../../conf", config_name="config")
 def main(cfg: DictConfig) -> None:
@@ -29,25 +38,27 @@ def main(cfg: DictConfig) -> None:
     except Exception as e:
         logger.error(f"Configuration error: {e}")
         return
-        
+
     # Create VM provisioner for the remote host
     provisioner = VMProvisioner(
         hostname=cfg.libvirt.hostname,
         username=cfg.libvirt.username,
         identity_file=cfg.libvirt.identity_file,
-        pool_name=cfg.libvirt.pool_name
+        pool_name=cfg.libvirt.pool_name,
     )
 
     try:
         # Provision a single node
-        node = config.cluster.head_nodes[0]  # Example: provision the first head node
+        node = config.cluster.head_nodes[
+            0
+        ]  # Example: provision the first head node
         print(type(node))
-        #ip = provisioner.provision_node(node, base_image=cfg.libvirt.base_image)
-        #logger.info(f"Node {node.name} provisioned with IP: {ip}")
+        ip = provisioner.provision_node(node, base_image=cfg.libvirt.base_image)
+        logger.info(f"Node {node.name} provisioned with IP: {ip}")
     except Exception as e:
         logger.error(f"Error provisioning node: {e}")
         return
-    
+
     # Provision cluster
     # try:
     #     logger.info(f"Provisioning cluster {config.cluster.name}...")
@@ -55,14 +66,15 @@ def main(cfg: DictConfig) -> None:
     #         config.cluster,
     #         base_image=cfg.libvirt.base_image
     #     )
-        
+
     #     logger.info("Cluster provisioned successfully!")
     #     logger.info("Node IP addresses:")
     #     for name, ip in ips.items():
     #         logger.info(f"  {name}: {ip}")
-            
+
     # except Exception as e:
     #     logger.error(f"Error provisioning cluster: {e}")
-        
+
+
 if __name__ == "__main__":
     main()
