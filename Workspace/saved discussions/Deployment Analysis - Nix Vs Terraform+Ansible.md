@@ -9,6 +9,7 @@
 | **Reproducibility**        | Good                                              | Excellent                                  |
 | **Integration with Hydra** | Straightforward                                   | More complex                               |
 |                            |                                                   |                                            |
+|                            |                                                   |                                            |
 
 ## Detailed Analysis
 

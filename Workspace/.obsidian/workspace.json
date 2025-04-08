@@ -13,12 +13,22 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "resources/NIX.md",
+                "file": "organisation/meetings/10_Johannes discussion.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NIX"
+              "title": "10_Johannes discussion"
+            }
+          },
+          {
+            "id": "3d1682e7cd01d81c",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -78,7 +88,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 554.5
   },
   "right": {
     "id": "14bc7a18da665e4f",
@@ -170,34 +180,34 @@
   },
   "active": "0752f6df3f4503ab",
   "lastOpenFiles": [
+    "organisation/meetings/11_Meeting_4.md",
+    "organisation/meetings/12_farzad.md",
+    "organisation/meetings/09_Farzad.md",
+    "organisation/meetings/10_Johannes discussion.md",
     "resources/KVM.md",
+    "resources/Github.md",
+    "resources/Etienne.md",
+    "resources/Documentation.md",
+    "saved discussions/Virt-sysprep vs mysystem.md",
+    "saved discussions/VM vs LXCLXD.md",
+    "saved discussions/VM Provisioning 3.md",
+    "saved discussions/VM Provisioning 2.md",
+    "saved discussions/VM Provisioning 1.md",
+    "saved discussions/Deployment Analysis - Nix.md",
+    "saved discussions/Deployment Analysis - Recommendation.md",
+    "saved discussions/Deployment Analysis - Nix Vs Terraform+Ansible.md",
+    "saved discussions/Math Problem.md",
+    "saved discussions/Resource manager vs Schedulers.md",
+    "saved discussions/Schedulers.md",
+    "saved discussions/Slurm VS K8s.md",
+    "prompts/TM_Specification_V2.5.0.md",
+    "prompts/TM_Specification_V2.4.0.md",
+    "prompts/TM_Specification_V2.4.0.pdf",
     "resources/NIX.md",
     "organisation/meetings/08_Meeting_2.md",
     "organisation/meetings/00_introduction.md",
-    "organisation/meetings/10_Meeting_4.md",
     "concepts/Nix.md",
-    "saved discussions/Deployment Analysis - Comparison.md",
-    "illustrations/Model.md",
-    "illustrations/ARCHITECTURE.md",
-    "concepts/NUMA.md",
-    "resources/Johannes discussion.md",
-    "prompts/TM_Specification_V2.4.0.md",
-    "saved discussions/Deployment Analysis - Recommendation.md",
-    "saved discussions/Deployment Analysis - Nix.md",
-    "resources/Rhodey.md",
     "illustrations/rack_latency.svg",
-    "prompts/TM_Specification_V2.4.0.pdf",
-    "saved discussions/George Email.md",
-    "concepts/libvirt.md",
-    "concepts/MPI.md",
-    "concepts/Memory Controller.md",
-    "concepts/Converged computing.md",
-    "concepts/Consolidation.md",
-    "concepts/Bin Packing.md",
-    "Concepts Ideas.md",
-    "Benchmarking.md",
-    "Perlmutter Metric Explanation.md",
-    "Resources Request NERSC.md",
     "prompts/spec.pdf",
     "prompts/TM_Specification_V2.4.0_tmp.html",
     "TM_Specification_V2.4.0.pdf",

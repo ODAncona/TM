@@ -1,8 +1,6 @@
 
 RCP
-
 run.ai
-
 gilles
 
 120h de training 40h limitation !

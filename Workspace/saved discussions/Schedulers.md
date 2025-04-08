@@ -1,3 +1,4 @@
+# Schedulers for Heterogeneous Jobs & Accelerators
 Yes, several schedulers and resource managers are designed to handle **heterogeneous jobs** (jobs with different CPU, GPU, FPGA, memory, and network requirements) and **heterogeneous accelerators** (GPUs, TPUs, FPGAs, AI accelerators, etc.). Some are HPC-oriented, while others cater to cloud and containerized workloads.
 
 
@@ -45,6 +46,7 @@ Ces outils ne sont pas des planificateurs complets, mais facilitent l’exécuti
 ---
 
 ## **5️⃣ Outils spécialisés pour le Big Data**
+
 
 Ces systèmes sont optimisés pour la gestion de jobs dans des environnements big data.
 
