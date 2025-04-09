@@ -206,3 +206,13 @@ odancona@rhodey:~$ virsh net-dumpxml scheduler_benchmark_net
 ```
 
 Voici de quoi récupérer la configuration
+
+2025.04.09 - OK - Nettoyage de Nix sur X1-Carbon, nix était mal installé alors j'ai tout nettoyé proprement pour le réinstaller proprement. Pacman a foiré  
+
+```sh
+sudo pacman -R nix
+sudo rm -rf /nix /etc/nix
+sudo groupdel nixbld  # Remove the existing nixbld group
+```
+
+2025.04.09 - OK - Réinstallation de Nix sur X1-Carbon Fonctionne !
