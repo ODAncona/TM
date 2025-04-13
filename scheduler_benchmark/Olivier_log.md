@@ -216,3 +216,4 @@ sudo groupdel nixbld  # Remove the existing nixbld group
 ```
 
 2025.04.09 - OK - Réinstallation de Nix sur X1-Carbon Fonctionne !
+2025.04.10 - OK - Apprentissage de Nix et compréhension du Nix SHell
