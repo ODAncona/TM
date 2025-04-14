@@ -5,10 +5,11 @@
     boot.loader.efi.canTouchEfiVariables = true;
 
     # Networking
-    networking.hostName = "rhodey-vm";
-    networking.interfaces.eth0.useDHCP = true;
+    networking.hostName = "nix-vm";
+    networking.useDHCP = true;
     networking.useNetworkd = true;
     systemd.network.enable = true;
+
 
     # System Configuration
     time.timeZone = "UTC";
