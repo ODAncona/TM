@@ -10,3 +10,6 @@ nixos-generator: https://www.youtube.com/watch?v=XEZMK9yDISQ
 https://zero-to-nix.com/start/install/
 https://zero-to-nix.com/concepts/flakes/
 https://nix.dev/tutorials/nixos/nixos-configuration-on-vm
+
+https://discourse.nixos.org/t/setup-networking-between-multiple-vms/44910/2
+https://astro.github.io/microvm.nix/simple-network.html

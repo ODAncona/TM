@@ -67,7 +67,7 @@ wget -O /home/odancona/.local/share/libvirt/images/ubuntu-24.04-server-cloudimg-
 
 2025.04.02 - NOK - Problème d'accès au fichier image de la VM. Impossible même après avoir créé une pool de retrouver l'image de la VM même si elle existe.
 2025.04.02 - OK - Création d'un fichier de création de configuration NIX.
-2025.04.02 - OK - Création des tests de provisionnement avec libVirt Helper
+2025.04.02 - OK - Création des tests de provisionnement avec libVirt Helper. Le Wrapper fonctionne correctement mais ne permet pas encore de provisionner une VM à partir d'une image qcow2.
 2025.04.03 - OK - Création des tests pour charger le modèle depuis le fichier de configuration.
 2025.04.03 - OK - Configuration de l'image de l'OS. Évaluation entre .iso et qcow2
 2025.04.03 - NOK - Nettoyage de volume manuel après échec
@@ -97,6 +97,8 @@ Capacity:       732.44 GiB
 Allocation:     533.97 GiB
 Available:      198.48 GiB
 ```
+
+2025.04.04 - OK - Amélioration de la configuration du helper pour la rendre générique
 
 2025.04.07 - NOK - Création de la VM manuellement avec ISO La VM ne s'installe pas.
 
@@ -207,7 +209,9 @@ odancona@rhodey:~$ virsh net-dumpxml scheduler_benchmark_net
 
 Voici de quoi récupérer la configuration
 
-2025.04.09 - OK - Nettoyage de Nix sur X1-Carbon, nix était mal installé alors j'ai tout nettoyé proprement pour le réinstaller proprement. Pacman a foiré  
+2025.04.09 - OK - Première provision de la VM avec le helper python 🎉 MILESTONE 1 🎉
+
+2025.04.10 - OK - Nettoyage de Nix sur X1-Carbon, nix était mal installé alors j'ai tout nettoyé proprement pour le réinstaller proprement. Pacman a foiré  
 
 ```sh
 sudo pacman -R nix
@@ -524,7 +528,7 @@ odancona@rhodey:~/.local/share/libvirt/images$ virt-install   --name nixos-test 
 chmod 777 nixos.img
 ```
 
-2025.04.14 - OK - La VM Démarre MILESTONE 2
+2025.04.14 - OK - La VM Démarre 🎉 MILESTONE 2 🎉
 
 ```sh
 virsh start nixos-test --console
@@ -604,3 +608,106 @@ Failed to restart systemd-networkd.service: Unit systemd-networkd.service not fo
 [odancona@rhodey-vm:~]$ sudo dhclient eth0
 sudo: dhclient: command not found
 ```
+
+2025.04.14 - NOK - La VM ne se connecte pas au réseau
+
+C'est dhcp et l'interface qu'il faut bien configurer.
+
+Rapport d'analyse:
+
+```sh
+[odancona@rhodey-vm:~]$  systemctl status systemd-networkd
+● systemd-networkd.service - Network Configuration
+     Loaded: loaded (/etc/systemd/system/systemd-networkd.service; enabled; preset: ignored)
+    Drop-In: /nix/store/kh1v7yn1jz76n2gljmlyf94c4kvcic9g-system-units/systemd-networkd.service.d
+             └─overrides.conf
+     Active: active (running) since Mon 2025-04-14 21:50:03 UTC; 2min 53s ago
+ Invocation: 3dd79932715a44d8ad3d1fb3c716953a
+TriggeredBy: ● systemd-networkd.socket
+       Docs: man:systemd-networkd.service(8)
+             man:org.freedesktop.network1(5)
+   Main PID: 587 (systemd-network)
+     Status: "Processing requests..."
+         IP: 0B in, 336B out
+         IO: 2M read, 0B written
+      Tasks: 1 (limit: 4682)
+   FD Store: 0 (limit: 512)
+     Memory: 3.7M (peak: 3.9M)
+        CPU: 65ms
+     CGroup: /system.slice/systemd-networkd.service
+             └─587 /nix/store/b2cfj7yk3wfg1jdwjzim7306hvsc5gnl-systemd-257.3/lib/systemd/systemd-networkd
+
+Apr 14 21:50:03 rhodey-vm systemd[1]: Starting Network Configuration...
+Apr 14 21:50:03 rhodey-vm systemd-networkd[587]: lo: Link UP
+Apr 14 21:50:03 rhodey-vm systemd-networkd[587]: lo: Gained carrier
+Apr 14 21:50:03 rhodey-vm systemd[1]: Started Network Configuration.
+Apr 14 21:50:04 rhodey-vm systemd-networkd[587]: eth0: Interface name change detected, renamed to ens3.
+Apr 14 21:50:04 rhodey-vm systemd-networkd[587]: ens3: Configuring with /etc/systemd/network/10-ethernet-dhcp.network.
+Apr 14 21:50:04 rhodey-vm systemd-networkd[587]: ens3: Link UP
+Apr 14 21:50:06 rhodey-vm systemd-networkd[587]: ens3: Gained carrier
+Apr 14 21:50:07 rhodey-vm systemd-networkd[587]: ens3: Gained IPv6LL
+
+[odancona@rhodey-vm:~]$ bat /etc/systemd/network/10-ethernet-dhcp.network 
+───────┬───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       │ File: /etc/systemd/network/10-ethernet-dhcp.network
+───────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1   │ [Match]
+   2   │ Name=en*
+   3   │ 
+   4   │ [Network]
+   5   │ DHCP=yes
+   6   │ 
+───────┴───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[odancona@rhodey-vm:~]$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:77:8c:05 brd ff:ff:ff:ff:ff:ff
+    altname enp0s3
+    altname enx525400778c05
+    inet6 fe80::5054:ff:fe77:8c05/64 scope link proto kernel_ll 
+       valid_lft forever preferred_lft forever
+
+[odancona@rhodey-vm:~]$ ping 8.8.8.8
+ping: connect: Network is unreachable
+```
+
+Il y a un problème d'interface selon la configuration. Je test avec une config simplifiée:
+
+```sh
+    # Networking
+    networking.hostName = "nix-vm";
+    networking.useDHCP = true;
+    networking.useNetworkd = true;
+    systemd.network.enable = true;
+```
+
+Il fallait simplement changer le DHCP il manquait la balise <dhcp></dhcp>
+
+```sh
+<network>
+  <name>scheduler_benchmark_net</name>
+  <uuid>fa5fba2e-fd8e-4fe4-9577-6886503ff618</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr2' stp='on' delay='0'/>
+  <mac address='52:54:00:e0:76:1b'/>
+  <domain name='scheduler_benchmark_net' localOnly='yes'/>
+  <dns>
+    <host ip='192.168.222.1'>
+      <hostname>gateway</hostname>
+    </host>
+  </dns>
+  <ip address='192.168.222.1' netmask='255.255.255.0' localPtr='yes'>
+    <dhcp>
+      <range start='192.168.222.100' end='192.168.222.254'/>
+    </dhcp>
+  </ip>
+</network>
+```
+
+2025.04.14 - OK - La VM se connecte à internet 🎉 MILESTONE 3 🎉

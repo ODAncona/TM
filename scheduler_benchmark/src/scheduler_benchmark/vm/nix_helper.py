@@ -30,34 +30,3 @@ class NixHelper:
         with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".nix") as temp_file:
             temp_file.write(rendered_config)
             return Path(temp_file.name)
-
-    def configure_nixos(self, node: NodeConfig, config_nix_path: Path):
-        """Installs and configures NixOS on the VM."""
-        try:
-            # Copy configuration.nix to the VM
-            subprocess.run(
-                ["scp", str(config_nix_path), f"root@{self.hostname}:/etc/nixos/configuration.nix"],
-                check=True,
-                capture_output=True,
-                text=True
-            )
-
-            # Install and configure NixOS
-            subprocess.run(
-                ["ssh", f"{self.username}@{self.hostname}", f"sudo nixos-install --no-reboot"],
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            subprocess.run(
-                ["ssh", f"{self.username}@{self.hostname}", "sudo nixos-rebuild switch"],
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            print(f"NixOS configuration successful for {node.name}")
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"Error configuring NixOS on {node.name}: {e.stderr}")
-        finally:
-            # Clean up temporary file
-            Path(config_nix_path).unlink()

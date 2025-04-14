@@ -24,10 +24,13 @@ def head_node_config():
             Resource(type=ResourceType.RAM, amount=4096, unit="mb"),
         ],
         network=NetworkConfig(
-            name="scheduler_benchmark_net", cidr="192.168.122.0/24", gateway="192.168.122.1"
+            name="scheduler_benchmark_net",
+            cidr="192.168.122.0/24",
+            gateway="192.168.122.1",
         ),
-        user=UserConfig(name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"),
-        image="ubuntu-24.04",
+        user=UserConfig(
+            name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"
+        ),
         disk_size_gb=16,
     )
 
@@ -41,9 +44,13 @@ def compute_node_config():
             Resource(type=ResourceType.RAM, amount=4096, unit="mb"),
         ],
         network=NetworkConfig(
-            name="scheduler_benchmark_net", cidr="192.168.122.0/24", gateway="192.168.122.1"
+            name="scheduler_benchmark_net",
+            cidr="192.168.122.0/24",
+            gateway="192.168.122.1",
         ),
-        user=UserConfig(name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"),
+        user=UserConfig(
+            name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"
+        ),
         image="ubuntu-24.04",
         disk_size_gb=16,
     )
@@ -52,14 +59,19 @@ def compute_node_config():
 @pytest.fixture
 def scheduler_config():
     return SchedulerConfig(
-        type=SchedulerType.SLURM, version="23.02.3", partitions=["compute"], config_options={"SelectType": "cons_tres"}
+        type=SchedulerType.SLURM,
+        version="23.02.3",
+        partitions=["compute"],
+        config_options={"SelectType": "cons_tres"},
     )
 
 
 @pytest.fixture
 def cluster_config(head_node_config, compute_node_config):
     return ClusterConfig(
-        name="benchmark-cluster", head_nodes=[head_node_config], compute_nodes=[compute_node_config]
+        name="benchmark-cluster",
+        head_nodes=[head_node_config],
+        compute_nodes=[compute_node_config],
     )
 
 
