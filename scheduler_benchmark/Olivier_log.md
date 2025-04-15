@@ -711,3 +711,6 @@ Il fallait simplement changer le DHCP il manquait la balise <dhcp></dhcp>
 ```
 
 2025.04.14 - OK - La VM se connecte à internet 🎉 MILESTONE 3 🎉
+2025.04.15 - OK - Préparation de la présentation de meeting 5
+2025.04.15 - Ok - Préparation de la configuration de NixOS Installation
+2025.04.15 - OK - Réparation des tests de libvirt

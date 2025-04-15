@@ -6,8 +6,8 @@ libvirt:
   hostname: "rhodey.lbl.gov"
   username: "odancona"
   identity_file: "~/.ssh/rhodey"
-  # base_image: "latest-nixos-minimal-x86_64-linux.iso"
-  base_image: "ubuntu-24.04-server-cloudimg-amd64.img"
+  base_image: "nixos.img"
+  #base_image: "ubuntu-24.04-server-cloudimg-amd64.img"
   pool_name: "scheduler_benchmark_pool"
 
 cluster:
@@ -42,8 +42,8 @@ cluster:
           unit: "mb"
       network:
         name: "scheduler_benchmark_net"
-        cidr: "192.168.122.0/24"
-        gateway: "192.168.122.1"
+        cidr: "192.168.222.0/24"
+        gateway: "192.168.222.1"
       user:
         name: "odancona"
         sudo: true

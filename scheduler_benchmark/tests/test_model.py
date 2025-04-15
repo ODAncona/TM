@@ -25,8 +25,8 @@ def head_node_config():
         ],
         network=NetworkConfig(
             name="scheduler_benchmark_net",
-            cidr="192.168.122.0/24",
-            gateway="192.168.122.1",
+            cidr="192.168.222.0/24",
+            gateway="192.168.222.1",
         ),
         user=UserConfig(
             name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"
@@ -45,13 +45,12 @@ def compute_node_config():
         ],
         network=NetworkConfig(
             name="scheduler_benchmark_net",
-            cidr="192.168.122.0/24",
-            gateway="192.168.122.1",
+            cidr="192.168.222.0/24",
+            gateway="192.168.222.1",
         ),
         user=UserConfig(
             name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"
         ),
-        image="ubuntu-24.04",
         disk_size_gb=16,
     )
 

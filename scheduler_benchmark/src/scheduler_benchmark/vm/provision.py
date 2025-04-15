@@ -1,6 +1,5 @@
 from scheduler_benchmark.models import NodeConfig, HPCConfig, ClusterConfig
 from scheduler_benchmark.vm.libvirt_helper import LibvirtConnection
-from scheduler_benchmark.vm.nix_helper import NixHelper
 
 
 class VMProvisioner:
@@ -15,7 +14,6 @@ class VMProvisioner:
         self.username = username
         self.identity_file = identity_file
         self.pool_name = pool_name
-        # self.nix_helper = NixHelper(hostname, username, identity_file)
 
     def provision_node(
         self, node: NodeConfig, base_image: str | None = None
@@ -27,10 +25,6 @@ class VMProvisioner:
         ) as conn:
             domain, ip_address = conn.create_vm(node, base_image)
             return ip_address
-
-        # Generate and deploy NixOS configuration
-        # config_nix_path = self.nix_helper.generate_nixos_config(node)
-        # self.nix_helper.configure_nixos(node, config_nix_path)
 
     def provision_cluster(
         self, cluster: ClusterConfig, base_image: str | None = None
