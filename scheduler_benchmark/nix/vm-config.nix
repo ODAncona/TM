@@ -1,37 +1,60 @@
-{ config, pkgs, lib, ... }: {
-    # Boot loader
+{ config, pkgs, lib, ... }:
+
+let
+  hostname = "nix-vm";
+  diskSize = 16384; # 16GB in MiB
+  masterIP = "192.168.222.122";
+
+  baseSystem = { ... }: {
     boot.kernelPackages = pkgs.linuxPackages_6_1;
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    # Networking
-    networking.hostName = "nix-vm";
+    networking.hostName = hostname;
     networking.useDHCP = true;
     networking.useNetworkd = true;
     systemd.network.enable = true;
 
-
-    # System Configuration
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     time.timeZone = "UTC";
+
     users.users.odancona = {
-        isNormalUser = true;
-        initialPassword = "password";
-        extraGroups = [ "wheel" ];
-        openssh.authorizedKeys.keys = [
-            (builtins.readFile /home/olivier/.ssh/rhodey.pub)
-            (builtins.readFile /home/olivier/.ssh/id_ed25519.pub)
-        ];
+      isNormalUser = true;
+      initialPassword = "password";
+      extraGroups = [ "wheel" ];
+      openssh.authorizedKeys.keys = [
+        (builtins.readFile /home/olivier/.ssh/rhodey.pub)
+        (builtins.readFile /home/olivier/.ssh/id_ed25519.pub)
+      ];
     };
+
     services.openssh.enable = true;
+
     environment.systemPackages = with pkgs; [
-        vim
-        curl
-        tree
-        btop
-        bat
-        fastfetch
-        ];
-    virtualisation.diskSize = lib.mkForce 16384; # 16GB in MiB
-    system.stateVersion = "24.11";
+      vim
+      curl
+      tree
+      btop
+      bat
+      fastfetch
+    ];
+
+    swapDevices = [];
+    virtualisation.diskSize = lib.mkForce diskSize;
+  };
+
+    masterConfig = import ./modules/kubernetes/master.nix { 
+    inherit config lib pkgs;
+    masterIP = masterIP;
+  };
+
+in
+{
+  imports = [
+    (baseSystem { })
+    # Uncomment below according to node role
+    masterConfig
+  ];
+
+  system.stateVersion = "24.11";
 }

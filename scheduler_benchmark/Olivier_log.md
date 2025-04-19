@@ -714,3 +714,79 @@ Il fallait simplement changer le DHCP il manquait la balise <dhcp></dhcp>
 2025.04.15 - OK - Préparation de la présentation de meeting 5
 2025.04.15 - Ok - Préparation de la configuration de NixOS Installation
 2025.04.15 - OK - Réparation des tests de libvirt
+2025.04.15 - OK - Meeting avec Philippe Walther
+2025.04.16 - OK - Meeting 4 avec George et Sébastien
+2025.04.16 - OK - Meeting avec Sascha Koenig pour discuter de la création d'une image NixOS
+2025.04.16 - OK - Rédaction Email pour Tamar
+2025.04.17 - OK - Exploration de comment configurer Kubernetes
+2025.04.17 - OK - Visionnage de la conférence Josh Rosso a devkon sur Kubernetes cluster on Nix
+2025.04.17 - NOK - Configuration du flake
+
+```sh
+➜  nix git:(main) ✗ nix build .#nix-vm-image                                 
+
+warning: Git tree '/home/olivier/projet/tm' is dirty
+error:
+       … while evaluating the attribute 'config.system.build."${(image).config.formatAttr}"'
+         at /nix/store/hzaj4d6ari2wq2cbg1j60n9zw42gnshy-source/lib/modules.nix:359:9:
+          358|         options = checked options;
+          359|         config = checked (removeAttrs config [ "_module" ]);
+             |         ^
+          360|         _module = checked (config._module);
+
+       … while calling the 'seq' builtin
+         at /nix/store/hzaj4d6ari2wq2cbg1j60n9zw42gnshy-source/lib/modules.nix:359:18:
+          358|         options = checked options;
+          359|         config = checked (removeAttrs config [ "_module" ]);
+             |                  ^
+          360|         _module = checked (config._module);
+
+       (stack trace truncated; use '--show-trace' to show the full, detailed trace)
+
+       error: attribute 'qcow2' missing
+```
+
+=> Je n'arrive pas à utiliser nix-generators dans le flake afin d'étendre la config avec un module configurable
+2025.04.18 - OK - Réunion avec Tamar Vered pour discuter du visa J-1 => impossible d'avoir un travail sur le côté
+2025.04.18 - OK - Apprentissage de nix-language
+2025.04.18 - OK - Mise à jour de la spécification
+2025.04.18 - OK - Exploration de NixOS + Kubernetes
+2025.04.18 - OK - Transformation de la vm-config en module
+2025.04.18 - NOK - Impossible de créer l'image du k8s master avec nixos-generators
+
+```sh
+error: builder for '/nix/store/m57qxz49snzg9pz8x8jm60ddab1b3lns-etcdserver-3.5.16.drv' failed with exit code 1;
+       last 25 log lines:
+       > {"level":"warn","ts":"2025-04-19T03:12:29.089505Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.089791Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.089817Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.090042Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.090537Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.090640Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.090726Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.091044Z","caller":"embed/config.go:689","msg":"Running http and grpc server on single port. This is not recommended for production."}
+       > {"level":"info","ts":"2025-04-19T03:12:29.091055Z","caller":"embed/etcd.go:128","msg":"configuring peer listeners","listen-peer-urls":["unix://localhost:15405000001"]}
+       > {"level":"info","ts":"2025-04-19T03:12:29.091121Z","caller":"embed/etcd.go:136","msg":"configuring client listeners","listen-client-urls":["unix://localhost:15405000000"]}
+       > {"level":"info","ts":"2025-04-19T03:12:29.091205Z","caller":"embed/etcd.go:311","msg":"starting an etcd server","etcd-version":"3.5.16","git-sha":"GitNotFound","go-version":"go1.24.1","go-os":"linux","go-arch":"amd64","max-cpu-set":8,"max-cpu-available":8,"member-initialized":false,"name":"default","data-dir":"/build/TestStartEtcdWrongToken609188304/001/token-test3242343331","wal-dir":"","wal-dir-dedicated":"","member-dir":"/build/TestStartEtcdWrongToken609188304/001/token-test3242343331/member","force-new-cluster":false,"heartbeat-interval":"100ms","election-timeout":"1s","initial-election-tick-advance":true,"snapshot-count":100000,"max-wals":5,"max-snapshots":5,"snapshot-catchup-entries":5000,"initial-advertise-peer-urls":["unix://localhost:15405000001"],"listen-peer-urls":["unix://localhost:15405000001"],"advertise-client-urls":["unix://localhost:15405000000"],"listen-client-urls":["unix://localhost:15405000000"],"listen-metrics-urls":[],"cors":["*"],"host-whitelist":["*"],"initial-cluster":"default=unix://localhost:15405000001","initial-cluster-state":"new","initial-cluster-token":"etcd-cluster","quota-backend-bytes":2147483648,"max-request-bytes":1572864,"max-concurrent-streams":4294967295,"pre-vote":true,"initial-corrupt-check":false,"corrupt-check-time-interval":"0s","compact-check-time-enabled":false,"compact-check-time-interval":"1m0s","auto-compaction-mode":"","auto-compaction-retention":"0s","auto-compaction-interval":"0s","discovery-url":"","discovery-proxy":"","downgrade-check-interval":"5s"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.091429Z","caller":"etcdserver/backend.go:81","msg":"opened backend db","path":"/build/TestStartEtcdWrongToken609188304/001/token-test3242343331/member/snap/db","took":"82.825µs"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.103883Z","caller":"etcdserver/raft.go:505","msg":"starting local member","local-member-id":"be92390084cabfc6","cluster-id":"80a83306c08a3ac6"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.103939Z","logger":"raft","caller":"etcdserver/zap_raft.go:77","msg":"be92390084cabfc6 switched to configuration voters=()"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.103973Z","logger":"raft","caller":"etcdserver/zap_raft.go:77","msg":"be92390084cabfc6 became follower at term 0"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.103997Z","logger":"raft","caller":"etcdserver/zap_raft.go:77","msg":"newRaft be92390084cabfc6 [peers: [], term: 0, commit: 0, applied: 0, lastindex: 0, lastterm: 0]"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.104003Z","logger":"raft","caller":"etcdserver/zap_raft.go:77","msg":"be92390084cabfc6 became follower at term 1"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.104023Z","logger":"raft","caller":"etcdserver/zap_raft.go:77","msg":"be92390084cabfc6 switched to configuration voters=(13732100888196726726)"}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.104150Z","caller":"auth/store.go:1253","msg":"unknown token type","type":"wrong-token","error":"auth: invalid auth options"}
+       > {"level":"warn","ts":"2025-04-19T03:12:29.104169Z","caller":"etcdserver/server.go:615","msg":"failed to create token provider","error":"auth: invalid auth options"}
+       > {"level":"info","ts":"2025-04-19T03:12:29.104250Z","caller":"embed/etcd.go:378","msg":"closing etcd server","name":"default","data-dir":"/build/TestStartEtcdWrongToken609188304/001/token-test3242343331","advertise-peer-urls":["unix://localhost:15405000001"],"advertise-client-urls":["unix://localhost:15405000000"]}
+       > {"level":"info","ts":"2025-04-19T03:12:29.104293Z","caller":"embed/etcd.go:380","msg":"closed etcd server","name":"default","data-dir":"/build/TestStartEtcdWrongToken609188304/001/token-test3242343331","advertise-peer-urls":["unix://localhost:15405000001"],"advertise-client-urls":["unix://localhost:15405000000"]}
+       > FAIL
+       > FAIL     go.etcd.io/etcd/server/v3/embed 0.471s
+       > FAIL
+       For full logs, run:
+         nix log /nix/store/m57qxz49snzg9pz8x8jm60ddab1b3lns-etcdserver-3.5.16.drv
+error: 1 dependencies of derivation '/nix/store/i1rjksysqsl090a5p0hdv724vsa98i4m-etcd-3.5.16.drv' failed to build
+error: 1 dependencies of derivation '/nix/store/qkcx52yz68kvawmq54ll0yh36wimcm6m-system-path.drv' failed to build
+error: 1 dependencies of derivation '/nix/store/pnqafjhs6kywrmxfrqq6ngvqm02kik9q-unit-etcd.service.drv' failed to build
+error: 1 dependencies of derivation '/nix/store/67a48d0ghgzr02fxbwfdii6a5kxfym90-nixos-system-nix-vm-25.05pre780817.b2b0718004cc.drv' failed to build
+error: 1 dependencies of derivation '/nix/store/fd2wcnc4l1mqyl8wzca7m6gbwpzyl9ql-nixos-disk-image.drv' failed to build
+```

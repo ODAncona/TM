@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, field_validator
 class ResourceType(str, Enum):
     CPU = "cpu"
     GPU = "gpu"
-    FPGA = "fpga"
+    LPU = "lpu"
     RAM = "ram"
     DISK = "disk"
 
@@ -63,6 +63,7 @@ class NodeConfig(BaseModel):
     network: NetworkConfig
     user: UserConfig
     disk_size_gb: int = 16
+    image: Optional[str] = None
 
 
 class ClusterConfig(BaseModel):
