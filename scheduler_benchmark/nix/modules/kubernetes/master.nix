@@ -1,12 +1,13 @@
-{ config, lib, pkgs, masterIP ? "192.168.222.122", ... }:
+{ config, lib, pkgs, ... }:
 
 {
   services.kubernetes = {
     roles = ["master"];
-    masterAddress = masterIP;
-    apiserverAddress = masterIP;
     easyCerts = true;
+    addons.dns.enable = true;
+    kubelet.extraOpts = "--fail-swap-on=false";
   };
+  services.kubernetes.masterAddress = "192.168.222.122";
 
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [

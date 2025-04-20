@@ -1,16 +1,13 @@
 { config, pkgs, lib, ... }:
 
 let
-  hostname = "nix-vm";
   diskSize = 16384; # 16GB in MiB
-  masterIP = "192.168.222.122";
 
   baseSystem = { ... }: {
     boot.kernelPackages = pkgs.linuxPackages_6_1;
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    networking.hostName = hostname;
     networking.useDHCP = true;
     networking.useNetworkd = true;
     systemd.network.enable = true;
@@ -45,7 +42,6 @@ let
 
     masterConfig = import ./modules/kubernetes/master.nix { 
     inherit config lib pkgs;
-    masterIP = masterIP;
   };
 
 in
@@ -56,5 +52,5 @@ in
     masterConfig
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "23.11";
 }
