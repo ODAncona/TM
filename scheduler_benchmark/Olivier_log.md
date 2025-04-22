@@ -790,3 +790,82 @@ error: 1 dependencies of derivation '/nix/store/pnqafjhs6kywrmxfrqq6ngvqm02kik9q
 error: 1 dependencies of derivation '/nix/store/67a48d0ghgzr02fxbwfdii6a5kxfym90-nixos-system-nix-vm-25.05pre780817.b2b0718004cc.drv' failed to build
 error: 1 dependencies of derivation '/nix/store/fd2wcnc4l1mqyl8wzca7m6gbwpzyl9ql-nixos-disk-image.drv' failed to build
 ```
+
+2025.04.19 - OK - Learn NixModule, nix-tour, flakes
+2025.04.19 - OK - Analyse de la configuration des IPs K8s static vs dhcp
+2025.04.20 - NOK - Impossible de générer l'image
+
+```sh
+       error: undefined variable 'masterIP'
+       at /home/olivier/projet/tm/scheduler_benchmark/nix/vm-config.nix:45:16:
+           44|     inherit config lib pkgs;
+           45|     masterIP = masterIP;
+             |                ^
+           46|   };
+```
+
+Je dois définir l'ip manuellement ce qui pose problème pour DHCP
+=> Fix manuel ip
+
+```sh
+FAIL    go.etcd.io/etcd/server/v3/embed 1.020s
+```
+
+=> j'essaie de voir si etcd compile normalement et j'observe la même erreur.
+
+```sh
+nix build nixpkgs#etcd
+...
+       > FAIL
+       > FAIL  go.etcd.io/etcd/server/v3/embed 0.770s
+       > FAIL
+       For full logs, run:
+         nix log /nix/store/2c03p6zg8j8jbb4926pabpdlrrvrkhpq-etcdserver-3.5.16.drv
+error: 1 dependencies of derivation '/nix/store/1mj2l2xc76a70rrlbwwc020rbsy7h3mw-etcd-3.5.16.drv' failed to build
+```
+
+=> trouvé le problème sur git <https://github.com/NixOS/nixpkgs/issues/390588> et sera résolu dans la prochaine version de nixpkgs. Donc je vais rétrograder à la version stable de nixOs.
+
+```sh
+nix-channel --add https://nixos.org/channels/nixos-23.11 nixos 
+nix-channel --update
+```
+
+=> échec car la version 23.11 n'a pas la même api erreur de disk-size-option
+
+2025.04.21 - OK - Analyse du runtime. Comme j'ai besoin de l'IP pour configurer le master avec kubernetes pour Nix. J'ai un problème de runtime. Je dois donc séparer la préparation de l'image et le runtime. (impératif vs déclaratif)
+2025.04.21 - NOK - Impossible de générer l'image
+
+```sh
+error:
+       … while evaluating the attribute 'config.system.build."${(image).config.formatAttr}"'
+         at /nix/store/g8zzlf6drg73c987ii390yicq4c0j778-source/lib/modules.nix:320:9:
+          319|         options = checked options;
+          320|         config = checked (removeAttrs config [ "_module" ]);
+             |         ^
+          321|         _module = checked (config._module);
+
+       … while calling the 'seq' builtin
+         at /nix/store/g8zzlf6drg73c987ii390yicq4c0j778-source/lib/modules.nix:320:18:
+          319|         options = checked options;
+          320|         config = checked (removeAttrs config [ "_module" ]);
+             |                  ^
+          321|         _module = checked (config._module);
+
+       (stack trace truncated; use '--show-trace' to show the full, detailed trace)
+
+       error: path '/nix/store/g8zzlf6drg73c987ii390yicq4c0j778-source/nixos/modules/virtualisation/disk-size-option.nix' does not exist
+```
+
+=> Fonctionne avec nixos-generate -f qcow -c ./vm-config.nix mais pas avec le flake
+
+Solution mettre à jour le nixpkgs à 24.11
+
+2025.04.21 - NOK - Impossible de générer l'image
+
+```sh
+error: access to absolute path '/home' is forbidden in pure evaluation mode (use '--impure' to override)
+```
+
+=>  nix build .#qcow --impure
+2025.04.21 - NOK - Image générée avec le flake
