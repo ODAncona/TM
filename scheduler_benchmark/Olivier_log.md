@@ -869,3 +869,12 @@ error: access to absolute path '/home' is forbidden in pure evaluation mode (use
 
 =>  nix build .#qcow --impure
 2025.04.21 - NOK - Image générée avec le flake
+2025.04.21 - NOK - Impossible de démarrer la VM
+
+```sh
+ERROR    internal error: qemu unexpectedly closed the monitor: 2025-04-22T01:02:22.270461Z qemu-system-x86_64: -blockdev {"node-name":"libvirt-1-format","read-only":false,"driver":"qcow2","file":"libvirt-1-storage","backing":null}: qcow2: Image is corrupt; cannot be opened read/write
+Domain installation does not appear to have been successful.
+If it was, you can restart your domain by running:
+  virsh --connect qemu:///system start nixos-test2
+otherwise, please restart your installation.
+```
