@@ -878,3 +878,10 @@ If it was, you can restart your domain by running:
   virsh --connect qemu:///system start nixos-test2
 otherwise, please restart your installation.
 ```
+
+=> regénérer l'image avec qcow2 et retéléverser et fonctionne !
+
+2025.04.21 - OK - Génération de l'image avec le Kubernetes master
+2025.04.21 - NOK - Démarrage de la VM avec le master k8s
+
+=> ERROR etcd not started

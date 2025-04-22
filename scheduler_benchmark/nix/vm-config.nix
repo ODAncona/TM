@@ -34,13 +34,19 @@ let
       btop
       bat
       fastfetch
+      git
+      pacman
     ];
 
     swapDevices = [];
     virtualisation.diskSize = diskSize;
   };
 
-    masterConfig = import ./modules/kubernetes/master.nix { 
+  MasterConfigK8s = import ./modules/kubernetes/master.nix { 
+    inherit config lib pkgs;
+  };
+
+  WorkerConfigK8s = import ./modules/kubernetes/worker.nix {
     inherit config lib pkgs;
   };
 
@@ -49,7 +55,8 @@ in
   imports = [
     (baseSystem { })
     # Uncomment below according to node role
-    # masterConfig
+    MasterConfigK8s
+    # WorkerConfigK8s
   ];
 
   system.stateVersion = "24.05";

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, masterIP ? "192.168.222.122", ... }:
+{ config, lib, pkgs, masterIP ? "192.168.222.22", ... }:
 
 {
   # Kubernetes Worker Node Configuration

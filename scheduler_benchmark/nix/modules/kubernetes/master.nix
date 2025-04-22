@@ -7,7 +7,7 @@
     addons.dns.enable = true;
     kubelet.extraOpts = "--fail-swap-on=false";
   };
-  services.kubernetes.masterAddress = "192.168.222.122";
+  services.kubernetes.masterAddress = "192.168.222.22";
 
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
