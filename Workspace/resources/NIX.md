@@ -16,3 +16,5 @@ https://astro.github.io/microvm.nix/simple-network.html
 
 https://nixos-and-flakes.thiscute.world/
 https://leanpub.com/nixos-in-production
+
+nix tour: https://nixcloud.io/tour/?id=functions/introduction

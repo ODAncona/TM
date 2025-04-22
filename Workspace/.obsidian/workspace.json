@@ -13,15 +13,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Work Scope.md",
+                "file": "saved discussions/Nix-VM.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Work Scope"
+              "title": "Nix-VM"
+            }
+          },
+          {
+            "id": "2b9243d9479d447d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "saved discussions/Runtime Analysis 3.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Runtime Analysis 3"
+            }
+          },
+          {
+            "id": "32add3d8c3afd6e8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "saved discussions/Runtime Analysis 2.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Runtime Analysis 2"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -168,34 +197,34 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "4b4d23efe7eb1336",
+  "active": "32add3d8c3afd6e8",
   "lastOpenFiles": [
-    "TODO.md",
-    "Resources Request NERSC.md",
-    "Perlmutter columns.md",
-    "Perlmutter Metric Explanation.md",
-    "Concepts Ideas.md",
-    "Metrics.md",
+    "saved discussions/Runtime Analysis 3.md",
+    "saved discussions/Runtime Analysis 4.md",
+    "saved discussions/Stack Justification.md",
+    "saved discussions/Runtime Analysis 2.md",
+    "saved discussions/Runtime Analysis.md",
+    "prompts/TM_Specification_V2.6.0.md",
+    "resources/Nix + Kubernetes.md",
+    "saved discussions/Nix-VM.md",
+    "saved discussions/NIX Flakes vs Nix standard.md",
+    "saved discussions/Nix-K8s.md",
+    "resources/SLURM.md",
+    "resources/Rhodey.md",
+    "resources/NIX.md",
+    "resources/Networking libvirt.md",
+    "resources/KVM.md",
+    "resources/Fingerprint.md",
+    "resources/Etienne.md",
+    "resources/Documentation.md",
     "resources/Benchmarking.md",
-    "organisation/meetings/13_Meeting_4.md",
-    "Greenligh.md",
-    "LOLILOL.md",
-    "Sascha Koenig.md",
-    "saved discussions/Scheduler - Configuration.md",
+    "Sumup.md",
     "saved discussions/Resource manager vs Schedulers.md",
     "saved discussions/Deployment Analysis - Recommendation.md",
-    "saved discussions/Kubernetes Cluster Guide.md",
-    "saved discussions/Math Problem.md",
-    "saved discussions/Nix-K8s.md",
-    "saved discussions/Nix-VM.md",
-    "resources/Nix + Kubernetes.md",
-    "prompts/TM_Specification_V2.6.0.md",
     "saved discussions/Deployment Analysis - Nix Vs Terraform+Ansible.md",
     "saved discussions/Deployment Analysis - Nix.md",
-    "organisation/meetings/15_Tamar.md",
-    "resources/NIX.md",
-    "organisation/meetings/14_Sasha_Koenig_NIX.md",
-    "prompts/TM_Specification_V2.5.0.md",
+    "saved discussions/Math Problem.md",
+    "saved discussions/Kubernetes Cluster Guide.md",
     "Pasted image 20250418162252.png",
     "prompts/TM_Specification_V2.4.0.pdf",
     "illustrations/rack_latency.svg",

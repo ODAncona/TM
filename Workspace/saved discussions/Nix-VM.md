@@ -9,11 +9,8 @@ Yes — the `.img` file contains only the **OS disk content** (filesystem, bootl
 It does **not** store or lock in:
 
 - CPU count,
-    
 - RAM size,
-    
 - network devices,
-    
 - virtual hardware settings.
     
 
