@@ -887,4 +887,6 @@ otherwise, please restart your installation.
 => ERROR etcd not started
 
 2025.04.22 - OK - Analyse sur la réorganisation de la stack + infographie
-2025.04.22 - OK - Modification de la configuration du worker nix
+2025.04.22 - OK - Modification de la configuration du worker nix + password hashed
+2025.04.22 - OK - Build de l'image `nixos-k8s-master` et `nixos-k8s-worker` + upload sur rhodey
+2025.04.22 - OK - Mise à jour de la configuration du réseau

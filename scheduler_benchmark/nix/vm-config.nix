@@ -17,7 +17,7 @@ let
 
     users.users.odancona = {
       isNormalUser = true;
-      initialPassword = "password";
+      initialHashedPassword = "$y$j9T$u8873E9Qlnqv13YKSP2NB/$pgKfnnIDxsnoUVr9uXXYRqAdajpKDn5la2UShIw36z."; # Password
       extraGroups = [ "wheel" ];
       openssh.authorizedKeys.keys = [
         (builtins.readFile /home/olivier/.ssh/rhodey.pub)
@@ -56,7 +56,7 @@ in
     (baseSystem { })
     # Uncomment below according to node role
     MasterConfigK8s
-    # WorkerConfigK8s
+    #WorkerConfigK8s
   ];
 
   system.stateVersion = "24.05";
