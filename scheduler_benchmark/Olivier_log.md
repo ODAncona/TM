@@ -885,3 +885,6 @@ otherwise, please restart your installation.
 2025.04.21 - NOK - Démarrage de la VM avec le master k8s
 
 => ERROR etcd not started
+
+2025.04.22 - OK - Analyse sur la réorganisation de la stack + infographie
+2025.04.22 - OK - Modification de la configuration du worker nix
