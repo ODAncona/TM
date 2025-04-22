@@ -37,7 +37,7 @@ let
     ];
 
     swapDevices = [];
-    virtualisation.diskSize = lib.mkForce diskSize;
+    virtualisation.diskSize = diskSize;
   };
 
     masterConfig = import ./modules/kubernetes/master.nix { 
@@ -49,8 +49,8 @@ in
   imports = [
     (baseSystem { })
     # Uncomment below according to node role
-    masterConfig
+    # masterConfig
   ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 }
