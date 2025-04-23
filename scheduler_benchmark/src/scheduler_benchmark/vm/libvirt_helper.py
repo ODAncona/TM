@@ -252,9 +252,15 @@ class LibvirtConnection:
             <memory unit='MiB'>{memory_mb}</memory>
             <vcpu>{vcpus}</vcpu>
             <os>
-                <type arch='x86_64'>hvm</type>
+                <type arch='x86_64' machine='q35'>hvm</type>
+                <loader readonly='yes' type='pflash'>/usr/share/OVMF/OVMF_CODE.fd</loader>
                 <boot dev='hd'/>
             </os>
+            <features>
+                <acpi/>
+                <apic/>
+                <vmport state='off'/>
+            </features>
             <devices>
                 <disk type='file' device='disk'>
                     <driver name='qemu' type='qcow2'/>

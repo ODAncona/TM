@@ -55,7 +55,7 @@ def main(cfg: DictConfig) -> None:
         logger.info(f"Node {node.name} provisioned with IP: {ip}")
 
         # Provision the worker nodes
-        for node in config.cluster.worker_nodes:
+        for node in config.cluster.compute_nodes:
             ip = provisioner.provision_node(node, base_image=node.image)
             logger.info(f"Node {node.name} provisioned with IP: {ip}")
     except Exception as e:

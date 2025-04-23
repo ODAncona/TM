@@ -890,3 +890,74 @@ otherwise, please restart your installation.
 2025.04.22 - OK - Modification de la configuration du worker nix + password hashed
 2025.04.22 - OK - Build de l'image `nixos-k8s-master` et `nixos-k8s-worker` + upload sur rhodey
 2025.04.22 - OK - Mise à jour de la configuration du réseau
+2025.04.22 - NOK - Impossible de démarrer la VM avec le master k8s
+
+```sh
+[2025-04-22 15:08:48,488][scheduler_benchmark.vm.libvirt_helper][INFO] - Création du volume 'head-node-1_disk' de 16GB basé sur 'nixos-k8s-master'
+libvirt: Storage Driver error : Storage volume not found: no storage vol with matching name 'nixos-k8s-master'
+[2025-04-22 15:08:48,528][scheduler_benchmark.vm.libvirt_helper][WARNING] - Base image 'nixos-k8s-master' non trouvée dans le pool: Storage volume not found: no storage vol with matching name 'nixos-k8s-master'
+[2025-04-22 15:08:48,528][scheduler_benchmark.vm.libvirt_helper][ERROR] - Base image 'nixos-k8s-master' not found in storage pool 'scheduler_benchmark_pool'. Please add it to the pool first using standard libvirt tools.
+[2025-04-22 15:08:48,529][scheduler_benchmark.vm.libvirt_helper][INFO] - Déconnexion de l'hôte libvirt rhodey.lbl.gov
+[2025-04-22 15:08:48,529][__main__][ERROR] - Error provisioning node: Base image 'nixos-k8s-master' not found in storage pool 'scheduler_benchmark_pool'. Please add it to the pool first using standard libvirt tools.
+```
+
+=> `image: "nixos-k8s-master` => `image: "nixos-k8s-master.img"`
+=> OK !
+2025.04.22 - NOK - Impossible de récupérer l'IP du noeud.
+=> [2025-04-22 15:13:27,810][__main__][ERROR] - Error provisioning node: VM head-node-1 did not obtain an IP
+=> Impossible de se connecter à la VM même avec la console.
+=>
+
+```sh
+odancona@rhodey:~$ virsh list --all
+ Id   Name          State
+------------------------------
+ 1    firesim-03    running
+ 6    ubuntu22.04   running
+ 41   head-node-1   running
+ -    p38vm         shut off
+ -    p38vm-25      shut off
+ -    p38vm-45      shut off
+ ```
+
+Création d'une VM avec l'image du master
+
+```
+odancona@rhodey:~$ virt-install   --name nixos-test-k8s   --memory 4096 --vcpus 2   --disk path=/home/odancona/.local/share/libvirt/images/nixos-k8s-master.img,format=qcow2   --os-variant generic   --import   --network network=scheduler_ben
+chmark_net   --boot loader=/usr/share/OVMF/OVMF_CODE.fd   --noautoconsole
+WARNING  Using --osinfo generic, VM performance may suffer. Specify an accurate OS for optimal results.
+```
+
+=> Preuve que l'image fonctionne bien
+=> Problème identifié, le bootloader n'était pas spécifié dans le XML
+=>
+
+```xml
+<os>
+  <type arch='x86_64' machine='q35'>hvm</type>
+  <loader readonly='yes' type='pflash'>/usr/share/OVMF/OVMF_CODE.fd</loader>
+  <boot dev='hd'/>
+</os>
+```
+
+=> [2025-04-23 13:29:13,977][__main__][ERROR] - Error provisioning node: unsupported configuration: UEFI requires ACPI on this architecture
+=> L'expérience explose car le volume existe déjà. Alors je le supprime
+
+```txt
+[2025-04-23 13:33:36,822][scheduler_benchmark.vm.libvirt_helper][INFO] - Création du volume 'head-node-1_disk' de 16GB basé sur 'nixos-k8s-master.img'
+libvirt: Storage Driver error : internal error: storage volume name 'head-node-1_disk' already in use.
+[2025-04-23 13:33:36,831][scheduler_benchmark.vm.libvirt_helper][WARNING] - Base image 'nixos-k8s-master.img' non trouvée dans le pool: internal error: storage volume name 'head-node-1_disk' already in use.
+[2025-04-23 13:33:36,832][scheduler_benchmark.vm.libvirt_helper][ERROR] - Base image 'nixos-k8s-master.img' not found in storage pool 'scheduler_benchmark_pool'. Please add it to the pool first using standard libvirt tools.
+[2025-04-23 13:33:36,833][scheduler_benchmark.vm.libvirt_helper][INFO] - Déconnexion de l'hôte libvirt rhodey.lbl.gov
+[2025-04-23 13:33:36,834][__main__][ERROR] - Error provisioning node: Base image 'nixos-k8s-master.img' not found in storage pool 'scheduler_benchmark_pool'. Please add it to the pool first using standard libvirt tools.
+```
+
+=> SUCCESS [2025-04-23 13:35:36,255][__main__][INFO] - Node head-node-1 provisioned with IP: 192.168.222.182
+
+2025.04.23 - NOK - Impossible de lancer le k8s-worker
+
+```sh
+[2025-04-23 13:35:36,256][__main__][ERROR] - Error provisioning node: 'ClusterConfig' object has no attribute 'worker_nodes'
+```
+
+=> "worker_node" => "compute_node"

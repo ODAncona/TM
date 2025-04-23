@@ -14,7 +14,7 @@ cluster:
   name: "benchmark-cluster"
   head_nodes:
     - name: "head-node-1"
-      image: "nixos-k8s-master"
+      image: "nixos-k8s-master.img"
       resources:
         - type: "cpu"
           amount: 2
@@ -34,7 +34,7 @@ cluster:
 
   compute_nodes:
     - name: "compute-node-1"
-      image: "nixos-k8s-worker"
+      image: "nixos-k8s-worker.img"
       resources:
         - type: "cpu"
           amount: 2
