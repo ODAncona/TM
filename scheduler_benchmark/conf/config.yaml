@@ -6,8 +6,6 @@ libvirt:
   hostname: "rhodey.lbl.gov"
   username: "odancona"
   identity_file: "~/.ssh/rhodey"
-  base_image: "nixos.img"
-  #base_image: "ubuntu-24.04-server-cloudimg-amd64.img"
   pool_name: "scheduler_benchmark_pool"
 
 cluster:
@@ -15,6 +13,7 @@ cluster:
   head_nodes:
     - name: "head-node-1"
       image: "nixos-k8s-master.img"
+      disk_size_gb: 16
       resources:
         - type: "cpu"
           amount: 2
@@ -30,11 +29,11 @@ cluster:
         name: "odancona"
         sudo: true
         ssh_public_key_path: "~/.ssh/rhodey.pub"
-      disk_size_gb: 16
 
   compute_nodes:
     - name: "compute-node-1"
       image: "nixos-k8s-worker.img"
+      disk_size_gb: 16
       resources:
         - type: "cpu"
           amount: 2
@@ -50,7 +49,6 @@ cluster:
         name: "odancona"
         sudo: true
         ssh_public_key_path: "~/.ssh/rhodey.pub"
-      disk_size_gb: 16
 
 scheduler:
   type: "slurm"
