@@ -961,3 +961,8 @@ libvirt: Storage Driver error : internal error: storage volume name 'head-node-1
 ```
 
 => "worker_node" => "compute_node"
+=> OK
+2025.04.23 - OK - Analyse de la configuration de l'IP:
+
+ip fixe => facile mais pas flexible pour créer image
+ip dhcp => flexible mais moins facile à gérer

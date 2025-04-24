@@ -162,3 +162,20 @@ You now have a single master node and four worker nodes configured. You can depl
 - Deploy your applications using YAML manifests or Helm charts.
 
 That's it! Your Kubernetes cluster is ready to use.
+
+---
+
+#### **Exemple concret :**
+
+- **Amazon EKS (Kubernetes sur AWS)**
+    
+    - Les worker nodes sont lancés avec une image EKS optimisée, qui contient kubelet/kubeadm mais **sans aucune config de cluster**.
+    - **Au boot**, un script cloud-init récupère le endpoint du control-plane (API server) via l’API AWS, et fait le join avec le bon token.
+    - Les IPs sont récupérées dynamiquement via DHCP, et l’auto-discovery se fait via des balises (tags EC2) ou des fichiers de config injectés au boot.
+    - **Aucune IP n’est fixée dans l’image**.
+- **Google Kubernetes Engine (GKE)**
+    
+    - Pareil : images génériques, configuration dynamique au boot, découverte via metadata server, pas d’IP codée en dur.
+- **Azure AKS**
+    
+    - Même modèle.

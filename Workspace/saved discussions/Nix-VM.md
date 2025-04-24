@@ -45,11 +45,8 @@ virt-install \
 ```
 
 - `--memory 4096` → 4 GB RAM.
-    
 - `--vcpus 2` → 2 cores.
-    
 - `--disk` → uses your prebuilt `.img` file.
-    
 - `--import` → skip install, boot directly from existing image.
     
 
@@ -61,7 +58,6 @@ You can later **delete and redefine** the VM with more or less RAM/CPUs anytime 
 For this to work, the image must:
 
 - have the bootloader installed properly (GRUB, systemd-boot),
-    
 - and the OS must be generic enough (like using `virtio` drivers, DHCP, etc.) so it can run on any virtual machine config.
     
 
@@ -70,9 +66,7 @@ For this to work, the image must:
 💡 **Summary:**
 
 - The `.img` is just the virtual "hard disk."
-    
 - The hardware like CPUs, RAM, network are provided at boot time by Libvirt/QEMU.
-    
 - You can absolutely bake a generic NixOS image and re-use it flexibly across many VM setups!
     
 
