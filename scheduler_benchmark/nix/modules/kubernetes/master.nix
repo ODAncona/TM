@@ -1,6 +1,13 @@
 { config, lib, pkgs, ... }:
 
 {
+
+  environment.systemPackages = with pkgs; [
+    kubectl
+    kompose
+    kubernetes
+  ];
+
   services.kubernetes = {
     roles = ["master"];
     easyCerts = true;

@@ -1,6 +1,11 @@
 { config, lib, pkgs, masterIP ? "192.168.222.22", ... }:
 
 {
+
+  environment.systemPackages = with pkgs; [
+    kubectl
+  ];
+
   # Kubernetes Worker Node Configuration
   services.kubernetes = {
     roles = ["node"];

@@ -11,10 +11,14 @@
             "id": "bb8617b319f879e8",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "prompts/TM_Specification_V2.7.0.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "TM_Specification_V2.7.0"
             }
           }
         ]
@@ -167,8 +171,19 @@
   "active": "bb8617b319f879e8",
   "lastOpenFiles": [
     "prompts/TM_Specification_V2.6.0.md",
-    "saved discussions/Nix-VM.md",
+    "prompts/TM_Specification_V2.7.0.md",
+    "illustrations/Deployment_steps.md",
+    "illustrations/ARCHITECTURE.md",
+    "saved discussions/Network Analysis - StaticIP vs DHCP discussion.md",
     "saved discussions/Deployment Analysis - Stack.md",
+    "saved discussions/Kubernetes Cluster Guide.md",
+    "saved discussions/Deployment Analysis - Recommendation.md",
+    "saved discussions/Deployment Analysis - Nix Vs Terraform+Ansible.md",
+    "saved discussions/Deployment Analysis - Nix.md",
+    "saved discussions/VM Provisioning 3.md",
+    "saved discussions/VM Provisioning 2.md",
+    "saved discussions/VM Provisioning 1.md",
+    "saved discussions/Nix-VM.md",
     "saved discussions/Runtime Analysis 3.md",
     "saved discussions/Runtime Analysis 2.md",
     "saved discussions/Runtime Analysis 4.md",
@@ -181,17 +196,6 @@
     "resources/Rhodey.md",
     "resources/NIX.md",
     "resources/Networking libvirt.md",
-    "resources/KVM.md",
-    "resources/Fingerprint.md",
-    "resources/Etienne.md",
-    "resources/Documentation.md",
-    "resources/Benchmarking.md",
-    "Sumup.md",
-    "saved discussions/Resource manager vs Schedulers.md",
-    "saved discussions/Deployment Analysis - Recommendation.md",
-    "saved discussions/Deployment Analysis - Nix Vs Terraform+Ansible.md",
-    "saved discussions/Deployment Analysis - Nix.md",
-    "saved discussions/Math Problem.md",
     "Pasted image 20250418162252.png",
     "prompts/TM_Specification_V2.4.0.pdf",
     "illustrations/rack_latency.svg",

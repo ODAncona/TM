@@ -440,3 +440,8 @@ This approach satisfies your requirements:
 - Dynamically configure Kubernetes nodes via SSH after provisioning (join tokens).
 
 This design will provide the flexibility, scalability, and reproducibility you require for your benchmarking project.
+
+|Approach|Pros|Cons|Comments|
+|---|---|---|---|
+|**DHCP**|- No need to pre-assign IPs<br>- Easy to scale up/down<br>- Single image can be reused|- IPs may change between runs<br>- Hard to know master IP in advance|Need to discover IPs at runtime|
+|**Static**|- Predictable IPs<br>- Can hardcode configs (e.g., master IP)|- Must build a new image/config for each VM<br>- Tedious, not scalable|Slow, not flexible for cluster size|
