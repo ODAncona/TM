@@ -47,9 +47,7 @@ def test_node_config(request):
 
 def test_provision_and_delete_node(provisioner, test_node_config):
     try:
-        ip = provisioner.provision_node(
-            test_node_config, base_image=cfg.libvirt.base_image
-        )
+        ip = provisioner.provision_node(test_node_config)
         assert (
             ip is not None
         )  # Check if an IP was assigned (this might still fail)

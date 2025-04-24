@@ -225,7 +225,6 @@ class LibvirtConnection:
     def create_vm(
         self,
         node_config: NodeConfig,
-        base_image: str | None = None,
         wait_time: int = 30,
     ) -> tuple[libvirt.virDomain, str]:
         """Create a VM based on node configuration"""
@@ -235,7 +234,7 @@ class LibvirtConnection:
         volume_path = self.create_volume(
             f"{node_config.name}_disk",
             node_config.disk_size_gb,
-            base_image,
+            node_config.image,
         )
 
         # Extract resources

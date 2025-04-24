@@ -17,22 +17,6 @@ class VMProvisioner:
         self.identity_file = identity_file
         self.pool_name = pool_name
 
-    def provision_node(
-        self, node_config: NodeConfig, base_image: str | None = None
-    ) -> str:
-        """Provision a single node and return its IP address"""
-        # Create VM using libvirt
-        with LibvirtConnection(
-            self.hostname, self.username, self.identity_file, self.pool_name
-        ) as conn:
-            domain, ip_address = conn.create_vm(node_config, base_image)
-            if not ip_address:
-                raise RuntimeError(
-                    f"VM {node_config.name} did not obtain an IP"
-                )
-
-            return ip_address
-
     def ssh_execute(self, ip, command):
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -41,48 +25,72 @@ class VMProvisioner:
         output = stdout.read().decode()
         ssh.close()
         return output.strip()
+    
+    def provision_node(
+        self, node_config: NodeConfig
+    ) -> str:
+        """Provision a single node and return its IP address"""
+        # Create VM using libvirt
+        with LibvirtConnection(
+            self.hostname, self.username, self.identity_file, self.pool_name
+        ) as conn:
+            domain, ip_address = conn.create_vm(node_config)
+            if not ip_address:
+                raise RuntimeError(
+                    f"VM {node_config.name} did not obtain an IP"
+                )
+            return ip_address
 
-    def provision_k8s_master(self, node: NodeConfig, base_image=None):
-        master_ip = self.provision_node(node, base_image)
-        time.sleep(60)  # Wait for node to boot fully
 
-        join_command = self.ssh_execute(
-            master_ip,
-            "sudo kubeadm init --apiserver-advertise-address=$(hostname -I | awk '{print \$1}') --pod-network-cidr=10.244.0.0/16 | grep 'kubeadm join' -A1 | tr -d '\\n'",
+    def provision_k8s_cluster(self, cluster: ClusterConfig, pod_cidr="10.244.0.0/16"):
+
+        master_config = cluster.head_nodes[0]
+        worker_configs = cluster.compute_nodes
+
+        # 1. Provision master node
+        master_ip = self.provision_node(master_config)
+        print(f"Master IP: {master_ip}")
+
+        # 2. kubeadm init sur le master
+        print("Initialisation du master K8s...")
+        kubeadm_init_cmd = (
+            f"sudo kubeadm init --apiserver-advertise-address={master_ip} --pod-network-cidr={pod_cidr}"
         )
+        kubeadm_output = self.ssh_execute(master_ip, kubeadm_init_cmd)
+        join_cmd = extract_join_command(kubeadm_output)
+        print(f"Join command: {join_cmd}")
 
-        # Setup kubeconfig for master user
+        # 3. Préparer le kubeconfig sur le master pour l'utilisateur
         self.ssh_execute(
             master_ip,
-            "mkdir -p $HOME/.kube && sudo cp -i /etc/kubernetes/admin.conf HOME/.kube/config && sudo chown (id -u):HOME/.kube/config",
+            "mkdir -p $HOME/.kube && "
+            "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && "
+            "sudo chown $(id -u):$(id -g) $HOME/.kube/config"
         )
-        return master_ip, join_command
 
-    def provision_k8s_worker(
-        self, node: NodeConfig, join_command, base_image=None
-    ):
-        worker_ip = self.provision_node(node, base_image)
-        time.sleep(60)  # Wait for node to boot fully
-        self.ssh_execute(worker_ip, f"sudo {join_command}")
-        return worker_ip
+        # 4. Appliquer le CNI (ex: flannel)
+        print("Application du CNI flannel...")
+        self.ssh_execute(
+            master_ip,
+            "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+        )
 
-    def provision_cluster(
-        self, cluster: ClusterConfig, base_image: str | None = None
-    ) -> dict[str, str]:
-        """Provision an entire cluster from a cluster config"""
-        ips = {}
+        # 5. Provision et join des workers
+        for worker_conf in worker_configs:
+            worker_ip = self.provision_node(worker_conf)
+            print(f"Provisionnement worker: {worker_conf.name} ({worker_ip})")
+            # Attendre que le worker soit bien up
+            time.sleep(30)
+            print(f"Join {worker_conf.name} au cluster...")
+            self.ssh_execute(worker_ip, f"sudo {join_cmd}")
 
-        # Provision head nodes
-        for node in cluster.head_nodes:
-            ip = self.provision_node(node, base_image)
-            ips[node.name] = ip
+        # 6. Vérification finale
+        print("Vérification des nœuds K8s...")
+        time.sleep(30)
+        nodes = self.ssh_execute(master_ip, "kubectl get nodes -o wide")
+        print(nodes)
+        return master_ip
 
-        # Provision compute nodes
-        for node in cluster.compute_nodes:
-            ip = self.provision_node(node, base_image)
-            ips[node.name] = ip
-
-        return ips
 
     def delete_node(self, node_name: str) -> bool:
         """Delete a node by name"""

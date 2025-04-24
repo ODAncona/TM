@@ -19,7 +19,7 @@ LIBVIRT_HOST = "rhodey.lbl.gov"
 LIBVIRT_USER = "odancona"
 LIBVIRT_IDENTITY = "~/.ssh/rhodey"
 # LIBVIRT_BASE_IMAGE = "ubuntu-24.04-server-cloudimg-amd64.img"
-LIBVIRT_BASE_IMAGE = "nixos.img"
+LIBVIRT_BASE_IMAGE = "nixos-k8s-master.img"
 
 LIBVIRT_TEST_NETWORK = "scheduler_benchmark_net"
 LIBVIRT_POOL_NAME = "scheduler_benchmark_pool"
@@ -178,7 +178,7 @@ def test_create_and_delete_vm(libvirt_connection, test_node_config):
                 f"Le réseau de test {LIBVIRT_TEST_NETWORK} n'existe pas, test ignoré"
             )
 
-        # Créer un volume pour notre VM (simuler ce que create_vm ferait)
+        # Créer un volume pour notre VM
         volume_name = f"{test_node_config.name}_disk"
         volume_path = libvirt_connection.create_volume(
             volume_name, test_node_config.disk_size_gb

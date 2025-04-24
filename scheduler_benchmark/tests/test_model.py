@@ -32,6 +32,7 @@ def head_node_config():
             name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"
         ),
         disk_size_gb=16,
+        image="nixos-k8s-master.img"
     )
 
 
@@ -52,6 +53,7 @@ def compute_node_config():
             name="odancona", sudo=True, ssh_public_key_path="~/.ssh/rhodey.pub"
         ),
         disk_size_gb=16,
+        image="nixos-k8s-worker.img",
     )
 
 
