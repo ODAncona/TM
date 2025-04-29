@@ -8,7 +8,7 @@ let
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    networking.useDHCP = true;
+    # networking.useDHCP = true;
     networking.useNetworkd = true;
     systemd.network.enable = true;
 
@@ -35,14 +35,13 @@ let
       bat
       fastfetch
       git
-      pacman
     ];
 
     swapDevices = [];
     virtualisation.diskSize = diskSize;
   };
 
-  MasterConfigK8s = import ./modules/kubernetes/master.nix { 
+  MasterConfigK8s = import ./modules/kubernetes/master.nix {
     inherit config lib pkgs;
   };
 

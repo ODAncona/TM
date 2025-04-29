@@ -13,11 +13,11 @@ J'ai créé ce fichier pour garder une trace de mes actions
 ```txt
 ╷
 │ Error: error while starting the creation of CloudInit's ISO image: exec: "mkisofs": executable file not found in $PATH
-│ 
+│
 │   with libvirt_cloudinit_disk.cloudinit,
 │   on main.tf line 53, in resource "libvirt_cloudinit_disk" "cloudinit":
 │   53: resource "libvirt_cloudinit_disk" "cloudinit" {
-│ 
+│
 ╵
 ```
 
@@ -38,11 +38,11 @@ Your SSH session shows that genisoimage is installed on rhodey (which is functio
 ```txt
 ╷
 │ Error: error creating libvirt domain: internal error: qemu unexpectedly closed the monitor: 2025-03-31T18:37:31.766303Z qemu-system-x86_64: -blockdev {"driver":"file","filename":"/mnt/vmpool/vms/ubuntu-24.04-server-cloudimg-amd64.img","node-name":"libvirt-3-storage","auto-read-only":true,"discard":"unmap"}: Could not open '/mnt/vmpool/vms/ubuntu-24.04-server-cloudimg-amd64.img': Permission denied
-│ 
+│
 │   with libvirt_domain.ubuntu_vm,
 │   on main.tf line 55, in resource "libvirt_domain" "ubuntu_vm":
 │   55: resource "libvirt_domain" "ubuntu_vm" {
-│ 
+│
 ╵
 ```
 
@@ -51,11 +51,11 @@ Your SSH session shows that genisoimage is installed on rhodey (which is functio
 ```txt
 ╷
 │ Error: can't retrieve volume /mnt/vmpool/vms/ubuntu_24_04_vm_volume: Storage volume not found: no storage vol with matching key /mnt/vmpool/vms/ubuntu_24_04_vm_volume
-│ 
+│
 │   with libvirt_domain.ubuntu_vm,
 │   on main.tf line 55, in resource "libvirt_domain" "ubuntu_vm":
 │   55: resource "libvirt_domain" "ubuntu_vm" {
-│ 
+│
 ╵
 ```
 
@@ -105,7 +105,7 @@ Available:      198.48 GiB
 ```bash
 virt-install \
 > --name nix-test --memory 4096 --vcpus 4 \
-> --cdrom /home/odancona/.local/share/libvirt/images/latest-nixos-minimal-x86_64-linux.iso 
+> --cdrom /home/odancona/.local/share/libvirt/images/latest-nixos-minimal-x86_64-linux.iso
 ```
 
 Domain is still running. Installation may be in progress.
@@ -211,7 +211,7 @@ Voici de quoi récupérer la configuration
 
 2025.04.09 - OK - Première provision de la VM avec le helper python 🎉 MILESTONE 1 🎉
 
-2025.04.10 - OK - Nettoyage de Nix sur X1-Carbon, nix était mal installé alors j'ai tout nettoyé proprement pour le réinstaller proprement. Pacman a foiré  
+2025.04.10 - OK - Nettoyage de Nix sur X1-Carbon, nix était mal installé alors j'ai tout nettoyé proprement pour le réinstaller proprement. Pacman a foiré
 
 ```sh
 sudo pacman -R nix
@@ -232,7 +232,7 @@ sudo groupdel nixbld  # Remove the existing nixbld group
 2025.04.13 - NOK - Tentative de création d'une image NixOS avec nixos-generators, attributs inexistants
 
 ```sh
-➜  nix git:(main) ✗ nixos-generate -f qcow -c ./base.nix 
+➜  nix git:(main) ✗ nixos-generate -f qcow -c ./base.nix
 error:
        … while calling the 'seq' builtin
          at /nix/store/zf8yp25bn9lakdca0vad5kp98gij1mkl-nixpkgs/nixpkgs/lib/modules.nix:358:18:
@@ -282,7 +282,7 @@ error:
 2025.04.13 - NOK - Séparation du flake en configuration nix standard + run
 
 ```sh
-➜  nix git:(main) ✗ nixos-generate -f qcow -c ./vm-config.nix 
+➜  nix git:(main) ✗ nixos-generate -f qcow -c ./vm-config.nix
 evaluation warning: system.stateVersion is not set, defaulting to 25.05. Read why this matters on https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion.
 error:
        … in the condition of the assert statement
@@ -381,7 +381,7 @@ nixos-generate -f qcow (or -f qcow2) generates a partition-less raw root filesys
 2025.04.14 - OK - je déplace l'image dans le bon répertoire sur rhodey pour tenter de la lancer
 
 ```sh
-scp nixos.img odancona@rhodey:/home/odancona/.local/share/libvirt/images/nixos.img 
+scp nixos.img odancona@rhodey:/home/odancona/.local/share/libvirt/images/nixos.img
 ```
 
 2025.04.14 - NOK - Impossible de lancer l'image sur rhodey avec libvirt paraît normal si il n'y a pas de boot !
@@ -394,7 +394,7 @@ WARNING  Graphics requested but DISPLAY is not set. Not running virt-viewer.
 WARNING  No console to launch for the guest, defaulting to --wait -1
 
 Starting install...
-Creating domain...                                                                                                                                                  |    0 B  00:00:00     
+Creating domain...                                                                                                                                                  |    0 B  00:00:00
 
 Domain is still running. Installation may be in progress.
 Waiting for the installation to complete.
@@ -454,41 +454,41 @@ nixos-disk-image> Disk /build/nixos.raw: 17.2GB
 nixos-disk-image> Sector size (logical/physical): 512B/512B
 nixos-disk-image> Partition Table: gpt
 nixos-disk-image> Disk Flags:
-nixos-disk-image> 
+nixos-disk-image>
 nixos-disk-image> Number  Start   End     Size    File system  Name     Flags
 nixos-disk-image>  2      17.4kB  1049kB  1031kB               no-fs    bios_grub
 nixos-disk-image>  1      8389kB  269MB   261MB   fat32        ESP      boot, esp
 nixos-disk-image>  3      269MB   17.2GB  16.9GB  ext4         primary
-nixos-disk-image> 
+nixos-disk-image>
 nixos-disk-image> Warning: The kernel is still using the old partition table.
 nixos-disk-image> The new table will be used at the next reboot or after you
 nixos-disk-image> run partprobe(8) or kpartx(8)
 nixos-disk-image> The operation has completed successfully.
 nixos-disk-image> mke2fs 1.47.2 (1-Jan-2025)
-nixos-disk-image> Discarding device blocks: done           
+nixos-disk-image> Discarding device blocks: done
 nixos-disk-image> Creating filesystem with 4128256 4k blocks and 1032192 inodes
 nixos-disk-image> Filesystem UUID: f163c904-0c73-439d-9166-c8d8a3fbe2d5
 nixos-disk-image> Superblock backups stored on blocks:
 nixos-disk-image>       32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,
 nixos-disk-image>       4096000
-nixos-disk-image> 
-nixos-disk-image> Allocating group tables: done   
-nixos-disk-image> Writing inode tables: done   
+nixos-disk-image>
+nixos-disk-image> Allocating group tables: done
+nixos-disk-image> Writing inode tables: done
 nixos-disk-image> Creating journal (16384 blocks): done
-nixos-disk-image> Writing superblocks and filesystem accounting information: done   
-nixos-disk-image> 
+nixos-disk-image> Writing superblocks and filesystem accounting information: done
+nixos-disk-image>
 nixos-disk-image> copying staging root to image...
 ...
 nixos-disk-image> WARNING: Image format was not specified for 'nixos.raw' and probing guessed raw.
 nixos-disk-image>          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
 nixos-disk-image>          Specify the 'raw' format explicitly to remove the restrictions.
 nixos-disk-image> cSeaBIOS (version rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org)
-nixos-disk-image> 
-nixos-disk-image> 
+nixos-disk-image>
+nixos-disk-image>
 nixos-disk-image> iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+3EFD0C20+3EF30C20 CA00
-nixos-disk-image> 
-nixos-disk-image> 
-nixos-disk-image> 
+nixos-disk-image>
+nixos-disk-image>
+nixos-disk-image>
 nixos-disk-image> Booting from ROM...
 nixos-disk-image> Probing EDD (edd=off to disable)... oc[    0.332725] sgx: There are zero EPC sections.
 nixos-disk-image> loading kernel modules...
@@ -499,7 +499,7 @@ nixos-disk-image> tune2fs 1.47.2 (1-Jan-2025)
 nixos-disk-image> Setting maximal mount count to -1
 nixos-disk-image> Setting interval between checks to 0 seconds
 nixos-disk-image> Setting time filesystem last checked to Mon Apr 14 19:26:57 2025
-nixos-disk-image> 
+nixos-disk-image>
 nixos-disk-image> mkfs.fat 4.2 (2021-01-31)
 ...
 nixos-disk-image> ⚠️ Mount point '/boot' which backs the random seed file is world accessible, which is a security hole! ⚠️
@@ -511,10 +511,10 @@ nixos-disk-image> tune2fs 1.47.2 (1-Jan-2025)
 nixos-disk-image> Setting maximal mount count to -1
 nixos-disk-image> Setting interval between checks to 0 seconds
 nixos-disk-image> Setting time filesystem last checked to Mon Apr 14 19:26:58 2025
-nixos-disk-image> 
+nixos-disk-image>
 nixos-disk-image> tune2fs 1.47.2 (1-Jan-2025)
 nixos-disk-image> Setting time filesystem last checked to Thu Jan  1 00:00:00 1970
-nixos-disk-image> 
+nixos-disk-image>
 nixos-disk-image> [    3.042460] reboot: Power down
 nixos-disk-image> [2025-04-14T19:26:58Z INFO  virtiofsd] Client disconnected, shutting down
 nixos-disk-image> [2025-04-14T19:26:58Z INFO  virtiofsd] Client disconnected, shutting down
@@ -547,13 +547,13 @@ eth0  lo
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host noprefixroute 
+    inet6 ::1/128 scope host noprefixroute
        valid_lft forever preferred_lft forever
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
     link/ether 52:54:00:0c:e0:b0 brd ff:ff:ff:ff:ff:ff
     inet 169.254.238.143/16 brd 169.254.255.255 scope global noprefixroute eth0
        valid_lft forever preferred_lft forever
-    inet6 fe80::5054:ff:fe0c:e0b0/64 scope link 
+    inet6 fe80::5054:ff:fe0c:e0b0/64 scope link
        valid_lft forever preferred_lft forever
 
 [odancona@rhodey-vm:~]$ ping 8.8.8.8
@@ -602,7 +602,7 @@ Administrator. It usually boils down to these three things:
 
 For security reasons, the password you type will not be visible.
 
-[sudo] password for odancona: 
+[sudo] password for odancona:
 Failed to restart systemd-networkd.service: Unit systemd-networkd.service not found.
 
 [odancona@rhodey-vm:~]$ sudo dhclient eth0
@@ -647,16 +647,16 @@ Apr 14 21:50:04 rhodey-vm systemd-networkd[587]: ens3: Link UP
 Apr 14 21:50:06 rhodey-vm systemd-networkd[587]: ens3: Gained carrier
 Apr 14 21:50:07 rhodey-vm systemd-networkd[587]: ens3: Gained IPv6LL
 
-[odancona@rhodey-vm:~]$ bat /etc/systemd/network/10-ethernet-dhcp.network 
+[odancona@rhodey-vm:~]$ bat /etc/systemd/network/10-ethernet-dhcp.network
 ───────┬───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
        │ File: /etc/systemd/network/10-ethernet-dhcp.network
 ───────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
    1   │ [Match]
    2   │ Name=en*
-   3   │ 
+   3   │
    4   │ [Network]
    5   │ DHCP=yes
-   6   │ 
+   6   │
 ───────┴───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 [odancona@rhodey-vm:~]$ ip a
@@ -664,13 +664,13 @@ Apr 14 21:50:07 rhodey-vm systemd-networkd[587]: ens3: Gained IPv6LL
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host noprefixroute 
+    inet6 ::1/128 scope host noprefixroute
        valid_lft forever preferred_lft forever
 2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
     link/ether 52:54:00:77:8c:05 brd ff:ff:ff:ff:ff:ff
     altname enp0s3
     altname enx525400778c05
-    inet6 fe80::5054:ff:fe77:8c05/64 scope link proto kernel_ll 
+    inet6 fe80::5054:ff:fe77:8c05/64 scope link proto kernel_ll
        valid_lft forever preferred_lft forever
 
 [odancona@rhodey-vm:~]$ ping 8.8.8.8
@@ -723,7 +723,7 @@ Il fallait simplement changer le DHCP il manquait la balise <dhcp></dhcp>
 2025.04.17 - NOK - Configuration du flake
 
 ```sh
-➜  nix git:(main) ✗ nix build .#nix-vm-image                                 
+➜  nix git:(main) ✗ nix build .#nix-vm-image
 
 warning: Git tree '/home/olivier/projet/tm' is dirty
 error:
@@ -827,7 +827,7 @@ error: 1 dependencies of derivation '/nix/store/1mj2l2xc76a70rrlbwwc020rbsy7h3mw
 => trouvé le problème sur git <https://github.com/NixOS/nixpkgs/issues/390588> et sera résolu dans la prochaine version de nixpkgs. Donc je vais rétrograder à la version stable de nixOs.
 
 ```sh
-nix-channel --add https://nixos.org/channels/nixos-23.11 nixos 
+nix-channel --add https://nixos.org/channels/nixos-23.11 nixos
 nix-channel --update
 ```
 
@@ -966,3 +966,48 @@ libvirt: Storage Driver error : internal error: storage volume name 'head-node-1
 
 ip fixe => facile mais pas flexible pour créer image
 ip dhcp => flexible mais moins facile à gérer
+2025.04.23 - OK - Analyse de la méthode d'initialisation de la runtime configuration
+2025.04.23 - OK - Refactor de la codebase, simplification de l'API (assigner baseimage au node)
+2025.04.23 - OK - Génération de k8s cluster gen
+2025.04.23 - NOK - Génération de l'image du master avec la config modifiée de k8s
+
+```sh
+   error: The option `services.kubernetes.masterAddress' was accessed but has no value defined. Try setting the option.
+```
+
+=> masterAddress doit être connu à la construction de la configuration Nix, alors que dans beaucoup de scénarios (cloud, VM dynamiques), on ne connaît l’IP du master qu’au runtime.
+=> analyser le module nix
+=> Conclusion, il faut enlever la configuration statique
+
+```sh
+There are generally two ways of enabling Kubernetes on NixOS. One way is to enable and configure cluster components appropriately by hand:
+
+services.kubernetes = {
+  apiserver.enable = true;
+  controllerManager.enable = true;
+  scheduler.enable = true;
+  addonManager.enable = true;
+  proxy.enable = true;
+  flannel.enable = true;
+};
+Another way is to assign cluster roles (“master” and/or “node”) to the host. This enables apiserver, controllerManager, scheduler, addonManager, kube-proxy and etcd:
+```
+
+=> même erreur
+=> C’est easyCerts = true qui force la dépendance à masterAddress, même si tu n’utilises pas roles.
+=> Même sans roles et sans easyCerts, le module attend toujours que services.kubernetes.masterAddress soit défini dès qu'on active certains sous-modules (par ex. l'apiserver, le controllerManager, le scheduler ou le kubelet).
+=> Le hack rapide : définir masterAddress à une valeur bidon
+2025.04.24 - NOK - Impossible de compiler l'image
+L'ordinateur freeze complètement
+=> solution hard reboot et nettoyage du nix store avec le garbage collector
+=> `nix-collect-garbage -d`
+2025.04.25 - NOK - Impossible de configurer Kubernetes
+=>
+```sh
+[odancona@nixos:~]$ kubectl get all
+E0426 03:36:22.611118    5166 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+```
+=> Je dois modifier la configuration pour utiliser une IP fixe
+=> Je tente de placer une ip fixe au master
+=> il ne peut pas configurer car l'interface `enp1s0` n'existe plus alors qu'elle est présente en dhcp.
+=> Dans ta config Nix, remplace partout enp1s0 par ens3 :

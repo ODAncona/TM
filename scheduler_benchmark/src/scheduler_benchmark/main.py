@@ -51,12 +51,12 @@ def main(cfg: DictConfig) -> None:
         # Provision the master node
         node = config.cluster.head_nodes[0]
         print(type(node))
-        ip = provisioner.provision_node(node, base_image=node.image)
+        ip = provisioner.provision_node(node)
         logger.info(f"Node {node.name} provisioned with IP: {ip}")
 
         # Provision the worker nodes
         for node in config.cluster.compute_nodes:
-            ip = provisioner.provision_node(node, base_image=node.image)
+            ip = provisioner.provision_node(node)
             logger.info(f"Node {node.name} provisioned with IP: {ip}")
     except Exception as e:
         logger.error(f"Error provisioning node: {e}")
@@ -64,16 +64,13 @@ def main(cfg: DictConfig) -> None:
 
     # Provision cluster
     # try:
-    #     logger.info(f"Provisioning cluster {config.cluster.name}...")
-    #     ips = provisioner.provision_cluster(
+    #     logger.info(f"Provisioning k8s cluster {config.cluster.name}...")
+    #     master_ip = provisioner.provision_k8s_cluster(
     #         config.cluster,
-    #         base_image=cfg.libvirt.base_image
     #     )
-
+    #     logger.info(f"Master node IP: {master_ip}")
     #     logger.info("Cluster provisioned successfully!")
     #     logger.info("Node IP addresses:")
-    #     for name, ip in ips.items():
-    #         logger.info(f"  {name}: {ip}")
 
     # except Exception as e:
     #     logger.error(f"Error provisioning cluster: {e}")
