@@ -4,7 +4,11 @@
 
   environment.systemPackages = with pkgs; [
     kubectl
+    kubernetes
   ];
+
+  virtualisation.containerd.enable = true;
+
 
   # Kubernetes Worker Node Configuration
   # services.kubernetes = {
@@ -13,16 +17,14 @@
   #   flannel.enable = true;
   #   easyCerts = true;
   # };
-
-  networking.useDHCP = true;
-
+  
   # Kubernetes Worker Node Configuration
-  services.kubernetes = {
-    roles = ["node"];
-    masterAddress = masterIP; # dynamically provided
-    apiserverAddress = masterIP; # dynamically provided
-    easyCerts = true;
-  };
+  # services.kubernetes = {
+  #   roles = ["node"];
+  #   masterAddress = masterIP; # dynamically provided
+  #   apiserverAddress = masterIP; # dynamically provided
+  #   easyCerts = true;
+  # };
 
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
