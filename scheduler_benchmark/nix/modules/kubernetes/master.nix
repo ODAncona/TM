@@ -24,24 +24,16 @@
   #   };
   # };
 
-  networking.hostname = "nixos-k8s-master";
+  networking.hostName = "nixos-k8s-master";
   networking.useDHCP = true;
 
-  services.kubernetes = {
-    apiserver.enable = true;
-    controllerManager.enable = true;
-    scheduler.enable = true;
-    addonManager.enable = true;
-    proxy.enable = true;
-    flannel.enable = true;
-  };
 
-  # services.kubernetes = {
-  #   roles = ["master"];
-  #   easyCerts = true;
-  #   addons.dns.enable = true;
-  #   kubelet.extraOpts = "--fail-swap-on=false";
-  # };
+  services.kubernetes = {
+    roles = ["master"];
+    easyCerts = true;
+    addons.dns.enable = true;
+    kubelet.extraOpts = "--fail-swap-on=false";
+  };
   services.kubernetes.masterAddress = "nixos-k8s-master";
 
 

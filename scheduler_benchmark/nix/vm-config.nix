@@ -8,6 +8,16 @@
 
   networking.useNetworkd = true;
   systemd.network.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      domain = true;
+      workstation = true;
+    };
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   time.timeZone = "UTC";

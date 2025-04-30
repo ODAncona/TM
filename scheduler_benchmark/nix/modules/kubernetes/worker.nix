@@ -1,4 +1,10 @@
-{ config, lib, pkgs, masterIP ? "192.168.222.22", ... }:
+{ config, lib, pkgs, ... }:
+
+let 
+  # Define the master IP address here or pass it as an argument
+  masterIP = "nixos-k8s-master.local";
+
+in
 
 {
 
@@ -19,12 +25,12 @@
   # };
   
   # Kubernetes Worker Node Configuration
-  # services.kubernetes = {
-  #   roles = ["node"];
-  #   masterAddress = masterIP; # dynamically provided
-  #   apiserverAddress = masterIP; # dynamically provided
-  #   easyCerts = true;
-  # };
+  services.kubernetes = {
+    roles = ["node"];
+    masterAddress = masterIP; # dynamically provided
+    apiserverAddress = masterIP; # dynamically provided
+    easyCerts = true;
+  };
 
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [

@@ -1,27 +1,3 @@
-# {
-#   description = "NixOS Kubernetes VM";
-
-#   inputs = {
-#     nixpkgs.url = "github:NixOS/nixpkgs/24.11";
-#     nixos-generators = {
-#       url = "github:nix-community/nixos-generators";
-#       inputs.nixpkgs.follows = "nixpkgs";
-#     };
-#   };
-
-#   outputs = { self, nixpkgs, nixos-generators }: {
-#     packages.x86_64-linux = {
-#       qcow = nixos-generators.nixosGenerate {
-#         system = "x86_64-linux";
-#         modules = [
-#           ./vm-config.nix
-#         ];
-#         format = "qcow";
-#       };
-#     };
-#   };
-# }
-
 {
   description = "NixOS Cluster VMs";
 
@@ -35,7 +11,9 @@
 
   outputs = { self, nixpkgs, nixos-generators }: {
     packages.x86_64-linux = {
-      # Images Kubernetes
+      # ----------------------------------
+      # Kubernetes
+      # ----------------------------------
       k8s-master = nixos-generators.nixosGenerate {
         system = "x86_64-linux";
         modules = [
@@ -54,7 +32,9 @@
         format = "qcow";
       };
       
-      # Images Slurm
+      # ----------------------------------
+      # SLURM
+      # ----------------------------------
       # slurm-master = nixos-generators.nixosGenerate {
       #   system = "x86_64-linux";
       #   modules = [
@@ -71,10 +51,7 @@
       #     ./modules/slurm/worker.nix
       #   ];
       #   format = "qcow";
-      # };
-      
-      # Alias pour compatibilité
-      qcow = self.packages.x86_64-linux.k8s-master;
+      # };      
     };
   };
 }
