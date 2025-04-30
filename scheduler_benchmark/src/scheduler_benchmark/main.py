@@ -47,10 +47,11 @@ def main(cfg: DictConfig) -> None:
         pool_name=cfg.libvirt.pool_name,
     )
 
+    provisioner.delete_cluster(config.cluster)
+
     try:
         # Provision the master node
         node = config.cluster.head_nodes[0]
-        print(type(node))
         ip = provisioner.provision_node(node)
         logger.info(f"Node {node.name} provisioned with IP: {ip}")
 

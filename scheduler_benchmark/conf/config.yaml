@@ -16,10 +16,10 @@ cluster:
       disk_size_gb: 16
       resources:
         - type: "cpu"
-          amount: 2
+          amount: 4
           unit: "cores"
         - type: "ram"
-          amount: 4096
+          amount: 8192
           unit: "mb"
       network:
         name: "scheduler_benchmark_net"
@@ -49,6 +49,24 @@ cluster:
         name: "odancona"
         sudo: true
         ssh_public_key_path: "~/.ssh/rhodey.pub"
+    # - name: "compute-node-2"
+    #   image: "nixos-k8s-master.img"
+    #   disk_size_gb: 16
+    #   resources:
+    #     - type: "cpu"
+    #       amount: 2
+    #       unit: "cores"
+    #     - type: "ram"
+    #       amount: 4096
+    #       unit: "mb"
+    #   network:
+    #     name: "scheduler_benchmark_net"
+    #     cidr: "192.168.222.0/24"
+    #     gateway: "192.168.222.1"
+    #   user:
+    #     name: "odancona"
+    #     sudo: true
+    #     ssh_public_key_path: "~/.ssh/rhodey.pub"
 
 scheduler:
   type: "slurm"

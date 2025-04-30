@@ -1003,11 +1003,123 @@ L'ordinateur freeze complètement
 => `nix-collect-garbage -d`
 2025.04.25 - NOK - Impossible de configurer Kubernetes
 =>
+
 ```sh
 [odancona@nixos:~]$ kubectl get all
 E0426 03:36:22.611118    5166 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
 ```
+
 => Je dois modifier la configuration pour utiliser une IP fixe
 => Je tente de placer une ip fixe au master
 => il ne peut pas configurer car l'interface `enp1s0` n'existe plus alors qu'elle est présente en dhcp.
 => Dans ta config Nix, remplace partout enp1s0 par ens3 :
+
+2025.04.27 - NOK - Test de la configuration de l'IP
+Lorsque je configure enp1s0, j'ai une ip sur ens3 et lorsque je configure ens3 j'ai une ip sur enp1s0.
+=> Abandon de l'idée de configurer Kubernetes avec Nix
+=> Test d'une approche manuelle
+
+2025.04.28 - OK - Analyse Ansible vs python
+2025.04.29 - OK - Création du Rapport et réglage de police et compilation
+2025.04.29 - OK - Création d'une image avec les paquets de base
+2025.04.29 - NOK - Impossible de kubeadm init
+
+```sh
+[odancona@nixos:~]$ sudo kubeadm init
+I0429 19:53:06.467547    4138 version.go:261] remote version is much newer: v1.33.0; falling back to: stable-1.31
+[init] Using Kubernetes version: v1.31.8
+[preflight] Running pre-flight checks
+W0429 19:53:06.716363    4138 checks.go:1080] [preflight] WARNING: Couldn't create the interface used for talking to the container runtime: failed to create new CRI runtime service: validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/containerd/containerd.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/containerd/containerd.sock: connect: no such file or directory"
+        [WARNING FileExisting-crictl]: crictl not found in system path
+        [WARNING Service-Kubelet]: kubelet service is not enabled, please run 'systemctl enable kubelet.service'
+error execution phase preflight: [preflight] Some fatal errors occurred:
+        [ERROR FileExisting-conntrack]: conntrack not found in system path
+        [ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not set to 1
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+```
+
+=> ajout de conntrack-tools avec `nix profile install nixpkgs#conntrack-tools`
+=> Activation de containerd `virtualisation.containerd.enable = true;`
+
+```sh
+I0429 21:08:06.626789    3261 version.go:261] remote version is much newer: v1.33.0; falling back to: stable-1.31
+[init] Using Kubernetes version: v1.31.8
+[preflight] Running pre-flight checks
+W0429 21:08:06.834913    3261 checks.go:1080] [preflight] WARNING: Couldn't create the interface used for talking to the container runtime: failed to create new CRI runtime service: validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/containerd/containerd.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/containerd/containerd.sock: connect: no such file or directory"
+        [WARNING Service-Kubelet]: kubelet service is not enabled, please run 'systemctl enable kubelet.service'
+error execution phase preflight: [preflight] Some fatal errors occurred:
+        [ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not set to 1
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+```
+
+=> Ajout de ces changements
+
+```nix
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    "net.bridge.bridge-nf-call-iptables" = 1;
+    "net.bridge.bridge-nf-call-ip6tables" = 1;
+  };
+  virtualisation.containerd = {
+    enable = true;
+    settings = {
+      plugins."io.containerd.grpc.v1.cri".enable = true;
+    };
+  };
+```
+
+=> Impossible de démarrer le kubelet à cause de la même erreur de configuration de l'IP
+=> Je vais réessayer de configurer l'IP
+2025.04.30 - OK - Extension du flake pour plus d'évolutivité on peut appeler le flakes comme ça `nix build .#k8s-master --impure`
+2025.04.30 - OK - Compilation du master et du worker avec un hostName du master défini à `nixos-k8s-master`
+2025.04.30 - NOK - Impossible de résoudre l'IP du master
+
+=> Il manque le DHCP
+=>
+`virsh net-edit scheduler_benchmark_net`
+
+```xml
+  <dns enable='yes'>
+    <host ip='192.168.222.1'>
+      <hostname>gateway</hostname>
+    </host>
+  </dns>
+```
+
+=>
+
+```sh
+virsh net-destroy scheduler_benchmark_net
+virsh net-start scheduler_benchmark_net
+```
+
+2025.04.30 - NOK - Echec de connection via hostname worker -> master!
+
+=> Il faut configurer soit Avahi/mDNS soit DNS dynamique avec libvirt
+
+```nix
+services.avahi = {
+  enable = true;
+  nssmdns4 = true;  # Intégration avec la résolution de noms du système
+  publish = {
+    enable = true;
+    addresses = true;
+    domain = true;
+    workstation = true;
+  };
+};
+```
+
++ `nixos-k8s-master.local`
+
+=> Success
+
+```sh
+[odancona@nixos:~]$ ping nixos-k8s-master.local
+PING nixos-k8s-master.local (192.168.222.107) 56(84) bytes of data.
+64 bytes from nixos-k8s-master.scheduler_benchmark_net (192.168.222.107): icmp_seq=1 ttl=64 time=0.508 ms
+64 bytes from nixos-k8s-master.scheduler_benchmark_net (192.168.222.107): icmp_seq=2 ttl=64 time=0.418 ms
+64 bytes from nixos-k8s-master.scheduler_benchmark_net (192.168.222.107): icmp_seq=3 ttl=64 time=0.469 ms
+```
