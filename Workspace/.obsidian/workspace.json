@@ -13,15 +13,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "saved discussions/Virt-sysprep vs mysystem.md",
+                "file": "resources/Nix + Kubernetes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Virt-sysprep vs mysystem"
+              "title": "Nix + Kubernetes"
+            }
+          },
+          {
+            "id": "2ab76bd572f5633a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "saved discussions/Benchmarks - Vidéo.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Benchmarks - Vidéo"
+            }
+          },
+          {
+            "id": "c74c65e781bc4770",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "resources/Nix + Kubernetes.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Nix + Kubernetes"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -168,34 +197,34 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "f242f2333d5d2235",
+  "active": "c74c65e781bc4770",
   "lastOpenFiles": [
-    "saved discussions/Stack Justification.md",
-    "saved discussions/Virt-sysprep vs mysystem.md",
-    "saved discussions/NIX Flakes vs Nix standard.md",
-    "saved discussions/Nix-VM.md",
-    "saved discussions/Problem Definition - ODMBMJA.md",
-    "saved discussions/Resource manager vs Schedulers.md",
-    "saved discussions/Kubernetes Cluster Guide.md",
-    "saved discussions/Comparaison - Slurm VS K8s.md",
-    "saved discussions/Schedulers.md",
-    "saved discussions/Scheduler - Configuration.md",
+    "resources/Kubernetes.md",
+    "organisation/meetings/16_Jeff.md",
+    "resources/Nix + Kubernetes.md",
+    "saved discussions/Runtime Analysis 1 - Ansible vs Python.md",
+    "saved discussions/Runtime Analysis 2 - Colmena vs Ansible vs Python.md",
     "saved discussions/Runtime Analysis 5 - Cloudinit vs Orchestration externe.md",
+    "saved discussions/Problem Definition - ODMBMJA.md",
+    "saved discussions/Network Analysis - StaticIP vs DHCP problème.md",
+    "saved discussions/NIX Flakes vs Nix standard.md",
+    "saved discussions/Network Analysis - StaticIP vs DHCP discussion.md",
+    "saved discussions/Kubernetes Cluster Guide.md",
+    "saved discussions/Deployment Analysis - Stack.md",
+    "saved discussions/Deployment Analysis - Nix.md",
+    "saved discussions/Comparaison - Slurm VS K8s.md",
+    "saved discussions/Benchmarks - Vidéo.md",
+    "LOLILOL.md",
+    "Work Scope.md",
+    "TODO.md",
+    "TOFDO.md",
+    "prompts/TM_Specification_V2.7.0.md",
     "saved discussions/Runtime Analysis 4 - Configure VM after provision.md",
     "saved discussions/Runtime Analysis 3 - Static vs dynamic.md",
-    "saved discussions/Runtime Analysis 2 - Colmena vs Ansible vs Python.md",
-    "saved discussions/Runtime Analysis 1 - Ansible vs Python.md",
-    "saved discussions/Network Analysis - StaticIP vs DHCP problème.md",
-    "saved discussions/Network Analysis - StaticIP vs DHCP discussion.md",
-    "prompts/TM_Specification_V2.7.0.md",
-    "prompts/TM_Specification_V2.6.0.md",
-    "illustrations/Deployment_steps.md",
-    "illustrations/ARCHITECTURE.md",
-    "saved discussions/Deployment Analysis - Stack.md",
-    "saved discussions/Deployment Analysis - Recommendation.md",
-    "saved discussions/Deployment Analysis - Nix Vs Terraform+Ansible.md",
-    "saved discussions/Deployment Analysis - Nix.md",
-    "saved discussions/VM Provisioning 3.md",
+    "resources/Volcano.md",
+    "saved discussions/Virt-sysprep vs mysystem.md",
+    "saved discussions/Stack Justification.md",
+    "saved discussions/Nix-VM.md",
     "Pasted image 20250418162252.png",
     "prompts/TM_Specification_V2.4.0.pdf",
     "illustrations/rack_latency.svg",
