@@ -1,35 +1,23 @@
 { config, lib, pkgs, ... }:
 
 let 
-  # Define the master IP address here or pass it as an argument
-  masterIP = "nixos-k8s-master.local";
-
+  kubeMasterFQDN = "k8s-master.local";
 in
 
 {
 
+  # Packages
   environment.systemPackages = with pkgs; [
-    kubectl
     kubernetes
   ];
-
-  virtualisation.containerd.enable = true;
-
-
-  # Kubernetes Worker Node Configuration
-  # services.kubernetes = {
-  #   kubelet.enable = true;
-  #   proxy.enable = true;
-  #   flannel.enable = true;
-  #   easyCerts = true;
-  # };
   
   # Kubernetes Worker Node Configuration
   services.kubernetes = {
     roles = ["node"];
-    masterAddress = masterIP; # dynamically provided
-    apiserverAddress = masterIP; # dynamically provided
+    masterAddress = kubeMasterFQDN;
+    apiserverAddress = "https://${kubeMasterFQDN}:6443";
     easyCerts = true;
+    addons.dns.enable = true;
   };
 
   networking.firewall.enable = true;
