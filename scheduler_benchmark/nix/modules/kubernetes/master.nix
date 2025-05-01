@@ -25,8 +25,7 @@ in
     apiserver = {
       securePort = 6443;
       extraSANs = [ apiserverFQDN ];
-      advertiseAddress = apiserverFQDN;
-    }
+    };
   };
 
   environment.sessionVariables = {
