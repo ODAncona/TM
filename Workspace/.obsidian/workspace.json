@@ -4,53 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "c9862d06cb89cb12",
+        "id": "9b819111155fa951",
         "type": "tabs",
         "children": [
           {
-            "id": "f242f2333d5d2235",
+            "id": "490898e6bd6bc722",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "resources/Nix + Kubernetes.md",
+                "file": "saved discussions/Avahi Analysis.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Nix + Kubernetes"
-            }
-          },
-          {
-            "id": "2ab76bd572f5633a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "saved discussions/Benchmarks - Vidéo.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Benchmarks - Vidéo"
-            }
-          },
-          {
-            "id": "c74c65e781bc4770",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "resources/Nix + Kubernetes.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Nix + Kubernetes"
+              "title": "Avahi Analysis"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -197,11 +168,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c74c65e781bc4770",
+  "active": "490898e6bd6bc722",
   "lastOpenFiles": [
+    "saved discussions/Avahi Analysis.md",
+    "resources/Nix + Kubernetes.md",
+    "saved discussions/Stack Analysis 1 - VS other softs.md",
+    "saved discussions/Stack Analysis 4 - VS other softs.md",
+    "saved discussions/Stack Analysis 3 - VS other softs.md",
+    "saved discussions/Stack Analysis 2 - VS other softs.md",
+    "saved discussions/Benchmarks - Vidéo.md",
+    "prompts/TM_Specification_V2.7.0.md",
     "resources/Kubernetes.md",
     "organisation/meetings/16_Jeff.md",
-    "resources/Nix + Kubernetes.md",
     "saved discussions/Runtime Analysis 1 - Ansible vs Python.md",
     "saved discussions/Runtime Analysis 2 - Colmena vs Ansible vs Python.md",
     "saved discussions/Runtime Analysis 5 - Cloudinit vs Orchestration externe.md",
@@ -213,18 +191,11 @@
     "saved discussions/Deployment Analysis - Stack.md",
     "saved discussions/Deployment Analysis - Nix.md",
     "saved discussions/Comparaison - Slurm VS K8s.md",
-    "saved discussions/Benchmarks - Vidéo.md",
     "LOLILOL.md",
     "Work Scope.md",
     "TODO.md",
     "TOFDO.md",
-    "prompts/TM_Specification_V2.7.0.md",
     "saved discussions/Runtime Analysis 4 - Configure VM after provision.md",
-    "saved discussions/Runtime Analysis 3 - Static vs dynamic.md",
-    "resources/Volcano.md",
-    "saved discussions/Virt-sysprep vs mysystem.md",
-    "saved discussions/Stack Justification.md",
-    "saved discussions/Nix-VM.md",
     "Pasted image 20250418162252.png",
     "prompts/TM_Specification_V2.4.0.pdf",
     "illustrations/rack_latency.svg",
