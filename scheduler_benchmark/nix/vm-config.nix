@@ -35,7 +35,7 @@
   services.openssh.enable = true;
 
   environment.systemPackages = with pkgs; [
-    vim curl tree btop bat fastfetch git jq
+    vim curl tree btop bat fastfetch git jq openssl
   ];
 
   swapDevices = [];

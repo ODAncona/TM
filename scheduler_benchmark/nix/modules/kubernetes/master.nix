@@ -26,6 +26,14 @@ in
       securePort = 6443;
       extraSANs = [ apiserverFQDN ];
     };
+    # Overload the flannel.nix to setup certificates
+    pki.certs.flannelClient = config.services.kubernetes.lib.mkCert {
+      name = "flannel-client";
+      CN = "flannel-client";
+      hosts = [ apiserverHost apiserverFQDN ];
+      action = "systemctl restart flannel.service";
+    };
+    pki.cfsslAPIExtraSANs = [ apiserverHost apiserverFQDN ];
   };
 
   environment.sessionVariables = {
@@ -48,3 +56,4 @@ in
     { from = 30000; to = 32767; }  # NodePort services
   ];
 }
+
