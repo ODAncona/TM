@@ -1411,3 +1411,51 @@ Host 192.168.222.*
   ProxyJump odancona@rhodey
   IdentityFile ~/.ssh/rhodey
 ```
+
+2025.05.02 - NOK - Impossible de se connecter à la VM avec le script python
+
+=> La VM n’a pas de ~/.ssh/authorized_keys pour odancona malgré ta config NixOS.
+=> Pas un problème car la clé publique est bien dans l'autre directory : /etc/ssh/authorized_keys.d/odancona
+=> Le problème vient plus de la clé privé qui n'est pas présente sur Rhodey
+
+```sh
+odancona@rhodey:~$ ssh -i /home/odancona/.ssh/rhodey odancona@192.168.222.154
+Warning: Identity file /home/odancona/.ssh/rhodey not accessible: No such file or directory.
+```
+
+=> ça fonctionne depuis le laptop car j'utilise ProxyJump qui fait le tunnel pour moi donc la connexion part de mon laptop.
+=> Il manquait expanduser() sur le chemin de la clé privée. Ainsi, Paramiko n'arrivait pas à établir la connexion SSH.
+
+2025.05.02 - NOK - Impossible de se connecter à la VM avec le script python
+
+=> Il faut gérer le password correctement
+
+```sh
+[2025-05-02 14:42:34,291][__main__][ERROR] - Error provisioning cluster: Error executing command on 192.168.222.236: 
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+For security reasons, the password you type will not be visible.
+
+sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
+sudo: a password is required
+```
+
+=> désactivation du mdp dans la vm
+
+2025.05.02 - OK - Configuration du cluster kubernetes automatique OK test avec plusieurs workers
+2025.05.02 - NOK - Impossible d'ajouter plusieurs workers.
+
+=> Vu que les workers ont le même nom d'host, il y a un problème de collision et il y a un seul worker qui est ajouté au cluster. Si tes deux VMs (“compute-node-1” et “compute-node-2”) démarrent avec la même image NixOS et que cette image a un hostname statique (par exemple nixos), alors : K8s ne petu pas distinguer les noeuds et le dernier qui s'enregistre remplace l'autre.
+=> Comme j'utilise un template d’image, il faut que le hostname soit personnalisé à la création de la VM.
+=> Fix simple, changer le hostname à la volée
+
+```py
+self.ssh_execute(ip, f"sudo hostnamectl set-hostname {node_config.name}")
+```
+
+=> ou pas: Could not set pretty hostname: Changing system settings via systemd is not supported on NixOS.

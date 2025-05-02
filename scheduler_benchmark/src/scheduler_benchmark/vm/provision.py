@@ -3,39 +3,8 @@ from scheduler_benchmark.vm.libvirt_helper import LibvirtConnection
 import paramiko
 import time
 import logging
-import functools
-import socket
-import os
+from pathlib import Path
 
-
-def wait_for_ssh_ready(ip_arg_index=0, timeout=90, initial_interval=1, max_interval=10, logger=None):
-    """
-    Decorator to wait for SSH port 22 to be open before executing the function.
-    """
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            host = args[ip_arg_index]
-            log = logger or logging.getLogger(func.__module__)
-            log.debug(f"Waiting for SSH on {host} (timeout={timeout}s)...")
-            start = time.time()
-            interval = initial_interval
-            while time.time() - start < timeout:
-                try:
-                    # Try to resolve host to IP (for hostnames)
-                    ip = socket.gethostbyname(host)
-                    with socket.create_connection((ip, 22), timeout=2):
-                        log.info(f"SSH port open on {host}")
-                        break
-                except Exception:
-                    time.sleep(interval)
-                    interval = min(max_interval, interval * 2)
-            else:
-                log.error(f"Timeout: SSH port not open on {host} after {timeout}s.")
-                raise TimeoutError(f"SSH port not open on {host} after {timeout}s.")
-            return func(*args, **kwargs)
-        return wrapper
-    return decorator
 
 class VMProvisioner:
     def __init__(
@@ -52,37 +21,6 @@ class VMProvisioner:
         self.pool_name = pool_name
         self.logger = logger or logging.getLogger(__name__)
 
-    @wait_for_ssh_ready(ip_arg_index=1, timeout=90, initial_interval=1, max_interval=10, logger=logging.getLogger(__name__))
-    def ssh_execute(self, host, command):
-        """
-        SSH into the host and execute a command.
-        Uses SSH config for ProxyJump etc.
-        """
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-        # Use SSH config for jump etc.
-        ssh_config = paramiko.SSHConfig()
-        with open(os.path.expanduser("~/.ssh/config")) as f:
-            ssh_config.parse(f)
-        host_conf = ssh_config.lookup(host)
-        hostname = host_conf.get('hostname', host)
-        username = host_conf.get('user', self.username)
-        identityfile = host_conf.get('identityfile', [self.identity_file])[0]
-
-        ssh.connect(
-            hostname=hostname,
-            username=username,
-            key_filename=identityfile,
-            allow_agent=True,
-            look_for_keys=True,
-        )
-        stdin, stdout, stderr = ssh.exec_command(command)
-        output = stdout.read().decode()
-        ssh.close()
-        return output.strip()
-    
-
     def provision_node(
         self, node_config: NodeConfig
     ) -> str:
@@ -98,13 +36,11 @@ class VMProvisioner:
                 )
             return ip_address
 
-
     def provision_k8s_cluster(self, cluster: ClusterConfig):
         master_ip = self.provision_node(cluster.head_nodes[0])
-        worker_ips = [self.provision_node(wn) for wn in cluster.compute_nodes]
 
         try:
-            self.ssh_execute(master_ip, "true")
+            self.wait_ssh_ready(master_ip)
         except Exception:
             self.logger.error(f"Master SSH not ready: {master_ip}")
             raise RuntimeError("Master SSH not ready")
@@ -112,17 +48,17 @@ class VMProvisioner:
         join_k8s_token = self.ssh_execute(master_ip, "sudo cat /var/lib/kubernetes/secrets/apitoken.secret")
         self.logger.info(f"Token: {join_k8s_token}")
 
-        for ip in worker_ips:
+        for node_config in cluster.compute_nodes:
+            ip = self.provision_node(node_config)
             try:
                 self.ssh_execute(ip, "true")
             except Exception:
                 self.logger.error(f"Worker SSH not ready: {ip}")
                 raise RuntimeError("Worker SSH not ready")
-
+            self.ssh_execute(ip, f"sudo hostnamectl set-hostname {node_config.name}")
             self.logger.debug(f"Joining {ip} ...")
             cmd = f"echo {join_k8s_token} | sudo nixos-kubernetes-node-join"
             self.logger.info(self.ssh_execute(ip, cmd))
-
 
     def delete_node(self, node_name: str) -> bool:
         """Delete a node by name"""
@@ -148,3 +84,72 @@ class VMProvisioner:
                 results[node.name] = conn.delete_vm(node.name)
 
         return results
+
+    def wait_ssh_ready(self, host, timeout=90, interval=3):
+        start = time.time()
+        while time.time() - start < timeout:
+            try:
+                self.ssh_execute(host, "true")
+                return
+            except Exception as e:
+                self.logger.error(f"SSH not ready on {host}: {e}")
+                time.sleep(interval)
+        raise TimeoutError(f"SSH not ready on {host} after {timeout}s")
+
+    def ssh_execute(self, host, command):
+        """
+        SSH into the host and execute a command via jump host (rhodey).
+
+        self.hostname must be the jump host (rhodey).
+        self.identity_file must be the private key for the jump host and the VM. /!\
+        host must be the VM hostname or IP address.
+        """
+        key_path = str(Path(self.identity_file).expanduser())
+
+
+        # ~~~ Jump host ~~~
+        jump_client = paramiko.SSHClient()
+        jump_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self.logger.debug(f"Connecting to jump host {self.hostname} as {self.username} with {self.identity_file}")
+        jump_client.connect(
+            self.hostname,
+            username=self.username,
+            key_filename=key_path,
+            allow_agent=True,
+            look_for_keys=True,
+        )
+
+        # ~~~ Tunnel to the VM ~~~
+        jump_transport = jump_client.get_transport()
+        dest_addr = (host, 22)
+        local_addr = ('', 0)  # source address, can be blank
+        self.logger.debug(f"Creating tunnel to {host} via {self.hostname}")
+        channel = jump_transport.open_channel("direct-tcpip", dest_addr, local_addr)
+
+        # ~~~ SSH into the VM ~~~
+        vm_client = paramiko.SSHClient()
+        vm_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self.logger.debug(f"Connecting to VM {host} as {self.username} with {self.identity_file}")
+        vm_client.connect(
+            host,
+            username=self.username,
+            key_filename=key_path,
+            sock=channel,
+            allow_agent=True,
+            look_for_keys=True,
+        )
+        self.logger.debug(f"Executing command: {command}")
+        stdin, stdout, stderr = vm_client.exec_command(command)
+        exit_status = stdout.channel.recv_exit_status()
+        output = stdout.read().decode()
+        error = stderr.read().decode()
+        if exit_status != 0:
+            self.logger.error(f"Error executing command {command} on {host} (code {exit_status}): {error}")
+            raise RuntimeError(f"Error executing command {command} on {host}: {error}")
+        if error:
+            self.logger.warning(f"Command {command} on {host} wrote to stderr: {error}")
+        self.logger.debug(f"Command output: {output}")
+        vm_client.close()
+        jump_client.close()
+        return output.strip()
+        

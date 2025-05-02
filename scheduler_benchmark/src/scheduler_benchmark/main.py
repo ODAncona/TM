@@ -1,24 +1,11 @@
-import colorlog
 import logging
 import hydra
 from omegaconf import DictConfig, OmegaConf
-import os
 
-from scheduler_benchmark.models import (
-    HPCConfig,
-    ClusterConfig,
-    NodeConfig,
-    Resource,
-    ResourceType,
-    NetworkConfig,
-    UserConfig,
-    SchedulerConfig,
-    SchedulerType,
-)
+from scheduler_benchmark.models import HPCConfig
 from scheduler_benchmark.vm.provision import VMProvisioner
 
 logger = logging.getLogger(__name__)
-
 
 def config_to_model(cfg: DictConfig) -> HPCConfig:
     """Convert Hydra config to Pydantic model"""
@@ -31,7 +18,7 @@ def config_to_model(cfg: DictConfig) -> HPCConfig:
 @hydra.main(version_base=None, config_path="../../conf", config_name="config")
 def main(cfg: DictConfig) -> None:
     """Main entry point with Hydra configuration"""
-    # Convert hydra config to pydantic model
+    # ~~~ Configuration ~~~
     try:
         config = config_to_model(cfg)
         logger.info(f"Loaded configuration for cluster: {config.cluster.name}")
@@ -39,7 +26,7 @@ def main(cfg: DictConfig) -> None:
         logger.error(f"Configuration error: {e}")
         return
 
-    # Create VM provisioner for the remote host
+    # ~~~ VM provisioner ~~~
     provisioner = VMProvisioner(
         hostname=cfg.libvirt.hostname,
         username=cfg.libvirt.username,
@@ -63,7 +50,7 @@ def main(cfg: DictConfig) -> None:
     #     logger.error(f"Error provisioning node: {e}")
     #     return
 
-    #Provision cluster
+    # ~~~ Provision k8s cluster ~~~
     try:
         logger.info(f"Provisioning k8s cluster {config.cluster.name}...")
         provisioner.provision_k8s_cluster(

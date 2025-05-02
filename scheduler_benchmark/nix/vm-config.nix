@@ -31,6 +31,7 @@
       (builtins.readFile /home/olivier/.ssh/id_ed25519.pub)
     ];
   };
+  security.sudo.wheelNeedsPassword = false;
 
   services.openssh.enable = true;
 
