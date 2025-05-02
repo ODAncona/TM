@@ -1123,3 +1123,291 @@ PING nixos-k8s-master.local (192.168.222.107) 56(84) bytes of data.
 64 bytes from nixos-k8s-master.scheduler_benchmark_net (192.168.222.107): icmp_seq=2 ttl=64 time=0.418 ms
 64 bytes from nixos-k8s-master.scheduler_benchmark_net (192.168.222.107): icmp_seq=3 ttl=64 time=0.469 ms
 ```
+
+2025.04.30 - NOK - Impossible de récupérer les noeuds du cluster
+
+=> Il faut sur le master
+
+```sh
+export KUBECONFIG=/etc/kubernetes/cluster-admin.kubeconfig
+sudo kubectl
+```
+
+=> succès mais ça ne fonctionnera pas sur le worker
+
+```sh
+[odancona@nixos-k8s-master:~]$ sudo kubectl --kubeconfig=/etc/kubernetes/cluster-admin.kubeconfig get nodes
+NAME               STATUS   ROLES    AGE   VERSION
+nixos-k8s-master   Ready    <none>   15m   v1.31.2
+```
+
+=> Test de configuration permanente en ajoutant `services.kubernetes.masterAddress = "nixos-k8s-master.local";`
+=> Même erreur
+=> Au moment du build des certificats (easyCerts), le système ne peut pas faire de résolution mDNS → il a besoin d’un nom résolu localement.
+=> Il faut donc configurer le DNS proprement sur le master et le worker car easyCerts doit générer un certificat avec le bon CN (Common Name) ou SAN (Subject Alt Name). En utilisant: apiserverAddress = "<https://nixos-k8s-master.local:6443>", le système ne peut pas résoudre ce nom au moment du build. Donc Le certificat ne contient pas cette adresse et les workers recevront un certificat TLS pour un autre nom → erreur de validation TLS.
+=> J'ai essayé de déterminer le même hostname sur les deux machines mais le nom ne passe pas
+=>
+
+```sh
+error: A definition for option `networking.hostName' is not of type `string matching the pattern ^$|^[[:alnum:]]([[:alnum:]_-]{0,61}[[:alnum:]])?$'. Definition values:
+       - In `/nix/store/dw8dg3hi01glv19rlfv9228s8dh1n6w1-source/scheduler_benchmark/nix/modules/kubernetes/master.nix': "k8s-master.cluster"
+```
+
+=> apparement il faut régler un problème de clé et de permissions, il faut que les clés soient créées au build time et le cluster doit être rejoind au runtime
+
+2025.05.01 - OK - Diagnostic du cluster
+
+```sh
+[odancona@k8s-master:~]$ sudo -E kubectl cluster-info
+Kubernetes control plane is running at https://k8s-master:6443
+CoreDNS is running at https://k8s-master:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+                                                                               t
+───────┬──────────────────────────────────────────────────────────────────────── 
+       │ File: /var/lib/kubernetes/secrets/apitoken.secret
+───────┼────────────────────────────────────────────────────────────────────────
+   1   │ 145798dc80b4e7add931fcb9ccc37bf5
+───────┴────────────────────────────────────────────────────────────────────────
+```
+
+=> I'm not sure what I'm missing ? the tricky part is that I need to build a part at build time and the other at runtime. And I'm not sure whether the problem is in the runtime or in the build time
+=> Analyse avec Claude 3.7
+
+```md
+Your worker needs to properly locate and authenticate with the master. The main issues I see are:
+- KUBECONFIG: The worker doesn't have a properly configured kubectl setup
+- Node Join Process: The token-based join command needs more details
+- Hostname Resolution: The worker may not be able to resolve "k8s-master"
+```
+
+=> déclaré Kubeconfig dans l'environnement mais il y a toujours le problème qu'il faut être sudo pour avoir les clés
+=> pour le hostname j'ai changé en k8s-master pour le hostname et k8s-master.local dans kube
+2025.05.01 - NOK - Impossible de rejoindre le cluster
+
+=>
+
+```sh
+[odancona@nixos:~]$ cat apitoken.secret | sudo nixos-kubernetes-node-join
+Restarting certmgr...
+Job for certmgr.service failed because the control process exited with error code.
+See "systemctl status certmgr.service" and "journalctl -xeu certmgr.service" for details.
+```
+
+```sh
+[odancona@nixos:~]$ systemctl status certmgr.service
+● certmgr.service - certmgr
+     Loaded: loaded (/etc/systemd/system/certmgr.service; enabled; preset: igno>
+     Active: activating (start-pre) since Thu 2025-05-01 18:12:58 UTC; 35s ago
+ Invocation: 828357b901c847f0a0de07e8aef49dbc
+  Cntrl PID: 7746 (certmgr-pre-sta)
+         IP: 0B in, 300B out
+         IO: 0B read, 0B written
+      Tasks: 9 (limit: 4681)
+     Memory: 4M (peak: 4.3M)
+        CPU: 16ms
+     CGroup: /system.slice/certmgr.service
+             ├─7746 /nix/store/0irlcqx2n3qm6b1pc9rsd2i8qpvcccaj-bash-5.2p37/bin>
+             └─7748 /nix/store/ph3q5yqb0b40v0a01dvw7ikah1x8xlw8-certmgr-3.0.3/b>
+
+May 01 18:12:58 nixos systemd[1]: Failed to start certmgr.
+May 01 18:12:58 nixos systemd[1]: certmgr.service: Consumed 28ms CPU time, 4.2M>
+May 01 18:13:08 nixos systemd[1]: certmgr.service: Scheduled restart job, resta>
+May 01 18:13:08 nixos systemd[1]: Starting certmgr...
+May 01 18:13:08 nixos certmgr-pre-start[7748]: time="2025-05-01T18:13:08Z" leve>
+May 01 18:13:08 nixos certmgr-pre-start[7748]: time="2025-05-01T18:13:08Z" leve>
+May 01 18:13:08 nixos certmgr-pre-start[7748]: time="2025-05-01T18:13:08Z" leve>
+```
+
+```sh
+[odancona@nixos:~]$ journalctl -xeu certmgr.service
+░░ Subject: Resources consumed by unit runtime
+░░ Defined-By: systemd
+░░ Support: https://lists.freedesktop.org/mailman/listinfo/systemd-devel
+░░ 
+░░ The unit certmgr.service completed and consumed the indicated resources.
+May 01 18:13:48 nixos systemd[1]: certmgr.service: Scheduled restart job, resta>
+░░ Subject: Automatic restarting of a unit has been scheduled
+░░ Defined-By: systemd
+░░ Support: https://lists.freedesktop.org/mailman/listinfo/systemd-devel
+░░ 
+░░ Automatic restarting of the unit certmgr.service has been scheduled, as the >
+░░ the configured Restart= setting for the unit.
+May 01 18:13:48 nixos systemd[1]: Starting certmgr...
+░░ Subject: A start job for unit certmgr.service has begun execution
+░░ Defined-By: systemd
+░░ Support: https://lists.freedesktop.org/mailman/listinfo/systemd-devel
+░░ 
+░░ A start job for unit certmgr.service has begun execution.
+░░ 
+░░ The job identifier is 32687.
+May 01 18:13:48 nixos certmgr-pre-start[8213]: time="2025-05-01T18:13:48Z" leve>
+May 01 18:13:48 nixos certmgr-pre-start[8213]: time="2025-05-01T18:13:48Z" leve>
+May 01 18:13:48 nixos certmgr-pre-start[8213]: time="2025-05-01T18:13:48Z" leve>
+```
+
+```sh
+sudo journalctl -u kubelet -f
+...
+May 01 18:15:29 nixos systemd[1]: Started Kubernetes Kubelet Service.
+May 01 18:15:29 nixos kubelet[9389]: Flag --pod-infra-container-image has been deprecated, will be removed in a future release. Image garbage collector will get sandbox image information from CRI.
+May 01 18:15:29 nixos kubelet[9389]: I0501 18:15:29.753870    9389 server.go:211] "--pod-infra-container-image will not be pruned by the image garbage collector in kubelet and should also be set in the remote runtime"
+May 01 18:15:29 nixos kubelet[9389]: E0501 18:15:29.757488    9389 run.go:72] "command failed" err="failed to construct kubelet dependencies: unable to load client CA file /var/lib/kubernetes/secrets/ca.pem: error creating pool from /var/lib/kubernetes/secrets/ca.pem: data does not contain any valid RSA or ECDSA certificates"
+May 01 18:15:29 nixos systemd[1]: kubelet.service: Main process exited, code=exited, status=1/FAILURE
+May 01 18:15:29 nixos systemd[1]: kubelet.service: Failed with result 'exit-code'.
+```
+
+=> J'ai plein d'erreurs. Il faut absolument que easy cert fonctionne autrement le Kubernetes API server (kube-apiserver) ne démarre même plus.  On peut check avec la commande: `nc -vz k8s-master.local 6443`
+=> inspection du module kubernetes nix apiserver.nix conclusion:
+=> . Conditions pour que les certs soient générés
+
+1. Il faut que services.kubernetes soit activé (tu l’as via roles = ["master"];).
+2. Il faut que easyCerts = true (c’est le cas dans ta config).
+3. Il ne doit pas déjà y avoir des certs dans /var/lib/kubernetes/secrets (sinon ils ne sont pas régénérés).
+4. Les dossiers doivent exister et être accessibles (droits d’écriture pour root/kubernetes).
+=> Le problème est maintenant clair :
+
+Il manque la quasi-totalité des certificats dans /var/lib/kubernetes/secrets/ sur le master, alors que easyCerts = true.
+=> Isolation des changements et oui le problème c'est d'avoir ajouté .local dans l'image du master ça casse les certificats:
+Avant : masterAddress = "k8s-master" → tout fonctionne, les secrets sont générés.
+Après : masterAddress = "k8s-master.local" → plus de secrets générés.
+=>
+
+```txt
+Si cfg.masterAddress est une valeur qui ne peut pas être résolue localement lors du build de l’image (par exemple : k8s-master.local alors que le build n’a pas de mDNS), alors la génération du certificat peut échouer silencieusement, car openssl ou le script de génération tente peut-être de résoudre ce nom (pour l’ajouter dans le SAN ou autre), et échoue.
+```
+
+=> Il faut absolument bien placer la config à son bon endroit. Si on utilise le hostname partout, pour la génération des certificats ça plantera mais pour le runtime ça fonctionnera ou l'inverse. Donc on doit bien séparer les deux.
+
+2025.05.01 - NOK - Impossible de configurer le cluster
+
+```sh
+[odancona@k8s-master:~]$ sudo journalctl -u kube-apiserver -f
+May 01 22:10:47 k8s-master systemd[1]: kube-apiserver.service: Scheduled restart job, restart counter is at 771.
+May 01 22:10:47 k8s-master systemd[1]: Started Kubernetes APIServer Service.
+May 01 22:10:47 k8s-master kube-apiserver[11862]: Error: invalid argument "k8s-master.local" for "--advertise-address" flag: failed to parse IP: "k8s-master.local"
+May 01 22:10:47 k8s-master systemd[1]: kube-apiserver.service: Main process exited, code=exited, status=1/FAILURE
+
+[odancona@k8s-master:~]$ ping k8s-master
+PING k8s-master (::1) 56 data bytes
+64 bytes from localhost (::1): icmp_seq=1 ttl=64 time=0.061 ms
+64 bytes from localhost (::1): icmp_seq=2 ttl=64 time=0.039 ms
+```
+
+=> donc le worker doit accéder à k8s-master.local mais le master doit être configuré avec k8s-master
+=> j'enlève le hostNameFQDN du apiserver dans le master et rebuild le tout
+=> Fonctionne sur le master mais pas sur le worker
+=> Le kube-apiserver sur le master est bien starté c'est sûr:
+
+```sh
+[odancona@nixos:~]$ nc -vz k8s-master.local 6443
+Connection to k8s-master.local (192.168.222.203) 6443 port [tcp/sun-sr-https] succeeded!
+```
+
+=> C'est un problème de certificat
+
+```sh
+failed to verify certificate: x509: certificate is valid for k8s-master, not k8s-master.local
+```
+
+=> Pourtant sur le master le certificat de l’API server est correct
+
+```sh
+nix-shell -p openssl --run 'openssl x509 -in /var/lib/kubernetes/secrets/kube-apiserver.pem -noout -text | grep DNS'
+DNS:kubernetes, DNS:kubernetes.default.svc, DNS:kubernetes.default.svc.cluster.local, DNS:, DNS:k8s-master, DNS:k8s-master.local, IP Address:10.0.0.1, IP Address:127.0.0.1
+```
+
+=> On continue le diagnostic sur le worker (potentiellement flannel)
+
+```sh
+[odancona@nixos:~]$ getent hosts k8s-master.local
+192.168.222.203 k8s-master.local
+
+[odancona@k8s-master:~]$ sudo ss -ltnp | grep 8888
+LISTEN 0      4096               *:8888             *:*    users:(("cfssl",pid=926,fd=3))           
+
+[odancona@k8s-master:~]$ sudo netstat -ltnp | grep 8888
+tcp6       0      0 :::8888                 :::*                    LISTEN      926/cfssl 
+
+[odancona@nixos:~]$ nix-shell -p openssl --run 'openssl s_client -connect k8s-master.local:8888'
+
+```
+
+=> Le problème concerne le service cfssl (port 8888), pas le kube-apiserver (6443).
+=> Le certificat présenté par cfssl a CN=k8s-master et ne contient PAS k8s-master.local dans ses SANs.
+=> Il faut également configurer le SAN du certificat pour flannel
+=> On creuse dans le code source de flannel.nix
+
+```nix
+services.kubernetes.pki.certs = {
+  flannelClient = top.lib.mkCert {
+    name = "flannel-client";
+    CN = "flannel-client";
+    action = "systemctl restart flannel.service";
+  };
+};
+```
+
+On va ajouter une variable hosts afin d'injecter des SANs personnalisés dans le certificat de flannel-client depuis ma config utilisateur (ici master.nix) ?
+
+2025.05.01 - NOK - Echec de l'ajout du worker node
+
+=> on master `sudo cat /var/lib/kubernetes/secrets/apitoken.secret`
+=> on worker `echo 2e9f8d64a5ad92d63d3533adef75a64c | sudo nixos-kubernetes-node-join`
+=> error
+
+```sh
+sudo journalctl -u certmgr --no-pager --output=cat
+Starting certmgr...
+time="2025-05-01T23:33:51Z" level=info msg="manager: loading certificates from /nix/store/826ikyn9m2z53wmd753z4h1lfc87b1kg-certmgr.d"
+time="2025-05-01T23:33:51Z" level=info msg="manager: loading spec from /nix/store/826ikyn9m2z53wmd753z4h1lfc87b1kg-certmgr.d/flannelClient.json"
+time="2025-05-01T23:33:51Z" level=warning msg="spec /nix/store/826ikyn9m2z53wmd753z4h1lfc87b1kg-certmgr.d/flannelClient.json does not specify key usage, defaulting to \"server auth\""
+time="2025-05-01T23:33:51Z" level=error msg="managed: failed loading spec from /nix/store/826ikyn9m2z53wmd753z4h1lfc87b1kg-certmgr.d/flannelClient.json: {\"code\":7400,\"message\":\"failed POST to https://k8s-master.local:8888/api/v1/cfssl/info: Post \\\"https://k8s-master.local:8888/api/v1/cfssl/info\\\": tls: failed to verify certificate: x509: certificate is valid for k8s-master, not k8s-master.local\"}"
+time="2025-05-01T23:33:51Z" level=error msg="stopping directory scan due to {\"code\":7400,\"message\":\"failed POST to https://k8s-master.local:8888/api/v1/cfssl/info: Post \\\"https://k8s-master.local:8888/api/v1/cfssl/info\\\": tls: failed to verify certificate: x509: certificate is valid for k8s-master, not k8s-master.local\"}"
+time="2025-05-01T23:33:51Z" level=error msg="Failed: {\"code\":7400,\"message\":\"failed POST to https://k8s-master.local:8888/api/v1/cfssl/info: Post \\\"https://k8s-master.local:8888/api/v1/cfssl/info\\\": tls: failed to verify certificate: x509: certificate is valid for k8s-master, not k8s-master.local\"}"
+certmgr.service: Control process exited, code=exited, status=1/FAILURE
+certmgr.service: Failed with result 'exit-code'.
+Failed to start certmgr.
+```
+
+=> Observations
+Le certificat flannel-client.pem n’a que DNS:flannel-client dans ses SANs.
+Le service cfssl du master utilise /var/lib/cfssl/cfssl.pem (pas le cert flannel-client).
+Le cert présenté sur le port 8888 a pour CN k8s-master, pas flannel-client.
+=> Etape suivante: Ajoute k8s-master.local (et k8s-master) dans le SAN du certificat utilisé par cfssl (/var/lib/cfssl/cfssl.pem), pas celui de flannel-client, puis redémarre cfssl.
+
+2025.05.01 - OK - Cluster rejoint avec succès
+
+=> on master `sudo cat /var/lib/kubernetes/secrets/apitoken.secret`
+=> on worker `echo 2e9f8d64a5ad92d63d3533adef75a64c | sudo nixos-kubernetes-node-join`
+
+2025.05.02 - NOK - Tentative d'automatisation de la configuration runtime
+=> J'ai fait un script python mais je n'arrive pas à me connecter à la VM directement depuis X1-Carbon, je vais d'abord essayer de le faire manuellement
+2025.05.02 - OK - Test de la connexion SSH
+=> J'ai réussi à me connecter à la VM avec les commande suivante
+`ssh -i ~/.ssh/rhodey odancona@192.168.222.182` => fonctionne uniquement depuis Rhodey car X1-Carbon n'a pas accès sur le scheduler_benchmark_netd
+
+=> `ssh -J odancona@rhodey.lbl.gov odancona@192.168.222.182` ok
+=> `ssh -J odancona@rhodey.lbl.gov odancona@k8s-master.local` ok
+2025.05.02 - NOK - Impossible de se connecter à la VM avec le script python
+=> Paramiko n'aime pas le jump
+=> Création d'un wrapper pour tester la connexion SSH avec attente exponentielle
+=> Le wrapper a du mal à se connecter à la VM avec le jump
+=> Test d'une configuration manuelle dans le fichier ssh-config de X1-Carbon
+
+2025.05.02 - OK - Création d'un alias SSH dans ~/.ssh/config
+
+=> J'ai créé un alias SSH pour me connecter aux VMs facilement:
+
+```yml
+Host k8s-master
+  HostName k8s-master.local
+  User odancona
+  ProxyJump odancona@rhodey
+  IdentityFile ~/.ssh/rhodey
+
+Host 192.168.222.*
+  User odancona
+  ProxyJump odancona@rhodey
+  IdentityFile ~/.ssh/rhodey
+```

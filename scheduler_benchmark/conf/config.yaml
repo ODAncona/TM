@@ -50,7 +50,7 @@ cluster:
         sudo: true
         ssh_public_key_path: "~/.ssh/rhodey.pub"
     # - name: "compute-node-2"
-    #   image: "nixos-k8s-master.img"
+    #   image: "nixos-k8s-worker.img"
     #   disk_size_gb: 16
     #   resources:
     #     - type: "cpu"

@@ -49,32 +49,29 @@ def main(cfg: DictConfig) -> None:
 
     provisioner.delete_cluster(config.cluster)
 
-    try:
-        # Provision the master node
-        node = config.cluster.head_nodes[0]
-        ip = provisioner.provision_node(node)
-        logger.info(f"Node {node.name} provisioned with IP: {ip}")
-
-        # Provision the worker nodes
-        for node in config.cluster.compute_nodes:
-            ip = provisioner.provision_node(node)
-            logger.info(f"Node {node.name} provisioned with IP: {ip}")
-    except Exception as e:
-        logger.error(f"Error provisioning node: {e}")
-        return
-
-    # Provision cluster
     # try:
-    #     logger.info(f"Provisioning k8s cluster {config.cluster.name}...")
-    #     master_ip = provisioner.provision_k8s_cluster(
-    #         config.cluster,
-    #     )
-    #     logger.info(f"Master node IP: {master_ip}")
-    #     logger.info("Cluster provisioned successfully!")
-    #     logger.info("Node IP addresses:")
+    #     # Provision the master node
+    #     node = config.cluster.head_nodes[0]
+    #     ip = provisioner.provision_node(node)
+    #     logger.info(f"Node {node.name} provisioned with IP: {ip}")
 
+    #     # Provision the worker nodes
+    #     for node in config.cluster.compute_nodes:
+    #         ip = provisioner.provision_node(node)
+    #         logger.info(f"Node {node.name} provisioned with IP: {ip}")
     # except Exception as e:
-    #     logger.error(f"Error provisioning cluster: {e}")
+    #     logger.error(f"Error provisioning node: {e}")
+    #     return
+
+    #Provision cluster
+    try:
+        logger.info(f"Provisioning k8s cluster {config.cluster.name}...")
+        provisioner.provision_k8s_cluster(
+            config.cluster,
+        )
+        logger.info("Cluster provisioned successfully!")
+    except Exception as e:
+        logger.error(f"Error provisioning cluster: {e}")
 
 
 if __name__ == "__main__":

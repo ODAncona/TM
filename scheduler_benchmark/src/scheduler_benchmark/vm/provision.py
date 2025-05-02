@@ -2,7 +2,40 @@ from scheduler_benchmark.models import NodeConfig, HPCConfig, ClusterConfig
 from scheduler_benchmark.vm.libvirt_helper import LibvirtConnection
 import paramiko
 import time
+import logging
+import functools
+import socket
+import os
 
+
+def wait_for_ssh_ready(ip_arg_index=0, timeout=90, initial_interval=1, max_interval=10, logger=None):
+    """
+    Decorator to wait for SSH port 22 to be open before executing the function.
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            host = args[ip_arg_index]
+            log = logger or logging.getLogger(func.__module__)
+            log.debug(f"Waiting for SSH on {host} (timeout={timeout}s)...")
+            start = time.time()
+            interval = initial_interval
+            while time.time() - start < timeout:
+                try:
+                    # Try to resolve host to IP (for hostnames)
+                    ip = socket.gethostbyname(host)
+                    with socket.create_connection((ip, 22), timeout=2):
+                        log.info(f"SSH port open on {host}")
+                        break
+                except Exception:
+                    time.sleep(interval)
+                    interval = min(max_interval, interval * 2)
+            else:
+                log.error(f"Timeout: SSH port not open on {host} after {timeout}s.")
+                raise TimeoutError(f"SSH port not open on {host} after {timeout}s.")
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
 
 class VMProvisioner:
     def __init__(
@@ -11,21 +44,45 @@ class VMProvisioner:
         username: str | None = None,
         identity_file: str | None = None,
         pool_name: str = "default",
+        logger: logging.Logger | None = None,
     ):
         self.hostname = hostname
         self.username = username
         self.identity_file = identity_file
         self.pool_name = pool_name
+        self.logger = logger or logging.getLogger(__name__)
 
-    def ssh_execute(self, ip, command):
+    @wait_for_ssh_ready(ip_arg_index=1, timeout=90, initial_interval=1, max_interval=10, logger=logging.getLogger(__name__))
+    def ssh_execute(self, host, command):
+        """
+        SSH into the host and execute a command.
+        Uses SSH config for ProxyJump etc.
+        """
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(ip, username="odancona", key_filename=self.identity_file)
+
+        # Use SSH config for jump etc.
+        ssh_config = paramiko.SSHConfig()
+        with open(os.path.expanduser("~/.ssh/config")) as f:
+            ssh_config.parse(f)
+        host_conf = ssh_config.lookup(host)
+        hostname = host_conf.get('hostname', host)
+        username = host_conf.get('user', self.username)
+        identityfile = host_conf.get('identityfile', [self.identity_file])[0]
+
+        ssh.connect(
+            hostname=hostname,
+            username=username,
+            key_filename=identityfile,
+            allow_agent=True,
+            look_for_keys=True,
+        )
         stdin, stdout, stderr = ssh.exec_command(command)
         output = stdout.read().decode()
         ssh.close()
         return output.strip()
     
+
     def provision_node(
         self, node_config: NodeConfig
     ) -> str:
@@ -42,54 +99,29 @@ class VMProvisioner:
             return ip_address
 
 
-    def provision_k8s_cluster(self, cluster: ClusterConfig, pod_cidr="10.244.0.0/16"):
+    def provision_k8s_cluster(self, cluster: ClusterConfig):
+        master_ip = self.provision_node(cluster.head_nodes[0])
+        worker_ips = [self.provision_node(wn) for wn in cluster.compute_nodes]
 
-        master_config = cluster.head_nodes[0]
-        worker_configs = cluster.compute_nodes
+        try:
+            self.ssh_execute(master_ip, "true")
+        except Exception:
+            self.logger.error(f"Master SSH not ready: {master_ip}")
+            raise RuntimeError("Master SSH not ready")
 
-        # 1. Provision master node
-        master_ip = self.provision_node(master_config)
-        print(f"Master IP: {master_ip}")
+        join_k8s_token = self.ssh_execute(master_ip, "sudo cat /var/lib/kubernetes/secrets/apitoken.secret")
+        self.logger.info(f"Token: {join_k8s_token}")
 
-        # 2. kubeadm init sur le master
-        print("Initialisation du master K8s...")
-        kubeadm_init_cmd = (
-            f"sudo kubeadm init --apiserver-advertise-address={master_ip} --pod-network-cidr={pod_cidr}"
-        )
-        kubeadm_output = self.ssh_execute(master_ip, kubeadm_init_cmd)
-        join_cmd = extract_join_command(kubeadm_output)
-        print(f"Join command: {join_cmd}")
+        for ip in worker_ips:
+            try:
+                self.ssh_execute(ip, "true")
+            except Exception:
+                self.logger.error(f"Worker SSH not ready: {ip}")
+                raise RuntimeError("Worker SSH not ready")
 
-        # 3. Préparer le kubeconfig sur le master pour l'utilisateur
-        self.ssh_execute(
-            master_ip,
-            "mkdir -p $HOME/.kube && "
-            "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && "
-            "sudo chown $(id -u):$(id -g) $HOME/.kube/config"
-        )
-
-        # 4. Appliquer le CNI (ex: flannel)
-        print("Application du CNI flannel...")
-        self.ssh_execute(
-            master_ip,
-            "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
-        )
-
-        # 5. Provision et join des workers
-        for worker_conf in worker_configs:
-            worker_ip = self.provision_node(worker_conf)
-            print(f"Provisionnement worker: {worker_conf.name} ({worker_ip})")
-            # Attendre que le worker soit bien up
-            time.sleep(30)
-            print(f"Join {worker_conf.name} au cluster...")
-            self.ssh_execute(worker_ip, f"sudo {join_cmd}")
-
-        # 6. Vérification finale
-        print("Vérification des nœuds K8s...")
-        time.sleep(30)
-        nodes = self.ssh_execute(master_ip, "kubectl get nodes -o wide")
-        print(nodes)
-        return master_ip
+            self.logger.debug(f"Joining {ip} ...")
+            cmd = f"echo {join_k8s_token} | sudo nixos-kubernetes-node-join"
+            self.logger.info(self.ssh_execute(ip, cmd))
 
 
     def delete_node(self, node_name: str) -> bool:
