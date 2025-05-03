@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Structure Specification File
-% Version 1.0 (23/5/2024)
+% Version 2.0 (29/4/2025)
 %
 % Author: Olivier D'Ancona
 % Adapted by ChatGPT
@@ -19,8 +19,6 @@
 \usepackage{booktabs} % Required for better horizontal rules in tables
 \usepackage{listings} % Required for insertion of code
 \usepackage{etoolbox} % Required for if statements
-\usepackage[T1]{fontenc} % Output font encoding for international characters
-\usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage{algpseudocode}
 \usepackage{enumitem}
 \usepackage{url}
@@ -34,7 +32,6 @@
 \usepackage{wrapfig}
 \usepackage{adjustbox}
 \usepackage{tocloft}
-\usepackage{pdfpages}
 \usepackage{appendix}
 \usepackage{soul}
 \usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
@@ -58,19 +55,16 @@
 %----------------------------------------------------------------------------------------
 %	FONT
 %----------------------------------------------------------------------------------------
-% \usepackage{fontspec}
-%     \setmainfont{Roboto}
-%     \newfontfamily{\fallbackfont}{Liberation Sherif}
-%     \DeclareTextFontCommand{\textfallback}{\fallbackfont}
+\usepackage{fontspec} % permet de charger des polices système facilement
+\setmainfont{Roboto} % Police principale (texte normal)
+\setsansfont{Roboto} % Police sans-serif
+\setmonofont{Roboto Mono} % Police monospace
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[sfdefault,light]{roboto}
+% \usepackage[T1]{fontenc} % Output font encoding for international characters
+% \usepackage[utf8]{inputenc} % Required for inputting international characters
+% \usepackage[sfdefault,light]{roboto}
 \usepackage{amssymb}
 \usepackage{pifont}
-
-\fontsize{11pt}{12pt}
-
 %----------------------------------------------------------------------------------------
 %	HEADERS AND FOOTERS
 %----------------------------------------------------------------------------------------
@@ -119,7 +113,7 @@
 %----------------------------------------------------------------------------------------
 %	Acronyms
 %----------------------------------------------------------------------------------------
-\include{acronyms}
+\input{acronyms}
 \makeglossaries
 
 %----------------------------------------------------------------------------------------
