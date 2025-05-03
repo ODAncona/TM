@@ -1459,3 +1459,21 @@ self.ssh_execute(ip, f"sudo hostnamectl set-hostname {node_config.name}")
 ```
 
 => ou pas: Could not set pretty hostname: Changing system settings via systemd is not supported on NixOS.
+=> On va forcer le hostname manuellement et redémarrer les services
+=>
+
+```py
+self.ssh_execute(ip, f"echo '{node_config.name}' | sudo tee /etc/hostname && sudo hostname {node_config.name}")
+self.ssh_execute(ip, "sudo systemctl restart kubelet")
+self.ssh_execute(ip, "sudo systemctl restart avahi-daemon flannel kube-proxy")
+```
+
+=> Fail Même si tu changes le hostname en RAM, Avahi continue d’utiliser celui défini dans sa conf au lancement.
+=> Fail Même si tu changes le hostname dans le NixStore (il faut le démonter et remonter en écriture car il est en lecture seul), Avahi continue d’utiliser celui défini dans sa conf au lancement.
+=> On va tenter de forcer K8s d'ajouter le hostname manuellement avec `--hostname-override=compute-node-1`
+=> Ne fonctionne pas car il faut le préciser sur la config Nix au moment du build !
+=>
+
+```txt
+Comment avoir une image générique, mais injecter dynamiquement le hostname (et autres paramètres) à la création de la VM, sans builder une image par node ?
+```

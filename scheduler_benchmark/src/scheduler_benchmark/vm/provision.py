@@ -55,8 +55,14 @@ class VMProvisioner:
             except Exception:
                 self.logger.error(f"Worker SSH not ready: {ip}")
                 raise RuntimeError("Worker SSH not ready")
-            self.ssh_execute(ip, f"sudo hostnamectl set-hostname {node_config.name}")
-            self.logger.debug(f"Joining {ip} ...")
+            
+            # Dynamically force hostname
+            # self.ssh_execute(ip, "sudo rm /etc/hostname")
+            # self.ssh_execute(ip, f"echo '{node_config.name}' | sudo tee /etc/hostname")
+            # self.ssh_execute(ip, f"sudo hostname {node_config.name}")
+            # for svc in ("kubelet", "avahi-daemon", "flannel", "kube-proxy"):
+            #     self.ssh_execute(ip, f"sudo systemctl restart {svc} || true")
+            # self.logger.debug(f"Joining {ip} ...")
             cmd = f"echo {join_k8s_token} | sudo nixos-kubernetes-node-join"
             self.logger.info(self.ssh_execute(ip, cmd))
 
