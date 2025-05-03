@@ -12,9 +12,9 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
+\usepackage{subfiles} % Allows for the inclusion of subfiles
 \usepackage{lastpage} % Required to determine the last page number for the footer
 \usepackage{graphicx} % Required to insert images
-\setlength\parindent{0pt} % Removes all indentation from paragraphs
 \usepackage[most]{tcolorbox} % Required for boxes that split across pages
 \usepackage{booktabs} % Required for better horizontal rules in tables
 \usepackage{listings} % Required for insertion of code
@@ -54,18 +54,32 @@
 }
 
 %----------------------------------------------------------------------------------------
+%	SPACING
+%----------------------------------------------------------------------------------------
+
+\setlength{\parskip}{0.5em}
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+
+%----------------------------------------------------------------------------------------
 %	FONT
 %----------------------------------------------------------------------------------------
-% \usepackage{fontspec} % permet de charger des polices système facilement
-% \setmainfont{Roboto} % Police principale (texte normal)
-% \setsansfont{Roboto} % Police sans-serif
-% \setmonofont{Roboto Mono} % Police monospace
 
-% \usepackage[T1]{fontenc} % Output font encoding for international characters
-% \usepackage[utf8]{inputenc} % Required for inputting international characters
-% \usepackage[sfdefault,light]{roboto}
+\usepackage{fontspec} % permet de charger des polices système facilement
+\setmainfont{Roboto} % Police principale (texte normal)
+\setsansfont{Roboto} % Police sans-serif
+\setmonofont{Roboto Mono} % Police monospace
+\newfontfamily\emojifont{Noto Color Emoji}[Renderer=Harfbuzz]
+\newcommand{\emoji}[1]{{\emojifont #1}}
+
+
+
+\usepackage{setspace}
+\usepackage{microtype}
+\onehalfspacing
 \usepackage{amssymb}
 \usepackage{pifont}
+
 %----------------------------------------------------------------------------------------
 %	HEADERS AND FOOTERS
 %----------------------------------------------------------------------------------------
