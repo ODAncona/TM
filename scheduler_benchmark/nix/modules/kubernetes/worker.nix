@@ -11,6 +11,8 @@ in
     kubernetes
   ];
   
+  networking.hostName = lib.mkDefault "k8s-worker";
+
   # Kubernetes Worker Node Configuration
   services.kubernetes = {
     roles = ["node"];
