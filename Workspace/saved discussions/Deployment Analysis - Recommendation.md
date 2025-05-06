@@ -48,8 +48,9 @@ Metrics Collection (Prometheus, Grafana, MLflow)
 
 ## Why Not the Alternatives?
 
-- **Cloud-init**: Useful but limited for complex scheduler configurations
+- **Cloud-init**: Useful but limited for complex scheduler configurations + It was designed for large-scale cloud provisioning, not for single VM setups.
 - **Nix**: Powerful but has a steep learning curve; more suitable when reproducibility at the package level is critical
+
 
 ## Implementation Notes
 

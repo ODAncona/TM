@@ -1477,3 +1477,109 @@ self.ssh_execute(ip, "sudo systemctl restart avahi-daemon flannel kube-proxy")
 ```txt
 Comment avoir une image générique, mais injecter dynamiquement le hostname (et autres paramètres) à la création de la VM, sans builder une image par node ?
 ```
+
+=> Il faut vraiment rebuild switch ou créer une image par worker
+
+2025.05.05 - NOK - Impossible de reconfigurer le cluster
+
+=> Il fallait simplement attendre que le master soit prêt un petit sleep 10 fonctionne très bien
+2025.05.05 - NOK - Reconfiguration du flake. Afin de pouvoir faire un nixos-rebuild switch, il faut charger la configuration sur la vm. Pour ceci il faut modifier le flakes.
+
+=> Ajout de specialArgs = { self = self; }; et system.activationScripts.saveFlakeConfig;
+=>
+
+```sh
+[odancona@k8s-master:~]$ nixos-rebuild switch --flake /etc/nixos/current-systemconfig
+error: flake 'path:/etc/nixos/current-systemconfig' does not provide attribute 'packages.x86_64-linux.nixosConfigurations."k8s-master".config.system.build.nixos-rebuild', 'legacyPackages.x86_64-linux.nixosConfigurations."k8s-master".config.system.build.nixos-rebuild' or 'nixosConfigurations."k8s-master".config.system.build.nixos-rebuild'
+
+[odancona@k8s-master:~]$ tree /etc/nixos/current-systemconfig/
+/etc/nixos/current-systemconfig/
+├── flake.lock
+├── flake.nix
+├── lazy.sh
+├── modules
+│   └── kubernetes
+│       ├── master.nix
+│       └── worker.nix
+└── vm-config.nix
+
+```
+
+=> Ajout de l'export de configuration au flake + factorisation
+=>
+
+```sh
+[odancona@k8s-master:~]$ nixos-rebuild switch --flake /etc/nixos/current-systemconfig
+building the system configuration...
+error:
+       … while calling the 'head' builtin
+         at /nix/store/fnyp8nbpm5dlxbqdq9md4jdww3ga3hjl-source/lib/attrsets.nix:1574:11:
+         1573|         || pred here (elemAt values 1) (head values) then
+         1574|           head values
+             |           ^
+         1575|         else
+
+       … while evaluating the attribute 'value'
+         at /nix/store/fnyp8nbpm5dlxbqdq9md4jdww3ga3hjl-source/lib/modules.nix:816:9:
+          815|     in warnDeprecation opt //
+          816|       { value = addErrorContext "while evaluating the option `${showOption loc}':" value;
+             |         ^
+          817|         inherit (res.defsFinal') highestPrio;
+
+       … while evaluating the option `system.build.toplevel':
+
+       … while evaluating definitions from `/nix/store/fnyp8nbpm5dlxbqdq9md4jdww3ga3hjl-source/nixos/modules/system/activation/top-level.nix':
+
+       (stack trace truncated; use '--show-trace' to show the full, detailed trace)
+
+       error:
+       Failed assertions:
+       - The ‘fileSystems’ option does not specify your root file system.
+```
+
+=> apparement, le filesystem n'est correctement spécifié
+
+```md
+Quand tu fais un nixos-rebuild switch, Nix essaie de recompiler le système depuis le flake. Pour cela, il doit pouvoir "monter" le root filesystem dans la configuration, ce qui n'est pas nécessaire quand tu utilises nixos-generators pour faire une image qcow2, mais obligatoire pour un nixosSystem (comme utilisé par nixos-rebuild).
+
+Tu exécutes une VM NixOS générée par nixos-generators avec une image disque minimale (qcow2). Cette image n’a pas de fileSystems."/" explicite, donc Nix ne peut pas reconstruire le système (nixos-rebuild switch) depuis l’intérieur de la VM car il ne sait pas quelle est sa racine.
+```
+
+=> Solution : Ajouter fileSystems."/" à ton flake pour déverrouiller nixos-rebuild
+=>
+
+```sh
+       error: The option fileSystems."/".device' has conflicting definition values:
+       - In /nix/store/a59nywcf635014w55rhzddgajjd2rz2r-source/scheduler_benchmark/nix/vm-config.nix': "/dev/vda3"
+       - In /nix/store/zfr9q0312byaiphnmdknqj792aci3654-source/formats/qcow.nix': "/dev/disk/by-label/nixos"
+       Use lib.mkForce value or lib.mkDefault value to change the priority on any of these definitions.
+```
+
+=> Il faut forcer le filesystem dans le flake.nix
+=>
+
+```sh
+[odancona@nixos:~]$ nixos-rebuild switch --flake /etc/nixos/current-systemconfig
+error: flake 'path:/etc/nixos/current-systemconfig' does not provide attribute 'packages.x86_64-linux.nixosConfigurations."nixos".config.system.build.nixos-rebuild', 'legacyPackages.x86_64-linux.nixosConfigurations."nixos".config.system.build.nixos-rebuild' or 'nixosConfigurations."nixos".config.system.build.nixos-rebuild'
+```
+
+=> `sudo nixos-rebuild switch --flake /etc/nixos/current-systemconfig#k8s-worker`
+=> Success
+
+2025.05.06 - NOK - Il faut trouver un moyen de rebuild le flake avec le nouveau hostname
+=> Absolument horrible mais ça fonctionne à la mano
+
+```py
+ # Write config
+cmd_make_nix_config = f"sed -i 's|^  #networking\.hostName = .*;|  networking.hostName = \"{node_config.name}\";|' /etc/nixos/current-systemconfig/modules/kubernetes/worker.nix"
+self.ssh_execute(ip, cmd_make_nix_config)
+
+# nixos-rebuild switch
+cmd_nixos_rebuild = "sudo nixos-rebuild switch --flake /etc/nixos/current-systemconfig#k8s-worker"
+```
+
+=>
+
+```sh
+[2025-05-06 15:48:52,236][scheduler_benchmark.vm.provision][ERROR] - Error executing command sudo nixos-rebuild switch --flake /etc/nixos/current-systemconfig#k8s-worker on 192.168.222.193
+...

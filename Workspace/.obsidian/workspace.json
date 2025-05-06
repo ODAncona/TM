@@ -13,15 +13,58 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "saved discussions/Avahi Analysis.md",
+                "file": "prompts/TM_Specification_V2.7.0.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Avahi Analysis"
+              "title": "TM_Specification_V2.7.0"
+            }
+          },
+          {
+            "id": "df51ebc1ebfbb0a5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "saved discussions/NIX Flakes vs Nix standard.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "NIX Flakes vs Nix standard"
+            }
+          },
+          {
+            "id": "45b465603269448f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "organisation/meetings/19_George.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "19_George"
+            }
+          },
+          {
+            "id": "132fad360b3b06a9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "saved discussions/Deployment Analysis - Recommendation.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Deployment Analysis - Recommendation"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -53,7 +96,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "•",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -78,7 +121,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 554.5
+    "width": 554.5,
+    "collapsed": true
   },
   "right": {
     "id": "14bc7a18da665e4f",
@@ -168,50 +212,53 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "490898e6bd6bc722",
+  "active": "132fad360b3b06a9",
   "lastOpenFiles": [
-    "saved discussions/Avahi Analysis.md",
-    "resources/Nix + Kubernetes.md",
-    "saved discussions/Stack Analysis 1 - VS other softs.md",
+    "saved discussions/Runtime Analysis 4 - Configure VM after provision.md",
+    "saved discussions/nixos generators - Hostname.md",
+    "resources/LOLILOL NIX.md",
+    "saved discussions/VM Provisioning 3.md",
+    "saved discussions/VM Provisioning 2.md",
+    "saved discussions/VM Provisioning 1.md",
     "saved discussions/Stack Analysis 4 - VS other softs.md",
     "saved discussions/Stack Analysis 3 - VS other softs.md",
     "saved discussions/Stack Analysis 2 - VS other softs.md",
-    "saved discussions/Benchmarks - Vidéo.md",
-    "prompts/TM_Specification_V2.7.0.md",
-    "resources/Kubernetes.md",
-    "organisation/meetings/16_Jeff.md",
-    "saved discussions/Runtime Analysis 1 - Ansible vs Python.md",
+    "saved discussions/Stack Analysis 1 - VS other softs.md",
+    "saved discussions/Runtime Analysis 3 - Static vs dynamic.md",
     "saved discussions/Runtime Analysis 2 - Colmena vs Ansible vs Python.md",
-    "saved discussions/Runtime Analysis 5 - Cloudinit vs Orchestration externe.md",
-    "saved discussions/Problem Definition - ODMBMJA.md",
+    "saved discussions/Runtime Analysis 1 - Ansible vs Python.md",
+    "saved discussions/Comparaison - Slurm VS K8s.md",
+    "saved discussions/Deployment Analysis - Nix.md",
+    "saved discussions/Deployment Analysis - Nix Vs Terraform+Ansible.md",
+    "saved discussions/Deployment Analysis - Recommendation.md",
+    "saved discussions/Deployment Analysis - Stack.md",
+    "saved discussions/Kubernetes Cluster Guide.md",
     "saved discussions/Network Analysis - StaticIP vs DHCP problème.md",
     "saved discussions/NIX Flakes vs Nix standard.md",
-    "saved discussions/Network Analysis - StaticIP vs DHCP discussion.md",
-    "saved discussions/Kubernetes Cluster Guide.md",
-    "saved discussions/Deployment Analysis - Stack.md",
-    "saved discussions/Deployment Analysis - Nix.md",
-    "saved discussions/Comparaison - Slurm VS K8s.md",
-    "LOLILOL.md",
-    "Work Scope.md",
-    "TODO.md",
-    "TOFDO.md",
-    "saved discussions/Runtime Analysis 4 - Configure VM after provision.md",
-    "Pasted image 20250418162252.png",
+    "saved discussions/VM vs LXCLXD.md",
+    "Concepts Ideas.md",
+    "saved discussions/Virt-sysprep vs mysystem.md",
+    "saved discussions/Schedulers - Research.md",
+    "saved discussions/Scheduler - Configuration.md",
+    "Consolidated Blocks",
+    "Pasted image 20250327170754.png",
+    "Pasted image 20250505190508.png",
     "prompts/TM_Specification_V2.4.0.pdf",
+    "Pasted image 20250505105541.png",
+    "Pasted image 20250505105001.png",
+    "Pasted image 20250505104923.png",
+    "Pasted image 20250418162252.png",
     "illustrations/rack_latency.svg",
     "prompts/spec.pdf",
     "prompts/TM_Specification_V2.4.0_tmp.html",
     "TM_Specification_V2.4.0.pdf",
-    "Pasted image 20250327170754.png",
     "concepts",
     "resources",
     "notes",
     "saved discussions",
     "organisation/contacts",
-    "organisation",
     "Pasted image 20250304191516.png",
     "Pasted image 20250304190700.png",
-    "Pasted image 20250304182925.png",
-    "Meetings/illustrations/rack_latency.svg"
+    "Pasted image 20250304182925.png"
   ]
 }
