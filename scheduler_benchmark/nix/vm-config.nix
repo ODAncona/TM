@@ -19,6 +19,10 @@ in
     vim curl tree btop bat fastfetch git jq openssl
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  fileSystems."/" = lib.mkForce {
+    device = "/dev/vda3";
+    fsType = "ext4";
+  };
 
   # ~~~ Networking Configuration ~~~
   networking.useNetworkd = true;
