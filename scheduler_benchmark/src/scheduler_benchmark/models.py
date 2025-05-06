@@ -28,7 +28,7 @@ class Resource(BaseModel):
     @field_validator("accelerator_type")
     def validate_accelerator(cls, v, values):
         if (
-            values.get("type") in [ResourceType.GPU, ResourceType.FPGA]
+            values.get("type") in [ResourceType.GPU, ResourceType.LPU]
             and v is None
         ):
             raise ValueError(

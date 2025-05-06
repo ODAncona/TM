@@ -16,10 +16,10 @@ cluster:
       disk_size_gb: 16
       resources:
         - type: "cpu"
-          amount: 4
+          amount: 8
           unit: "cores"
         - type: "ram"
-          amount: 8192
+          amount: 16384
           unit: "mb"
       network:
         name: "scheduler_benchmark_net"
@@ -54,7 +54,7 @@ cluster:
       disk_size_gb: 16
       resources:
         - type: "cpu"
-          amount: 2
+          amount: 4
           unit: "cores"
         - type: "ram"
           amount: 4096
