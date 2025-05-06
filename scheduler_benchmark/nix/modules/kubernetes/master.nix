@@ -6,17 +6,33 @@ let
 in
 {
 
-  # Packages
+  # ~~~ Packages ~~~
   environment.systemPackages = with pkgs; [
     kompose
     kubernetes
   ];
 
+  # ~~~ Networking ~~~
+  networking.useDHCP = true;
   networking.hostName = apiserverHost;
   services.kubernetes.masterAddress = apiserverHost;
   services.kubernetes.apiserverAddress = "https://${apiserverFQDN}:6443";
-  networking.useDHCP = true;
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [
+    22      # SSH
+    6443    # Kubernetes API Server
+    2379    # etcd server client API
+    2380    # etcd peer communication
+    8888    # kube-scheduler
+    10250   # Kubelet API
+    10251   # kube-scheduler
+    10252   # kube-controller-manager
+  ];
+  networking.firewall.allowedTCPPortRanges = [
+    { from = 30000; to = 32767; }  # NodePort services
+  ];
 
+  # ~~~ System Configuration ~~~
   services.kubernetes = {
     roles = ["master"];
     easyCerts = true;
@@ -36,24 +52,10 @@ in
     pki.cfsslAPIExtraSANs = [ apiserverHost apiserverFQDN ];
   };
 
+  # Kubectl setup
   environment.sessionVariables = {
     KUBECONFIG = "/etc/kubernetes/cluster-admin.kubeconfig";
   };
 
-
-  networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [
-    22      # SSH
-    6443    # Kubernetes API Server
-    2379    # etcd server client API
-    2380    # etcd peer communication
-    8888    # kube-scheduler
-    10250   # Kubelet API
-    10251   # kube-scheduler
-    10252   # kube-controller-manager
-  ];
-  networking.firewall.allowedTCPPortRanges = [
-    { from = 30000; to = 32767; }  # NodePort services
-  ];
 }
 

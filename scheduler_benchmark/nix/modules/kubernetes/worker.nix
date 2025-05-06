@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostname, ... }:
 
 let 
   kubeMasterFQDN = "k8s-master.local";
@@ -6,22 +6,13 @@ in
 
 {
 
-  # Packages
+  # ~~~ Packages ~~~
   environment.systemPackages = with pkgs; [
     kubernetes
   ];
   
-  networking.hostName = lib.mkDefault "k8s-worker";
-
-  # Kubernetes Worker Node Configuration
-  services.kubernetes = {
-    roles = ["node"];
-    masterAddress = kubeMasterFQDN;
-    apiserverAddress = "https://${kubeMasterFQDN}:6443";
-    easyCerts = true;
-    addons.dns.enable = true;
-  };
-
+  # ~~~ Networking ~~~
+  networking.hostName = hostname;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
     22      # SSH
@@ -30,4 +21,13 @@ in
   networking.firewall.allowedTCPPortRanges = [
     { from = 30000; to = 32767; }  # NodePort services
   ];
+
+  # ~~~ System Configuration ~~~
+  services.kubernetes = {
+    roles = ["node"];
+    masterAddress = kubeMasterFQDN;
+    apiserverAddress = "https://${kubeMasterFQDN}:6443";
+    easyCerts = true;
+    addons.dns.enable = true;
+  };
 }

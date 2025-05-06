@@ -11,9 +11,8 @@
 
   outputs = { self, nixpkgs, nixos-generators }: {
     packages.x86_64-linux = {
-      # ----------------------------------
-      # Kubernetes
-      # ----------------------------------
+
+      # ~~~ Kubernetes ~~~
       k8s-master = nixos-generators.nixosGenerate {
         system = "x86_64-linux";
         modules = [
@@ -21,6 +20,8 @@
           ./modules/kubernetes/master.nix
         ];
         format = "qcow";
+        specialArgs = { self = self; };
+
       };
       
       k8s-worker = nixos-generators.nixosGenerate {
@@ -30,11 +31,11 @@
           ./modules/kubernetes/worker.nix
         ];
         format = "qcow";
+        specialArgs = { self = self; };
+
       };
       
-      # ----------------------------------
-      # SLURM
-      # ----------------------------------
+      # ~~~ SLURM ~~~
       # slurm-master = nixos-generators.nixosGenerate {
       #   system = "x86_64-linux";
       #   modules = [
@@ -42,6 +43,8 @@
       #     ./modules/slurm/master.nix
       #   ];
       #   format = "qcow";
+      #   specialArgs = { self = self; };
+
       # };
       
       # slurm-worker = nixos-generators.nixosGenerate {
@@ -51,6 +54,8 @@
       #     ./modules/slurm/worker.nix
       #   ];
       #   format = "qcow";
+      #   specialArgs = { self = self; };
+
       # };      
     };
   };
