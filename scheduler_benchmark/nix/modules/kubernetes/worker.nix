@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostname, ... }:
+{ config, lib, pkgs, ... }:
 
 let 
   kubeMasterFQDN = "k8s-master.local";
@@ -12,7 +12,7 @@ in
   ];
   
   # ~~~ Networking ~~~
-  networking.hostName = hostname;
+  #networking.hostName = hostname;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
     22      # SSH

@@ -45,13 +45,12 @@ in
   security.sudo.wheelNeedsPassword = false;
 
   # ~~~ Flake Copy ~~~
-  nixosConfig.flake = config._module.args.self or null;
   system.activationScripts.saveFlakeConfig = {
     deps = [];
     text = ''
       rm -rf /etc/nixos/current-systemconfig
       mkdir -p /etc/nixos/current-systemconfig
-      cp -rf ${config.nixosConfig.flake}/* /etc/nixos/current-systemconfig/
+      cp -rf ${self}/* /etc/nixos/current-systemconfig/
       cd /etc/nixos/current-systemconfig
       chown -R ${username}:users /etc/nixos/current-systemconfig
       chmod -R u=rwX,g=rX,o=rX /etc/nixos/current-systemconfig
