@@ -1,0 +1,56 @@
+There is a plethor of technologies and alternative involved in the provisionning of a virtual cluster automatically. This section introduces some of the most relevant ones.
+
+\subsection{Technologies}
+\label{sec:technologies}
+
+\subsubsection{Terraform}
+\label{sec:terraform}
+
+Terraform is an open-source infrastructure as code (IaC) tool developed by HashiCorp. It allows users to define and provision infrastructure resources using a declarative configuration language called HashiCorp Configuration Language (HCL). Terraform enables the automation of infrastructure management across various cloud providers, including AWS, Azure, Google Cloud, and others.
+
+\subsubsection{OpenTofu}
+\label{sec:opentofu}
+OpenTofu is a fork of Terraform that aims to provide an open-source alternative to the original Terraform project. It retains the core functionality of Terraform while focusing on community-driven development and governance. OpenTofu allows users to define and manage infrastructure resources using the same declarative configuration language (HCL) as Terraform, making it compatible with existing Terraform configurations.
+
+\subsubsection{Ansible}
+\label{sec:ansible}
+
+Ansible is an open-source automation tool that simplifies the management and configuration of systems. It uses a declarative language to define the desired state of infrastructure and applications, allowing users to automate tasks such as provisioning, configuration management, and application deployment. Ansible operates in an agentless manner, using SSH or WinRM to communicate with target systems, making it easy to integrate into existing environments.
+
+\subsubsection{Nix}
+\label{sec:nix}
+
+Nix is a powerful package manager and build system that provides a declarative approach to managing software and system configurations. It allows users to define their entire system environment, including packages, services, and configurations, in a single file called the Nix expression. Nix ensures reproducibility by isolating dependencies and providing a consistent environment across different machines.
+
+\subsubsection{Kubernetes}
+\label{sec:kubernetes}
+Kubernetes is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. It provides a robust framework for managing clusters of containers across multiple hosts, enabling users to define the desired state of their applications and automatically maintain that state. Kubernetes supports various container runtimes and integrates with cloud providers, making it a popular choice for modern application deployment.
+
+\subsubsection{Helm}
+\label{sec:helm}
+Helm is a package manager for Kubernetes that simplifies the deployment and management of applications on Kubernetes clusters. It uses a templating system to define reusable application configurations, called charts, which can be easily shared and versioned. Helm allows users to manage complex applications with multiple components, making it easier to deploy, upgrade, and roll back applications in Kubernetes environments.
+
+\subsubsection{Kustomize}
+\label{sec:kustomize}
+Kustomize is a tool for customizing Kubernetes resource configurations. It allows users to define a base set of resources and apply overlays to modify them for different environments or use cases. Kustomize enables users to manage Kubernetes manifests without the need for templating, making it easier to maintain and version control configurations. It is integrated into kubectl, the Kubernetes command-line tool, allowing users to apply customizations directly from the command line.
+
+\subsubsection{Pulumi}
+\label{sec:pulumi}
+Pulumi is an open-source infrastructure as code (IaC) tool that allows users to define and manage cloud infrastructure using general-purpose programming languages such as JavaScript, TypeScript, Python, Go, and C#. Pulumi enables developers to leverage their existing programming skills to create reusable components and automate infrastructure provisioning across various cloud providers. It supports both declarative and imperative approaches to infrastructure management, providing flexibility in how users define their infrastructure.
+
+\subsubsection{Libvirt}
+\label{sec:libvirt}
+Libvirt is an open-source API and management tool for virtualization technologies. It provides a unified interface for managing different hypervisors, such as KVM, QEMU, and Xen, allowing users to create, manage, and monitor virtual machines (VMs) across various platforms. Libvirt supports multiple programming languages and provides a rich set of features for managing VM lifecycles, storage, networking, and more.
+
+\subsubsection{Cloud-init}
+\label{sec:cloud-init}
+Cloud-init is an open-source tool used for initializing cloud instances during boot time. It allows users to configure and customize cloud instances by executing scripts, applying configurations, and installing packages based on metadata provided by the cloud provider. Cloud-init is widely used in cloud environments to automate the setup of virtual machines and ensure they are ready for use immediately after provisioning.
+
+\subsubsection{Avahi}
+\label{sec:avahi}
+Avahi is an open-source implementation of the Zeroconf protocol, which enables automatic discovery of network services and devices on a local network. It allows applications to discover and communicate with services without the need for manual configuration. Avahi is commonly used in local area networks (LANs) to facilitate service discovery and enable seamless communication between devices.
+
+\subsubsection{NixOps}
+\label{sec:nixops}
+
+NixOps is a deployment tool for Nix-based systems that allows users to manage and deploy NixOS configurations across multiple machines or cloud providers. It provides a declarative approach to infrastructure management, enabling users to define their entire system configuration in Nix expressions. NixOps supports various deployment targets, including virtual machines, cloud instances, and physical servers, making it a versatile tool for managing Nix-based environments.

@@ -1,0 +1,63 @@
+\subsection{NixConfig vs NixFlakes}
+
+\subsection{Base Image: NixOS vs Ubuntu}
+
+### **Avantages**
+- **Reproductibilité totale** :
+- Avec NixOS, tout (paquets, configuration système, users, SSH, firewall, services…) est versionné et reconstruit à l'identique sur n'importe quelle machine.
+- Pas de « drift » entre les environnements : pas d'état caché, pas de scripts d'init qui peuvent diverger.
+- **Déclarativité** :
+- La configuration (modules Nix) décrit l'état final souhaité, pas une suite d'actions impératives.
+- **Flexibilité** :
+- Ajout/suppression de services, changement de version, ajout de paquets… tout est modulaire et paramétrable.
+- **Sécurité** :
+- Moins de dépendance à l'état antérieur de la VM : chaque build part de zéro.
+- **Facilité d'automatisation** :
+- Génération d'images (qcow2, ISO, etc.) automatisée, sans intervention manuelle ni scripts shell fragiles.
+
+### **Limites de l'approche Ubuntu + cloud-init + Ansible**
+- **Imprévisibilité** :
+- Les images Ubuntu officielles sont parfois modifiées, certains paquets ou configurations changent, ce qui peut casser des scripts.
+- **Scripts impératifs** :
+- Ansible applique des actions, mais l'état final dépend de l'ordre d'exécution, de l'état de l'image, etc.
+- **Tests/rebuilds plus difficiles** :
+- Pour tester un changement, il faut souvent relancer tout le pipeline (Terraform + Ansible), et le résultat n'est pas toujours identique.
+
+
+\subsection{LibVirt vs Tofu}
+
+### **Avantages**
+- **Contrôle granulaire et dynamique** :
+- Le wrapper Python permet de piloter la création/destruction de VMs à la volée, d'intégrer de la logique métier, de la validation, etc.
+- **Intégration directe avec la configuration Python** :
+- Le modèle de cluster (Pydantic) est directement utilisé pour générer les VMs, sans traduction dans un autre langage (HCL).
+- **Extensibilité** :
+- Possibilité d'ajouter des hooks, des opérations post-création, de l'orchestration complexe, etc., plus difficile à faire avec Terraform.
+- **Pas de dépendance à un backend cloud** :
+- Libvirt est natif, léger, et adapté au lab/local/dev : pas besoin d'API cloud, ni de provider Terraform parfois instable.
+
+### **Limites de Terraform**
+- **Moins flexible pour l'orchestration dynamique** :
+- Terraform est fait pour décrire un état d'infrastructure, pas pour orchestrer des workflows dynamiques ou répondre à des événements.
+- **Double maintenance (HCL + Ansible + Python)** :
+- Nécessite de maintenir les fichiers HCL (Terraform), les playbooks Ansible, et éventuellement du code Python pour la logique métier.
+
+\subsection{Python vs Ansible}
+
+### **Avantages**
+- **Typage fort et validation** :
+- Les modèles Pydantic valident la configuration dès le chargement : erreurs détectées avant même le provisionnement.
+- **Unification de la logique** :
+- Toute la logique de configuration, de validation, d'orchestration est dans le même langage, facilement testable.
+- **Réutilisabilité et modularité** :
+- Possibilité de générer dynamiquement des configurations, de les adapter, de les versionner, etc.
+
+### **Limites d'Ansible**
+- **Impératif et fragile** :
+- Les playbooks sont séquentiels, parfois non idempotents, et la validation du résultat est plus difficile.
+- **Multiplication des outils** :
+- Nécessite de maintenir des rôles, des inventaires, des variables, etc., souvent dispersés.
+
+\subsection{StaticIP vs DHCP}
+
+\subsection{Resource manager vs Schedulers}

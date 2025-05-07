@@ -1,17 +1,47 @@
 \section{Introduction}
 
-\paragraph{paragraph1}
-\paragraph{paragraph2}
-\paragraph{paragraph3}
-\paragraph{paragraph4}
+\subsection{Motivation}
+
+\paragraph{Scheduler}
 
 \subsection{Objectives}
 \label{sec:objectives}
 
-\gls{llm}
+- Automatiser, répéter et comparer des clusters virtuels HPC, chacun avec des topologies et schedulers différents, sur une machine physique unique.
+- Changer rapidement de scheduler (SLURM, K8s+Volcano, Flux), de workload, de taille de cluster, etc.
+- Collecter des métriques fiables pour des analyses scientifiques (Pareto, reproductibilité…)
+- Itérer vite (provision/teardown), changer de config, et garantir que chaque expérience est isolée et identique à la précédente.
 
-Hello World! {\emojifont ✅ 🚀 💡}
+\paragraph{Automated provisioning}
+\paragraph{Holistic Configuration}
+\paragraph{Declarative vs Imperative}
 
-\cite{agarwal2024llmreasoningplanningsupportingincompleteuser}
+1. Reproducibility: Nix excels at creating reproducible environments, which is critical for benchmark validity. Each configuration will produce identical results given the same inputs, eliminating environment-related variables from your measurements.
 
-C'est aboslasfdasdfas a copiler
+2. Declarative Infrastructure: Nix allows you to specify your entire virtual environment as code, aligning perfectly with your formal approach of defining hardware topologies
+
+3. Isolation: Each package and configuration exists in isolation, preventing dependency conflicts between different scheduler installations or benchmark tools.
+
+4. Fine-grained Hardware Profiles: Nix can precisely control resource allocations for your VMs, matching the hardware profiles you specified (1,2,4,8 CPUs, 1,2,4,8 GPUs, various RAM configurations).
+
+5. Composability: Nix configurations can be easily composed, which aligns with your need to mix and match different hardware topologies, schedulers, and workloads.
+
+Its guarantees of reproducibility are invaluable for benchmark validity.
+
+J'ai choisi une stack basée sur NixOS pour la génération des images, une orchestration Python (Libvirt) pour le provisionnement, et une configuration déclarative typée en Python, afin d'obtenir une reproductibilité totale, une automatisation fine, et une simplicité d'audit et d'évolution.
+
+Ta stack (NixOS + Python/libvirt + config déclarative) est la seule qui garantit:
+- Reproductibilité scientifique stricte (indispensable pour des benchmarks HPC).
+- Rapidité et fiabilité du cycle d'expérimentation (provision/teardown).
+- Flexibilité et évolutivité (topologies, schedulers, workloads, ressources).
+- Programmabilité avancée (orchestration, collecte de métriques, monitoring).
+- Nettoyage et isolation parfaits entre expériences.
+- Simplicité de la chaîne d'outils: tout en Python et Nix, pas de glue fragile entre Terraform, Ansible, shell, cloud-init, etc.
+
+% \gls{llm}
+
+% Hello World! {\emojifont ✅ 🚀 💡}
+
+% \cite{agarwal2024llmreasoningplanningsupportingincompleteuser}
+
+% C'est aboslasfdasdfas a copiler
