@@ -1,0 +1,36 @@
+create_outline:
+  description: >
+    Create a detailed academic outline for the thesis section "{section_topic}".
+    Include:
+    - Introduction
+    - Main arguments and logical flow
+    - Transitions between arguments
+    Await human approval before proceeding.
+  agent: thesis_architect
+  expected_output: >
+    A structured outline with headings and bullet points detailing each argument and transition.
+
+write_paragraphs:
+  description: >
+    Write clear, structured academic paragraphs based on the approved outline.
+    Focus on clarity, argumentative flow, and alignment with academic tone.
+    Use formal English.
+  agent: thesis_writer
+  expected_output: >
+    A well-written academic section with appropriate paragraph structure and clarity.
+
+review_content:
+  description: >
+    Critically evaluate the written content, identifying logical flaws or weak assumptions.
+    Provide constructive feedback.
+  agent: content_expert
+  expected_output: >
+    A detailed critique highlighting strengths, weaknesses, and specific improvements.
+
+check_latex:
+  description: >
+    Verify LaTeX formatting, ensuring correct environments, equations, citations,
+    and adherence to academic standards.
+  agent: latex_technician
+  expected_output: >
+    A validation report indicating LaTeX issues, corrections, and overall formatting status.

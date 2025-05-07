@@ -1,13 +1,25 @@
 [project]
-name = "writer-team"
+name = "writer_team"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.13"
+description = "writer_team using crewAI"
+authors = [{ name = "Olivier D'Ancona", email = "olivier_dancona@hotmail.com" }]
+requires-python = ">=3.10,<3.13"
 dependencies = [
-    "colorlog>=6.9.0",
-    "crewai>=0.118.0",
+    "crewai[tools]>=0.118.0,<1.0.0",
     "dotenv>=0.9.9",
-    "langchain>=0.3.25",
-    "langchain-cerebras>=0.5.0",
+    "streamlit>=1.45.0",
 ]
+
+[project.scripts]
+writer_team = "writer_team.main:run"
+run_crew = "writer_team.main:run"
+train = "writer_team.main:train"
+replay = "writer_team.main:replay"
+test = "writer_team.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
