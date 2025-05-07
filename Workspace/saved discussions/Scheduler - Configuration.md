@@ -18,11 +18,11 @@ In short, your current specification does not explicitly address runtime configu
 
 You have deterministic images (built by Nix). But the following runtime steps are not yet explicitly defined:
 
-| Scheduler                  | Missing Runtime Configuration Steps                                             |
-|----------------------------|--------------------------------------------------------------------------------|
-| **Kubernetes + Volcano**   | - Initialize Kubernetes control plane (head node)<br>- Generate join tokens/certs<br>- Workers join the cluster |
-| **SLURM**                  | - Generate `slurm.conf` file with head node IP<br>- Distribute configuration to worker nodes<br>- Start slurmd on workers |
-| **Flux Framework**         | - Initialize Flux broker on head node<br>- Workers connect to the Flux broker |
+| Scheduler                | Missing Runtime Configuration Steps                                                                                       |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| **Kubernetes + Volcano** | - Initialize Kubernetes control plane (head node)<br>- Generate join tokens/certs<br>- Workers join the cluster           |
+| **SLURM**                | - Generate `slurm.conf` file with head node IP<br>- Distribute configuration to worker nodes<br>- Start slurmd on workers |
+| **Flux Framework**       | - Initialize Flux broker on head node<br>- Workers connect to the Flux broker                                             |
 
 ---
 

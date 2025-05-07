@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "prompts/TM_Specification_V2.7.0.md",
+                "file": "saved discussions/Runtime Analysis 3 - Static vs dynamic.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TM_Specification_V2.7.0"
+              "title": "Runtime Analysis 3 - Static vs dynamic"
             }
           },
           {
@@ -63,8 +63,7 @@
               "title": "Deployment Analysis - Recommendation"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -121,8 +120,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 554.5,
-    "collapsed": true
+    "width": 554.5
   },
   "right": {
     "id": "14bc7a18da665e4f",
@@ -212,34 +210,34 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "132fad360b3b06a9",
+  "active": "490898e6bd6bc722",
   "lastOpenFiles": [
     "saved discussions/Runtime Analysis 4 - Configure VM after provision.md",
-    "saved discussions/nixos generators - Hostname.md",
-    "resources/LOLILOL NIX.md",
-    "saved discussions/VM Provisioning 3.md",
-    "saved discussions/VM Provisioning 2.md",
-    "saved discussions/VM Provisioning 1.md",
-    "saved discussions/Stack Analysis 4 - VS other softs.md",
-    "saved discussions/Stack Analysis 3 - VS other softs.md",
-    "saved discussions/Stack Analysis 2 - VS other softs.md",
-    "saved discussions/Stack Analysis 1 - VS other softs.md",
     "saved discussions/Runtime Analysis 3 - Static vs dynamic.md",
     "saved discussions/Runtime Analysis 2 - Colmena vs Ansible vs Python.md",
-    "saved discussions/Runtime Analysis 1 - Ansible vs Python.md",
-    "saved discussions/Comparaison - Slurm VS K8s.md",
-    "saved discussions/Deployment Analysis - Nix.md",
-    "saved discussions/Deployment Analysis - Nix Vs Terraform+Ansible.md",
-    "saved discussions/Deployment Analysis - Recommendation.md",
-    "saved discussions/Deployment Analysis - Stack.md",
-    "saved discussions/Kubernetes Cluster Guide.md",
-    "saved discussions/Network Analysis - StaticIP vs DHCP problème.md",
-    "saved discussions/NIX Flakes vs Nix standard.md",
-    "saved discussions/VM vs LXCLXD.md",
-    "Concepts Ideas.md",
-    "saved discussions/Virt-sysprep vs mysystem.md",
+    "saved discussions/Runtime Analysis 5 - Cloudinit vs Orchestration externe.md",
+    "saved discussions/Stack Analysis 2 - VS other softs.md",
+    "saved discussions/Stack Analysis 1 - VS other softs.md",
     "saved discussions/Schedulers - Research.md",
+    "saved discussions/Stack Analysis 4 - VS other softs.md",
+    "saved discussions/Stack Analysis 3 - VS other softs.md",
+    "prompts/TM_Specification_V2.7.0.md",
     "saved discussions/Scheduler - Configuration.md",
+    "saved discussions/Runtime Analysis 1 - Ansible vs Python.md",
+    "saved discussions/Resource manager vs Schedulers.md",
+    "saved discussions/Problem Definition - ODMBMJA.md",
+    "Consolidated Blocks/Slow Iteration cycle.md",
+    "Consolidated Blocks/Declarative vs Imperative Configuration.md",
+    "Consolidated Blocks/Kubernetes Problem Join Hostname.md",
+    "saved discussions/nixos generators - nixos-rebuild Switch problem.md",
+    "saved discussions/nixos generators - Hostname.md",
+    "saved discussions/Nix-VM.md",
+    "saved discussions/Nix-K8s.md",
+    "saved discussions/NIX Flakes vs Nix standard.md",
+    "resources/LOLILOL NIX.md",
+    "saved discussions/Network Analysis - StaticIP vs DHCP discussion.md",
+    "saved discussions/Network Analysis - StaticIP vs DHCP problème.md",
+    "saved discussions/Deployment Analysis - Stack.md",
     "Consolidated Blocks",
     "Pasted image 20250327170754.png",
     "Pasted image 20250505190508.png",

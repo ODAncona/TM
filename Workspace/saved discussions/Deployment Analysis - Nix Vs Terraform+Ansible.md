@@ -63,15 +63,10 @@
 ## Decision Factors to Consider
 
 1. **Project Timeframe**: If you need results quickly, Terraform+Ansible provides faster implementation.
-    
 2. **Team Expertise**: Existing Nix knowledge would significantly change this equation.
-    
 3. **Scientific Rigor Requirements**: How critical is perfect reproducibility to your research goals?
-    
 4. **Future Plans**: Will this be a one-time study or an ongoing research platform?
-    
 5. **Publication Plans**: Will reviewers question the validity of results if environments aren't perfectly reproducible?
-    
 
 ## Recommendation
 
