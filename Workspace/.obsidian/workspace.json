@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "saved discussions/Runtime Analysis 3 - Static vs dynamic.md",
+                "file": "Consolidated Blocks/Kubernetes Problem Join Hostname.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Runtime Analysis 3 - Static vs dynamic"
+              "title": "Kubernetes Problem Join Hostname"
             }
           },
           {
@@ -212,8 +212,10 @@
   },
   "active": "490898e6bd6bc722",
   "lastOpenFiles": [
-    "saved discussions/Runtime Analysis 4 - Configure VM after provision.md",
+    "saved discussions/NIX-Hostname ERROR.md",
+    "resources/Nix + Kubernetes.md",
     "saved discussions/Runtime Analysis 3 - Static vs dynamic.md",
+    "saved discussions/Runtime Analysis 4 - Configure VM after provision.md",
     "saved discussions/Runtime Analysis 2 - Colmena vs Ansible vs Python.md",
     "saved discussions/Runtime Analysis 5 - Cloudinit vs Orchestration externe.md",
     "saved discussions/Stack Analysis 2 - VS other softs.md",
@@ -236,8 +238,6 @@
     "saved discussions/NIX Flakes vs Nix standard.md",
     "resources/LOLILOL NIX.md",
     "saved discussions/Network Analysis - StaticIP vs DHCP discussion.md",
-    "saved discussions/Network Analysis - StaticIP vs DHCP problème.md",
-    "saved discussions/Deployment Analysis - Stack.md",
     "Consolidated Blocks",
     "Pasted image 20250327170754.png",
     "Pasted image 20250505190508.png",

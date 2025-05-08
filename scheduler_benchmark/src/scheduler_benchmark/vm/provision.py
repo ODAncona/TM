@@ -47,7 +47,9 @@ class VMProvisioner:
             master_ip, "sudo cat /var/lib/kubernetes/secrets/apitoken.secret"
         )
         if join_k8s_token and len(join_k8s_token) == 32:
-            self.logger.info(f"Token: {join_k8s_token}")
+            self.logger.info(
+                f"Join command: echo {join_k8s_token} | sudo nixos-kubernetes-node-join"
+            )
         else:
             raise ValueError(
                 f"Token invalide: doit être de longueur 32, reçu: {len(join_k8s_token)}"
@@ -62,13 +64,13 @@ class VMProvisioner:
                 raise RuntimeError("Worker SSH not ready")
 
             # Write config
-            cmd_make_nix_config = f"sed -i 's|^  #networking\.hostName = .*;|  networking.hostName = \"{node_config.name}\";|' /etc/nixos/current-systemconfig/modules/kubernetes/worker.nix"
+            cmd_make_nix_config = rf"sed -i 's|^  #networking\.hostName = .*;|  networking.hostName = \"{node_config.name}\";|' /etc/nixos/current-systemconfig/modules/kubernetes/worker.nix"
             self.ssh_execute(ip, cmd_make_nix_config)
 
             # nixos-rebuild switch
             cmd_nixos_rebuild = "sudo nixos-rebuild switch --flake /etc/nixos/current-systemconfig#k8s-worker"
             self.logger.debug(f"Rebuilding {ip} ...")
-            self.logger.info(self.ssh_execute(ip, cmd_nixos_rebuild))
+            self.ssh_execute(ip, cmd_nixos_rebuild)
             # Wait for SSH to be ready
             try:
                 self.ssh_execute(ip, "true")
@@ -172,6 +174,7 @@ class VMProvisioner:
             self.logger.error(
                 f"Error executing command {command} on {host} (code {exit_status}): {error}"
             )
+            self.logger.error(f"STDERR:\n{error}")
             raise RuntimeError(
                 f"Error executing command {command} on {host}: {error}"
             )
