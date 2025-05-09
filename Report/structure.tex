@@ -17,7 +17,8 @@
 \usepackage{graphicx} % Required to insert images
 \usepackage[most]{tcolorbox} % Required for boxes that split across pages
 \usepackage{booktabs} % Required for better horizontal rules in tables
-\usepackage{listings} % Required for insertion of code
+\usepackage{minted}
+\usepackage{caption}
 \usepackage{etoolbox} % Required for if statements
 \usepackage{algpseudocode}
 \usepackage{enumitem}
@@ -135,21 +136,21 @@
 %	Listing
 %----------------------------------------------------------------------------------------
 
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-\lstset{ %
-    backgroundcolor=\color{white},   % choose the background color
-    basicstyle=\ttfamily\small,        % size of fonts used for the code
-    breaklines=true,                 % automatic line breaking only at whitespace
-    captionpos=b,                    % sets the caption-position to bottom
-    commentstyle=\color{mygreen},    % comment style
-    escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-    keywordstyle=\color{blue},       % keyword style
-    stringstyle=\color{mymauve},     % string literal style
-    frame=single,                % Ajoute un cadre autour du texte
-    tabsize=4,                   % Taille des tabulations
-}
+% \definecolor{mygreen}{rgb}{0,0.6,0}
+% \definecolor{mygray}{rgb}{0.5,0.5,0.5}
+% \definecolor{mymauve}{rgb}{0.58,0,0.82}
+% \lstset{ %
+%     backgroundcolor=\color{white},   % choose the background color
+%     basicstyle=\ttfamily\small,        % size of fonts used for the code
+%     breaklines=true,                 % automatic line breaking only at whitespace
+%     captionpos=b,                    % sets the caption-position to bottom
+%     commentstyle=\color{mygreen},    % comment style
+%     escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+%     keywordstyle=\color{blue},       % keyword style
+%     stringstyle=\color{mymauve},     % string literal style
+%     frame=single,                % Ajoute un cadre autour du texte
+%     tabsize=4,                   % Taille des tabulations
+% }
 
 %----------------------------------------------------------------------------------------
 %  Captions

@@ -1,14 +1,18 @@
 \subsection{Slow Iteration Cycle}
 
+
 \subsection{Nix K8S Hostname Problem}
+
+image building, image provisioning, image runtime,
+
+The thing is that I really need to define the hostname at provision time ! I cannot do it at runtime ! otherwise it will fail because nix is immutable. I insist on the fact that I need the hostname to be handled by nix because k8s needs networking.hostname to initialize itself.  If we configure another method it will work at the os level but the applications won't be able to use it properly. So I would love to have a way to pass the hostname to virt install somehow and have it in the nix configuration. This is super important because I need only 1 generic image for the worker. Otherwise I would need to build n images for n workers.
+
+You're right, setting the hostname at runtime in a purely Nix-driven, immutable way is challenging because NixOS rebuilds the entire system when configuration changes.  However, there are cleaner approaches than the hostname-init script that avoids the reboot loop, while still setting the hostname at "provision time" (before the system fully boots).  The key is to leverage systemd's capabilities and avoid modifying the NixOS configuration after the initial installation.
 
 The provisioning workflow for Kubernetes clusters involves distinct phases: build time and provision time. During build time, the operating system, network, and DNS configurations are established, and certificates for Kubernetes components are generated. Both master and worker node images are configured with these settings. At provision time, the master node is deployed first, generating a secret used for secure communication within the cluster. Worker nodes are subsequently provisioned, joining the cluster using this secret to authenticate their membership. However, a critical issue arises with the static VM images used for worker nodes. These images, created during the build phase, have a fixed hostname embedded within them, such as 'k8s-worker'. When multiple worker nodes are provisioned from the same static image, they inherit this identical hostname, leading to conflicts within Kubernetes. Kubernetes mandates unique hostnames for each node to ensure proper identification and management. Consequently, while the first worker node with a given hostname can successfully join the cluster, additional nodes with the same hostname are rejected, preventing them from joining. This limitation severely impacts scalability and operational functionality, as Kubernetes cannot differentiate between nodes with identical hostnames. To resolve this issue, a dynamic mechanism for hostname configuration is required, enabling each worker node to receive a unique identifier at provision time without relying on static image settings. This adjustment would allow all nodes to join the Kubernetes cluster successfully, enhancing scalability and ensuring robust cluster operations.
 
 While provisioning Kubernetes worker nodes on NixOS using a flake-based configuration and remote automation via Python over SSH, we encountered a reproducible but non-deterministic failure during the execution of the following command:
-
-\begin{verbatim}
-sudo nixos-rebuild switch --flake /etc/nixos/current-systemconfig#k8s-worker
-\end{verbatim}
+\mintinline{bash}|sudo nixos-rebuild switch --flake /etc/nixos/current-systemconfig#k8s-worker|
 
 This command intermittently fails with a non-zero exit code during the \texttt{building the system configuration} step when executed as part of an automated script. Surprisingly, some configuration changes---notably the hostname update---appear to take effect, despite the failure. When the exact same command is re-executed manually via SSH, it completes successfully, applying the full configuration and starting all required services.
 

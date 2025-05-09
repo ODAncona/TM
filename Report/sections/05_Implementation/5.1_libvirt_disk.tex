@@ -1,0 +1,18 @@
+\subsection{Allocate disk with libvirt with proper size}
+
+An intriguing aspect of deploying NixOS images with Libvirt is the handling of disk volumes. The whole purpose of using Libvirt was to be able to provision a virtual machine with an arbitrary disk size defined in the Hydra's configuration and build the OS image one time. However, NixOS's declarative nature and the way it manages disk volumes can lead to unexpected behaviors, particularly when it comes to resizing disks.
+
+I noticed a mismatch between the allocated disk size and the usable filesystem space using the \texttt{createXMLFrom} method. Although the volume was created with a size of 256 GiB, the filesystem inside the cloned image remained limited to its original size defined in the image's Nix configuration, which in this case was 16 GiB. This behavior occurs because \texttt{createXMLFrom} replicates both the data and metadata of the base image, including the partition table and filesystem, without automatically resizing them to fit the new volume size.
+
+As a result, system tools highlithed in listings \ref{lst:disk-size-mismatch} reported inconsistent disk usage. The \mintinline{shell-session}{lsblk} command showed that the partition was still set to 255.8 GiB, and the \mintinline{shell-session}{df -h} command indicated only 16 GiB of usable space on the filesystem.
+
+\begin{listing}[!ht]
+    \inputminted{shell-session}{assets/listings/libvirt-disk.txt}
+    \caption{Disk size mismatch after volume creation}
+    \label{lst:disk-size-mismatch}
+\end{listing}
+
+
+This mismatch between the reported disk size and the available capacity was because the file system within the volume was not resized after the partition was extended.
+
+To resolve this issue, I had to ensure that both the partition and the filesystem were resized in a way compatible with NixOS. Since the system is managed declaratively through the Nix configuration, it is not possible to simply resize the file system with tools like \texttt{resize2fs}. Instead, I had to adjust the disk configuration directly in NixOS configuration. After rebuilding the system with nixos-rebuild, the filesystem was correctly recognized with the full capacity. This approach ensures the disk resizing is consistent with NixOS's declarative model and avoids breaking system assumptions.
